@@ -1,8 +1,9 @@
 import { createApp } from "vue";
 
-import Antd from 'ant-design-vue';
 import App from './App.vue'
-import 'ant-design-vue/dist/antd.css';
+
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 
 import './styles/index.scss' // global css
 
@@ -12,11 +13,14 @@ import store from "./store";
 let app = createApp(App)
 
 
-app.use(store)
+// 导入 element plus 的全部图标
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component)
+}
+
 app.use(router)
-app.use(Antd);
-
-
-
+app.use(store)
+app.use(ElementPlus);
 
 app.mount("#app");
