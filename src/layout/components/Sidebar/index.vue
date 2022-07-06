@@ -4,7 +4,7 @@
         <el-tab-pane label="Logo">
             <template v-slot:label>
                 <div class="tabs-button-box">
-                    <el-image style="width: 54px; height: 54px" :src="logo_url" fit="scale-down" />
+                    <img class="app-logo" alt="Vue logo" src="../../../assets/logo.png" />
                 </div>
             </template>
         </el-tab-pane>
@@ -26,7 +26,7 @@
 <script setup>
 import { ref } from 'vue'
 
-let logo_url = "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg";
+let logo_url = "../../../assets/logo.png";
 
 const tabPosition = ref('left')
 
@@ -73,7 +73,7 @@ const onItemClick = (item)=>{
 }
 
 .tabs-button-item:hover{
-    background-color: rgba(24, 144, 255, 0.2);
+    background-color: rgba(24, 144, 255, 0.6);
 }
 
 .is-active {
@@ -87,13 +87,17 @@ const onItemClick = (item)=>{
     height: 100%;
     width: 170px;
 
-    background-color: #282a34;
 
 
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items:flex-start;
+}
+
+.app-logo{
+    width: 54px;
+    height:54px;
 }
 
 .list-box{

@@ -79,6 +79,8 @@ let msgChange = computed(()=>{
 .appmain-container{
     width: 100%;
     flex:1;
+
+    overflow: hidden;
 }
 
 
