@@ -13,7 +13,6 @@ import store from "./store";
 let app = createApp(App)
 
 
-
 // 导入 element plus 的全部图标
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
