@@ -3,7 +3,6 @@
 const { app, BrowserWindow,ipcMain } = require('electron')
 
 
-
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   //: `https://www.zhihu.com/`
@@ -19,12 +18,12 @@ function createWindow (debug) {
 
   // 创建浏览器窗口
   win_main = new BrowserWindow({
-    width: 1440,
-    height: 900,
+    width: 1024,
+    height: 720,
     show: false,
     frame:false,
-    minWidth:1024,
-    minHeight:720,
+    minWidth:640,
+    minHeight:480,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false
@@ -81,8 +80,11 @@ ipcMain.on('app-mini', (event, arg) => {
 
 
 
-function Start(){
+async function Start(){
+
+
     createWindow();
+    
 }
 
 

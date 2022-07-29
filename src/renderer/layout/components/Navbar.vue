@@ -1,7 +1,7 @@
 <template>
-  <div class="navbar-box ">
+  <div class="navbar-box text-no-select">
 
-    <div class="navbar-logo-title titlebar">
+    <div class="navbar-logo-title drag-win-bar">
       <div class="logo-box">
         <el-image style="width: 36px; height: 36px; margin-left:8px; margin-right:8px;" :src="logo_url" :fit="logo_fit"></el-image>报告工作站---云创电子
       </div>
@@ -9,8 +9,8 @@
 
     <div class="navbar-system-control">
       <el-breadcrumb class="app-breadcrumb" separator="/">
-        <SystemButton01 text="设置" @click="onToRouter1('/page01/index')"><span class="icon iconfont icon-un-setup-o"></span></SystemButton01>
-        <SystemButton01 text="登录" @click="onToRouter1('/page02/index')"><span class="icon iconfont icon-un-setup-o"></span></SystemButton01>
+        <BtnIconText text="设置" @click="onToRouter1('/page01/index')"><span class="icon iconfont icon-un-setup-o"></span></BtnIconText>
+        <BtnIconText text="登录" @click="onToRouter1('/page02/index')"><span class="icon iconfont icon-un-setup-o"></span></BtnIconText>
 
         <SystemButton00 @click="onBtnMini">─</SystemButton00>
         <SystemButton00 @click="onBtnExit">✖</SystemButton00>
@@ -21,13 +21,13 @@
 
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
-import {SystemButton00, SystemButton01} from '@/components/ButtonCustom'
+import {SystemButton00, SystemButton01,BtnIconText} from '@/components/ButtonCustom'
 
 const {ipcRenderer, shell} = require('electron')
 
 export default {
   components: {
-    Breadcrumb,SystemButton00,SystemButton01
+    Breadcrumb,SystemButton00,SystemButton01,BtnIconText
   },
 
   data() {

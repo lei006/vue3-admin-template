@@ -1,9 +1,8 @@
 
+require('dotenv').config()
+
 const { app, BrowserWindow, dialog, globalShortcut, ipcMain, session } = require('electron')
 
-
-const fs = require('fs')
-const path = require('path')
 
 
 import {WebServer, DbServer, koa, Window} from './module'
@@ -21,12 +20,15 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
-app.whenReady().then(function(){
-  console.log("app ready enter");
+
+
+app.whenReady().then(async function(){
+  console.log("app ready enter\r\n");
   
-  WebServer.Start();
+  koa.Start();
   DbServer.Start();
   Window.Start();
+  
 
   console.log("app ready leave");
 })

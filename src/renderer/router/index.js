@@ -104,7 +104,17 @@ export const constantRoutes = [
       meta: { title: 'page02', icon: 'dashboard' }
     }]
   },
-
+  {
+    path: '/testApi',
+    component: Layout,
+    redirect: '/testApi/index',
+    children: [{
+      path: 'index',
+      name: 'TestApi',
+      component: () => import('@/views/testApi/index'),
+      meta: { title: '测试API', icon: 'dashboard' }
+    }]
+  },
   
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

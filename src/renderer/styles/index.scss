@@ -63,3 +63,17 @@ div:focus {
 .app-container {
   padding: 20px;
 }
+
+
+
+.text-no-select{
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
+
+.drag-win-bar{
+  -webkit-app-region: drag
+}
+

@@ -1,20 +1,6 @@
 <template>
     <DialogBase01>
-       <div style="width:100px; height:20px;"></div>
-      <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" size="small" class="demo-ruleForm" style="margin-bottom: 50px;">
-          <el-form-item label="手机号" prop="username">
-            <el-input style="width: 240px;" placeholder="请输入手机号码" v-model.number="ruleForm.username"></el-input>
-          </el-form-item>
-          <el-form-item label="验证码" prop="checkcode">
-            <div style="display: flex;">
-              <el-input style="width: 120px; margin-right: 10px;" maxlength=6 placeholder="请输入密码" type="text" v-model="ruleForm.checkcode" autocomplete="off"></el-input>
-              <el-button type="primary" :disabled="sendsms_disabled" plain @click="onBtnSendSms">{{sendsms_text}}<span style="margin-left: 3px;">{{sendsms_space}}</span></el-button>
-            </div>
-          </el-form-item>
-          <el-form-item>
-            <el-button  type="primary" @click="onBtnLogin('ruleForm')">立即登录</el-button>
-          </el-form-item>
-      </el-form>
+       我是测试
     </DialogBase01>
 </template>
 

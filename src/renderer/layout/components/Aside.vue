@@ -15,7 +15,7 @@
       <el-divider></el-divider>
       <SystemButton02 text="影像" @click="onToRouter1('/')"><span class="icon iconfont icon-un-setup-o"></span></SystemButton02>
       <SystemButton02 text="页面1" @click="onToRouter1('/page01/index')"><span class="icon iconfont icon-un-setup-o"></span></SystemButton02>
-      <SystemButton02 text="页面2" @click="onToRouter1('/page02/index')"><span class="icon iconfont icon-un-setup-o"></span></SystemButton02>
+      <SystemButton02 text="页面2" @click="onToRouter1('/testApi/index')"><span class="icon iconfont icon-un-setup-o"></span></SystemButton02>
       <SystemButton02 text="扩展" @click="onToRouter1('/extensions/index')"><span class="icon iconfont icon-un-setup-o"></span></SystemButton02>
     </div>
   </div>
