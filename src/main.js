@@ -8,6 +8,8 @@ import 'element-plus/dist/index.css'
 import {createPinia} from 'pinia'
 const pinia = createPinia()
 
+import i18n from './local/index.js'  // 引入配置好的文件
+
 
 console.log("meta.env", import.meta.env);
 
@@ -15,6 +17,9 @@ const app = createApp(App);
 
 app.use(router)
 app.use(pinia)
-app.use(ElementPlus)
+//app.use(ElementPlus)
+app.use(ElementPlus, { size: 'small', zIndex: 3000 })
+
+app.use(i18n)
 
 app.mount('#app')
