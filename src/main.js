@@ -8,7 +8,10 @@ import 'element-plus/dist/index.css'
 import {createPinia} from 'pinia'
 const pinia = createPinia()
 
-import i18n from './local/index.js'  // 引入配置好的文件
+import i18n from './i18n/index.js'  // 引入配置好的文件
+
+import '@/permission' // permission control
+import '@/styles/index.css' // global css
 
 
 console.log("meta.env", import.meta.env);
