@@ -1,8 +1,33 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div> 
+  <el-config-provider :locale="locale" :size="size">
+    <router-view></router-view>
+  </el-config-provider>
 </template>
+
+<script lang="js">
+import { defineComponent, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useStore } from 'vuex'
+export default defineComponent({
+  name: 'App',
+  setup() {
+    const store = useStore()
+    const i18n = useI18n()
+    const size = computed(() => store.state.app.elementSize)
+    const messages = i18n.messages.value
+    const locale = computed(() => {
+      return {
+        name: i18n.locale.value,
+        el: messages[i18n.locale.value].el,
+      }
+    })
+    return {
+      locale,
+      size,
+    }
+  }
+})
+</script>
 
 <style>
 #app {
@@ -11,18 +36,7 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+  width: 100%;
+  height: 100vh;
 }
 </style>
