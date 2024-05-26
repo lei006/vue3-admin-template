@@ -19,11 +19,19 @@ if (import.meta.env.MODE !== 'development') { // 非开发环境调用百度统�
   baidu()
 }
 
+
+import {createPinia} from 'pinia'
+const pinia = createPinia()
+
+
+
+
 /** 权限路由处理主方法 */
 getAuthRoutes().then(() => {
   const app = createApp(App)
   app.use(ElementPlus, { size: store.state.app.elementSize })
   app.use(store)
+  app.use(pinia)
   app.use(router)
   app.use(i18n)
   // app.config.performance = true

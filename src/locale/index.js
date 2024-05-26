@@ -4,6 +4,7 @@ import store from '@/store'
 
 const files= import.meta.globEager('./modules/*.js')
 
+
 let messages = {}
 Object.keys(files).forEach((c) => {
   const module = files[c].default

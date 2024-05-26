@@ -16,7 +16,8 @@ const pathResolve = (dir) => {
 }
 
 const alias = {
-  '@': pathResolve("src")
+  '@': pathResolve("src"),
+  'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js',
 }
 
 /** 
@@ -28,7 +29,7 @@ export default ({ command }) => {
   return {
     base: './',
     resolve: {
-      alias
+      alias,
     },
     server: {
       port: 3001,
@@ -85,6 +86,13 @@ export default ({ command }) => {
             }
         ],
       },
-    }
+    },
+    define: {
+      // enable hydration mismatch details in production build
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'true'
+    },
+    chainWebpack: config => {
+      config.resolve.alias.set('vue-i18n', 'vue-i18n/dist/vue-i18n.cjs.js')
+    },      
   };
 }
