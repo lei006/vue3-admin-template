@@ -1,5 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '@/views/HomeView.vue'
+import Permission from './permission'
+
 
 const routes = [
   {
@@ -25,5 +27,8 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
+
+Permission(router)
+
 
 export default router
