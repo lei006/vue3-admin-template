@@ -1,5 +1,10 @@
 <template>
   <el-scrollbar>
+    <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
+      <el-radio-button :value="false">expand</el-radio-button>
+      <el-radio-button :value="true">collapse</el-radio-button>
+    </el-radio-group>
+
     <el-menu
       class="layout-menu system-scrollbar"
       background-color="var(--system-menu-background)"
@@ -13,49 +18,36 @@
     >
       <menu-item v-for="(menu, key) in allRoutes" :key="key" :menu="menu" />
     </el-menu>
+    {{ allRoutes }}
   </el-scrollbar>
 </template>
 
-<script lang="js">
-
-/*
-import { defineComponent, computed, onMounted } from 'vue'
+<script setup>
+import { defineComponent, computed, onMounted,ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useStore } from 'vuex'
+
 import MenuItem from './MenuItem.vue'
-export default defineComponent({
-  components: {
-    MenuItem
-  },
-  setup() {
-    const store = useStore()
-    const isCollapse = computed(() => store.state.app.isCollapse)
-    const expandOneMenu = computed(() => store.state.app.expandOneMenu)
-    const allRoutes = useRouter().options.routes
-    const route = useRoute()
-    const activeMenu = computed(() => {
+
+
+
+let isCollapse = ref(false)
+let expandOneMenu = ref(false)
+
+const allRoutes = useRouter().options.routes
+const activeMenu = computed(() => {
+  const route = useRoute()
+
       const { meta, path } = route;
       if (meta.activeMenu) {
         return meta.activeMenu;
       }
       return path;
     });
-    onMounted(() => {
 
-    })
-    return {
-      isCollapse,
-      expandOneMenu,
-      allRoutes,
-      activeMenu,
-    }
-  }
-})
-
- */
+    
 </script>
 
-<style scoped>
+<style  scoped>
   .el-scrollbar {
     background-color: var(--system-menu-background);
   }

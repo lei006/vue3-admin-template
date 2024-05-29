@@ -4,9 +4,37 @@
   </component>
 </template>
 
-<script lang="js">
+<script setup>
+
+import { ref,defineComponent, computed } from 'vue'
+
+
+const props = defineProps({
+    to: {
+        type: String,
+        required: true
+    }
+	});
+
+const type = ref("router-link")
+
+const isCollapse = computed(() => true);
+const linkProps = (to) => {
+  return {
+    to: to
+  } 
+}
+const hideMenu = () => {
+  if (document.body.clientWidth <= 1000 && !isCollapse.value) {
+    store.commit("app/isCollapseChange", true);
+  }
+};
+
+
+
+
+
 /*
-import { defineComponent, computed } from 'vue'
 import { useStore } from "vuex";
 export default defineComponent({
   name: 'appLink',

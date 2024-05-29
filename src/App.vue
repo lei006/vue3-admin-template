@@ -19,13 +19,13 @@ const toggle = () => {
 <template>
 
   <el-config-provider :locale="locale" :size="size">
+      <!--
       <el-button mb-2 @click="toggle">Switch Language</el-button>
       <el-button @click="size='small'">small</el-button>
       <el-button @click="size='large'">large</el-button>
       <el-button @click="size='default'">default</el-button>
       <el-button>这是应用</el-button>
 
-      <!--
       <el-table mb-1 :data="[]" />
       <el-pagination :total="100" />
       <div class="flex flex-wrap items-center mb-4">

@@ -4,16 +4,14 @@
       class="mask"
       v-show="!isCollapse && !contentFullScreen"
       @click="hideMenu"
-    ></div>
+    >AAAA</div>
     <el-aside
-      :width="isCollapse ? '60px' : '250px'"
+      :width="isCollapse ? '60px' : '220px'"
       :class="isCollapse ? 'hide-aside' : 'show-side'"
       v-show="!contentFullScreen"
     >
       <Logo v-if="showLogo" />
-      <!--
       <Menu />
-      -->
     </el-aside>
     <el-container>
         <!--
@@ -24,12 +22,11 @@
       <!--
       <Tabs v-show="showTabs" />
       -->
+      <el-button @click="onBtnClick">DefaultAA{{ count }}</el-button>
+
       <el-main>
         <router-view v-slot="{ Component, route }">
-          <transition
-            :name="route.meta.transition || 'fade-transform'"
-            mode="out-in"
-          >
+          
             <keep-alive
               v-if="keepAliveComponentsName"
               :include="keepAliveComponentsName"
@@ -37,7 +34,7 @@
               <component :is="Component" :key="route.fullPath" />
             </keep-alive>
             <component v-else :is="Component" :key="route.fullPath" />
-          </transition>
+
         </router-view>
       </el-main>
     </el-container>
@@ -45,19 +42,16 @@
 </template>
 
 <script setup>
-import { defineComponent, computed, onBeforeMount } from "vue";
-//import { useStore } from "vuex";
-//import { useRouter } from "vue-router";
+import { ref, defineComponent, onMounted, computed, onBeforeMount } from "vue";
 import { useEventListener } from "@vueuse/core";
 import Menu from "./Menu/index.vue";
 import Logo from "./Logo/index.vue";
 import Header from "./Header/index.vue";
 import Tabs from "./Tabs/index.vue";
-import { ref } from "vue";
+import { useRouter, useRoute } from 'vue-router'
 
-const hideMenu = () => {
-      
-};
+import AppStore from "@/pinia/app.js"
+const appStore = AppStore();
 
 
 let isCollapse = ref(false)
@@ -65,6 +59,39 @@ let showLogo = ref(true)
 let contentFullScreen = ref(true)
 let showTabs = ref(false)
 let keepAliveComponentsName = ref('aa')
+let count = ref(0)
+
+let allRoutes = ref([])
+
+onMounted(()=>{
+    allRoutes = useRouter().options.routes
+    console.log("allRoutes", allRoutes)
+})
+
+
+const hideMenu = () => {
+    contentFullScreen.value != contentFullScreen.value
+    console.log("contentFullScreen =", contentFullScreen.value)
+};
+
+const onBtnClick = ()=>{
+    if (contentFullScreen.value) {
+        contentFullScreen.value = false
+    }else{
+        contentFullScreen.value = true
+    }
+    count.value = count.value + 1
+    console.log('click', count.value)
+
+}
+
+onBeforeMount(() => {
+    console.log("onBeforeMount");
+    useEventListener("resize", ()=>{
+        console.log("resize")
+    });
+});
+
 
 /*
 export default defineComponent({
