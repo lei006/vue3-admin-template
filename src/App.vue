@@ -1,42 +1,30 @@
-<template>
-  <el-config-provider :locale="locale" :size="size">
-    <router-view></router-view>
-  </el-config-provider>
-</template>
-
-<script lang="js">
-import { defineComponent, computed } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useStore } from 'vuex'
-export default defineComponent({
-  name: 'App',
-  setup() {
-    const store = useStore()
-    const i18n = useI18n()
-    const size = computed(() => store.state.app.elementSize)
-    const messages = i18n.messages.value
-    const locale = computed(() => {
-      return {
-        name: i18n.locale.value,
-        el: messages[i18n.locale.value].el,
-      }
-    })
-    return {
-      locale,
-      size,
-    }
-  }
-})
+<script setup>
+import HelloWorld from './components/HelloWorld.vue'
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  width: 100%;
-  height: 100vh;
+<template>
+  <div>
+    <a href="https://vitejs.dev" target="_blank">
+      <img src="./assets/img/vite.svg" class="logo" alt="Vite logo" />
+    </a>
+    <a href="https://vuejs.org/" target="_blank">
+      <img src="./assets/img/vue.svg" class="logo vue" alt="Vue logo" />
+    </a>
+  </div>
+  <HelloWorld msg="Vite + Vue" />
+</template>
+
+<style scoped>
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.vue:hover {
+  filter: drop-shadow(0 0 2em #42b883aa);
 }
 </style>
