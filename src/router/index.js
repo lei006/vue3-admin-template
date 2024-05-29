@@ -1,13 +1,28 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import Permission from './permission'
-
+import Layout from '@/layout/index.vue'
 
 const routes = [
+  /*
   {
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  */
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/dashboard',
+    meta: { title: 'message.menu.dashboard.name', icon: 'sfont system-home' },
+    children: [
+      {
+        path: 'dashboard',
+        component: () => import('@/views/HomeView.vue'),
+        meta: { title: 'message.menu.dashboard.index', icon: 'sfont system-home', hideClose: true }
+      }
+    ]
   },
   {
     path: '/about',
@@ -28,6 +43,7 @@ const router = createRouter({
   routes
 })
 
+// 检查权限
 Permission(router)
 
 
