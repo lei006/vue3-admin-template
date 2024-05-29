@@ -4,6 +4,10 @@ import App from './App.vue'
 
 
 import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+
 import i18n from './i18n'
 
 import pinia from './pinia'
@@ -19,7 +23,15 @@ console.log(' import.meta.env.VITE_BASE_URL: ',  import.meta.env.VITE_BASE_URL);
 console.log(' import.meta.env.TEST_11: ',  import.meta.env.TEST_11);
 
 
+
+
 const app = createApp(App)
+
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component)
+}
+
+
 app.use(ElementPlus)
 app.use(pinia)
 app.use(router)

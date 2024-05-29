@@ -1,17 +1,32 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
+
+
+import { computed, ref } from 'vue'
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import en from 'element-plus/dist/locale/en.mjs'
+
+const language = ref('zh-cn')
+const locale = computed(() => (language.value === 'zh-cn' ? zhCn : en))
+
+const toggle = () => {
+  language.value = language.value === 'zh-cn' ? 'en' : 'zh-cn'
+}
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="./assets/img/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/img/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+
+  <el-config-provider :locale="locale">
+    <el-button mb-2 @click="toggle">Switch Language</el-button>
+
+    <el-table mb-1 :data="[]" />
+      <el-pagination :total="100" />
+
+  </el-config-provider>
+
+
+
 </template>
 
 <style scoped>
