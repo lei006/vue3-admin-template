@@ -84,6 +84,9 @@ const props = defineProps({
       path = menu.path
     }
     path = props.basePath ? props.basePath + '/' + path : path
+
+    console.log("1111111111111", path);
+
     return path
   })
 
