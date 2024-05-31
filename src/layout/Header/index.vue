@@ -37,6 +37,10 @@
 </template>
 
 <script setup>
+import { useRouter, useRoute } from 'vue-router'
+
+import Breadcrumb from './Breadcrumb.vue'
+import PasswordLayer from './passwordLayer.vue'
 
 import { defineComponent, computed, reactive } from 'vue'
 const layer = reactive({
@@ -44,7 +48,24 @@ const layer = reactive({
       showButton: true
     });
 
+    const router = useRouter()
+    const route = useRoute()
+
+    const isCollapse = computed(() => true)
+    // isCollapse change to hide/show the sidebar
+    const opendStateChange = () => {
+      store.commit('app/isCollapseChange', !isCollapse.value)
+    }
+
+    // login out the system
+    const loginOut = () => {
+      store.dispatch('user/loginOut')
+    }
     
+    const showPasswordLayer = () => {
+      layer.show = true
+    }
+
 /*
 import { defineComponent, computed, reactive } from 'vue'
 import { useStore } from 'vuex'
@@ -67,27 +88,7 @@ export default defineComponent({
     PasswordLayer
   },
   setup() {
-    const store = useStore()
-    const router = useRouter()
-    const route = useRoute()
-    const layer = reactive({
-      show: false,
-      showButton: true
-    })
-    const isCollapse = computed(() => store.state.app.isCollapse)
-    // isCollapse change to hide/show the sidebar
-    const opendStateChange = () => {
-      store.commit('app/isCollapseChange', !isCollapse.value)
-    }
 
-    // login out the system
-    const loginOut = () => {
-      store.dispatch('user/loginOut')
-    }
-    
-    const showPasswordLayer = () => {
-      layer.show = true
-    }
     return {
       isCollapse,
       layer,

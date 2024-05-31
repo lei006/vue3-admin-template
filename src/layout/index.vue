@@ -1,10 +1,5 @@
 <template>
   <el-container style="height: 100vh">
-    <div
-      class="mask"
-      v-show="!isCollapse && !contentFullScreen"
-      @click="hideMenu"
-    >AAAA</div>
     <el-aside
       :width="isCollapse ? '60px' : '220px'"
       :class="isCollapse ? 'hide-aside' : 'show-side'"
@@ -14,15 +9,14 @@
       <Menu />
     </el-aside>
     <el-container>
-        <!--
       <el-header v-show="!contentFullScreen">
+        <el-button @click="onBtnClick">DefaultAA{{ count }}</el-button>
+        isCollapse:{{ isCollapse }}
         <Header />
       </el-header>
-      -->
       <!--
       <Tabs v-show="showTabs" />
       -->
-      <el-button @click="onBtnClick">DefaultAA{{ count }}</el-button>
 
       <el-main>
         <router-view v-slot="{ Component, route }">
@@ -56,7 +50,7 @@ const appStore = AppStore();
 
 let isCollapse = ref(false)
 let showLogo = ref(true)
-let contentFullScreen = ref(true)
+let contentFullScreen = ref(false)
 let showTabs = ref(false)
 let keepAliveComponentsName = ref('aa')
 let count = ref(0)
@@ -75,10 +69,10 @@ const hideMenu = () => {
 };
 
 const onBtnClick = ()=>{
-    if (contentFullScreen.value) {
-        contentFullScreen.value = false
+    if (isCollapse.value) {
+        isCollapse.value = false
     }else{
-        contentFullScreen.value = true
+        isCollapse.value = true
     }
     count.value = count.value + 1
     console.log('click', count.value)
@@ -145,6 +139,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
 .el-header {
   padding-left: 0;
   padding-right: 0;
@@ -152,10 +147,8 @@ export default defineComponent({
 .el-aside {
   display: flex;
   flex-direction: column;
-  transition: 0.2s;
   overflow-x: hidden;
-  transition: 0.3s;
-  &::-webkit-scrollbar {
+  -webkit-scrollbar {
     width: 0 !important;
   }
 }
@@ -165,31 +158,10 @@ export default defineComponent({
   padding: 0;
   overflow-x: hidden;
 }
-:deep(.el-main-box) {
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  box-sizing: border-box;
+
+.el-aside {
+    background-color: #181f31;
 }
-@media screen and (max-width: 1000px) {
-  .el-aside {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    z-index: 1000;
-    &.hide-aside {
-      left: -250px;
-    }
-  }
-  .mask {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 999;
-    background: rgba(0, 0, 0, 0.5);
-  }
-}
+
+
 </style>
