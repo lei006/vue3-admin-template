@@ -1,7 +1,7 @@
 <template>
   <div class="logo-container">
     <img class="img" src="@/assets/logo.png" alt="">
-    <h1 >我是系统</h1>
+    <h1 style="margin-left:15px;" v-if="!layoutStore.isCollapse">我是系统</h1>
   </div>
 </template>
 
@@ -9,27 +9,15 @@
 
 import {ref} from 'vue'
 
-let isCollapse  = ref(true)
+import LayoutStore from "@/pinia/layout.js"
+const layoutStore = LayoutStore();
+
 
 const systemTitle = ref("AAAAA")
 
 
-/*
-import { defineComponent, computed } from 'vue'
-import { useStore } from 'vuex'
-import { systemTitle } from '@/config'
-export default defineComponent({
-  setup() {
-    const store = useStore()
-    const isCollapse = computed(() => store.state.app.isCollapse)
-    return {
-      isCollapse,
-      systemTitle
-    }
-  }
-})
 
-*/
+
 
 </script>
 
@@ -45,7 +33,6 @@ export default defineComponent({
   }
 
   .logo-container .img{
-    height: 36px;
-    margin-right: 10px;
+    height: 28px;
   }
 </style>

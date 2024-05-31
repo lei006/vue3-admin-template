@@ -7,6 +7,7 @@
           <el-icon v-if="!layoutStore.isCollapse"><Position /></el-icon>      
         </div>
         <Breadcrumb />
+
       </div>
       
       <div class="right-box">
@@ -35,7 +36,6 @@
         </div>
         <password-layer :layer="layer" v-if="layer.show" />
       </div>      
-
   </header>
 </template>
 
@@ -93,7 +93,6 @@ const layer = reactive({
     height: 60px;
     background-color: var(--system-header-background);
     padding-right: 22px;
-    border-bottom: 1px solid #dcdfe6;    
   }
   .left-box {
     height: 100%;
@@ -122,6 +121,12 @@ const layer = reactive({
 
 
 
+  .split-line {
+    width: 100%;
+    height: 1px;
+    background-color: var(--system-header-split-line-color);
+  }
+
 
 
 
@@ -129,8 +134,6 @@ const layer = reactive({
     display: flex;
     justify-content: center;
     align-items: center;
-
-
   }
 
   .user-info {
@@ -139,10 +142,14 @@ const layer = reactive({
   }
   .el-dropdown-link {
     color: var(--system-header-breadcrumb-text-color);
+    cursor: pointer;
   }
+
+
+
+
   .function-list{
     display: flex;
-
   }
 
   .function-list-item {
@@ -150,6 +157,7 @@ const layer = reactive({
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
 
   .function-list-item :hover {

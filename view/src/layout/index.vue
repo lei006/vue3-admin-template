@@ -9,6 +9,7 @@
       <MenuRouter />
       <MenuBottom></MenuBottom>
     </el-aside>
+    
     <el-container>
       <el-header v-show="!contentFullScreen">
         <Header />
@@ -136,6 +137,10 @@ export default defineComponent({
 <style scoped>
 
 
+.el-header{
+  border-bottom: 1px solid #dcdfe6;
+}
+
 .el-aside {
   display: flex;
   flex-direction: column;
@@ -163,6 +168,12 @@ export default defineComponent({
   color: #fafafa;
 }
 
+
+.split-line{
+  width: 100%;
+  height: 1px;
+
+}
 
 
 

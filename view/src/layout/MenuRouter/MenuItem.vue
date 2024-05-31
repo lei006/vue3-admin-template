@@ -5,7 +5,7 @@
         
         <component :is="menu.meta.icon" v-if="menu.meta.icon" style="width: 16px; height:18px; margin-right:5px;"/>
         
-        <span>{{ isBackMenu ? menu.meta.title : $t(menu.meta.title) }}</span>
+        <span class="menu-title">{{ isBackMenu ? menu.meta.title : $t(menu.meta.title) }}</span>
       </template>
       <menu-item v-for="(item, key) in menu.children" :key="key" :menu="item" :basePath="pathResolve" />
     </el-sub-menu>
@@ -15,7 +15,7 @@
           <component :is="menu.children[0].meta.icon || menu.meta.icon" v-if="menu.children[0].meta.icon || menu.meta.icon" style="width: 16px; height:18px;"/>
           -->
           <component :is="menu.meta.icon || menu.children[0].meta.icon" v-if="menu.meta.icon || menu.children[0].meta.icon" style="width: 16px; height:18px; margin-right:5px;"/>
-          <template #title>{{ isBackMenu ? menu.children[0].meta.title : $t(menu.children[0].meta.title) }}</template>
+          <template #title><span class="menu-title">{{ isBackMenu ? menu.children[0].meta.title : $t(menu.children[0].meta.title) }}</span></template>
       </el-menu-item>
       <el-sub-menu v-else :index="pathResolve" :show-timeout="0" :hide-timeout="0">
         <template #title>
@@ -24,7 +24,7 @@
           -->
           <component :is="menu.meta.icon || menu.children[0].meta.icon" v-if="menu.meta.icon || menu.children[0].meta.icon " style="width: 16px; height:18px; margin-right:5px;"/>
 
-          <span>{{ isBackMenu ? menu.children[0].meta.title : $t(menu.children[0].meta.title) }}</span>
+          <span class="menu-title">{{ isBackMenu ? menu.children[0].meta.title : $t(menu.children[0].meta.title) }}</span>
         </template>
         <menu-item v-for="(item, key) in menu.children[0].children" :key="key" :menu="item" :basePath="pathResolve" />
       </el-sub-menu>
@@ -32,7 +32,7 @@
     <app-link v-else :to="pathResolve">
       <el-menu-item :index="pathResolve">
         <component :is="menu.meta.icon" v-if="menu.meta.icon" style="width: 16px; height:18px; margin-right:5px;"/>
-        <template #title>{{ isBackMenu ? menu.meta.title : $t(menu.meta.title) }}</template>
+        <template #title><span class="menu-title">{{ isBackMenu ? menu.meta.title : $t(menu.meta.title) }}</span></template>
       </el-menu-item>
     </app-link>
   </template>
@@ -164,5 +164,10 @@ export default defineComponent({
   }
   .el-menu-item i, .el-sub-menu__title i {
     padding-right: 8px;
+  }
+
+  .menu-title {
+    text-decoration: none;
+    color: #ddd;
   }
 </style>

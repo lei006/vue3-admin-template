@@ -1,8 +1,7 @@
 <template>
-  <!--
-  <Layer :layer="layer" @confirm="submit" ref="layerDom">
-  </Layer>
-  -->
+
+
+<el-dialog v-model="layer.show" title="Shipping address" width="800">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
       <el-form-item label="用户名：" prop="name">
         管理员
@@ -13,17 +12,23 @@
 			<el-form-item label="新密码：" prop="new">
 			  <el-input v-model="form.new" placeholder="请输入新密码" show-password></el-input>
 			</el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">Create</el-button>
+        <el-button>Cancel</el-button>
+      </el-form-item>      
     </el-form>
+</el-dialog>
+
+
 
 </template>
 
-<script lang="js">
+<script setup>
+
 import { defineComponent, ref } from 'vue'
 import { ElMessage } from 'element-plus'
-//import { passwordChange } from '@/api/user'
-//import Layer from '@/components/layer/index.vue'
-export default defineComponent({
-  props: {
+
+  defineProps({
     layer: {
       type: Object,
       default: () => {
@@ -33,10 +38,10 @@ export default defineComponent({
           showButton: true
         }
       }
-    }
-  },
-  setup(props, ctx) {
-    const ruleForm = ref(null)
+    }})
+
+
+  const ruleForm = ref(null)
     const layerDom = ref(null)
     let form = ref({
       userId: '123465',
@@ -48,7 +53,7 @@ export default defineComponent({
       old: [{ required: true, message: '请输入原密码', trigger: 'blur' }],
       new: [{ required: true, message: '请输入新密码', trigger: 'blur' }],
     }
-    function submit() {
+    function onSubmit() {
       if (ruleForm.value) {
         ruleForm.value.validate((valid) => {
           if (valid) {
@@ -72,15 +77,15 @@ export default defineComponent({
         });
       }
     }
-    return {
-      form,
-      rules,
-      layerDom,
-      ruleForm,
-      submit
-    }
-  }
-})
+
+
+
+
+
+
+
+
+
 </script>
 
 <style scoped>

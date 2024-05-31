@@ -6,8 +6,7 @@
       active-text-color="#ffd04b"
       background-color="#545c64"           
 
-      :class="isCollapse? 'collapse': ''"
-      :collapse="isCollapse"
+      :collapse="layoutStore.isCollapse"
       :collapse-transition="false"
       :unique-opened="expandOneMenu"
     >
@@ -26,7 +25,6 @@ import LayoutStore from "@/pinia/layout.js"
 const layoutStore = LayoutStore();
 
 
-let isCollapse = ref(false)
 let expandOneMenu = ref(false)
 
 const allRoutes = useRouter().options.routes

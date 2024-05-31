@@ -15,12 +15,12 @@ const routes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    meta: { title: 'message.menu.dashboard.name', icon: 'Search' },
+    meta: { title: 'message.menu.dashboard.name', icon: 'House' },
     children: [
       {
         path: 'dashboard',
-        component: () => import('@/views/HomeView.vue'),
-        meta: { title: '我是', icon: 'Search', hideClose: true }
+        component: () => import('@/views/dashboard/index.vue'),
+        meta: { title: '仪表盘', icon: 'CircleCheckFilled', hideClose: true }
       },
     ]
   },
@@ -32,8 +32,7 @@ const routes = [
     children: [
       {
         path: 'menu1',
-        component: () => import('@/views/nested/menu1/index.vue'),
-        meta: { title: 'menu1', icon: 'Search', hideClose: true },
+        meta: { title: 'menu1', icon: 'Tickets', hideClose: true },
         children: [
           {
             path: 'menu1-1',
@@ -42,25 +41,24 @@ const routes = [
           },
           {
             path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2/index.vue'),
-            meta: { title: 'menu1-2', icon: 'Search', hideClose: true },
+            meta: { title: 'menu1-2', icon: 'Edit', hideClose: true },
             children: [
               {
                 path: 'menu1-2-1',
                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1/index.vue'),
-                meta: { title: 'menu1-2-1', icon: 'Search', hideClose: true }
+                meta: { title: 'menu1-2-1', icon: 'DishDot', hideClose: true }
               },
               {
                 path: 'menu1-2-2',
                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2/index.vue'),
-                meta: { title: 'menu1-2-2', icon: 'Search', hideClose: true }
+                meta: { title: 'menu1-2-2', icon: 'Reading', hideClose: true }
               },
             ]            
           },
           {
             path: 'menu1-3',
             component: () => import('@/views/nested/menu1/menu1-3/index.vue'),
-            meta: { title: 'menu1-3', icon: 'Search', hideClose: true }
+            meta: { title: 'menu1-3', icon: 'Mouse', hideClose: true }
           },
         ]
       },
@@ -68,7 +66,7 @@ const routes = [
       {
         path: 'menu2',
         component: () => import('@/views/nested/menu2/index.vue'),
-        meta: { title: 'menu2', icon: 'Search', hideClose: true }
+        meta: { title: 'menu2', icon: 'Paperclip', hideClose: true }
       },
 
     ]
@@ -78,7 +76,7 @@ const routes = [
     path: '/about',
     redirect: '/dashboard',
     component: Layout,
-    meta: { title: 'nested', icon: 'Search' },
+    meta: { title: 'nested', icon: 'Coin' },
     children: [
       {
         path: 'About',

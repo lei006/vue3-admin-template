@@ -1,9 +1,9 @@
 <template>
     
       <el-menu
-        default-active="2"
         class="el-menu-vertical-demo"
         text-color="#fff"
+        :collapse="layoutStore.isCollapse"
         active-text-color="#ffd04b"
         background-color="#545c64"        
         @open="handleOpen"
@@ -37,6 +37,8 @@ import {
   Setting,
 } from '@element-plus/icons-vue'
 
+import LayoutStore from "@/pinia/layout.js"
+const layoutStore = LayoutStore();
 
 
 const handleOpen = (key, keyPath) => {
