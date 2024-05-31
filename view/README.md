@@ -25,7 +25,7 @@ English | [简体中文](./README.zh-CN.md)
 - After more than three months of iteration, version 1.0 was officially released on August 10, 2021, with four basic templates attached for everyone to use
 - This open source project is developed by individuals and does not restrict any commercial use or personal research. Please click star to encourage me before using it
 - All illegal and pornographic activities involved in this open source project have nothing to do with this source code. Please do not show yourself
-- QQ communication group：735838842，Problems are raised in the group and can be solved in time
+- QQ communication group：912804007，Problems are raised in the group and can be solved in time
 
 ## Preview
 if you are not in China, maybe you should download the project to show the demo or use a vpn to visit the online demo.
@@ -36,11 +36,11 @@ if you are not in China, maybe you should download the project to show the demo 
 - It is recommended to use yarn or cnpm for installation in China. NPM installation is prone to problems
 
 ## Basic Template
-There are four basic templates, which are suitable for zero development and use, and can be found in [github](https://github.com/cmdparkour/vue-admin-box-template)、[gitee ](https://gitee.com/cmdparkour/vue-admin-box-template)View directly in the warehouse，The template is shown below:
-1. template-ts-i18n template，container ts and internationalization [demo](http://vue-admin-box-template.51weblove.com/ts-i18n/)
-2. template-ts template，container ts，internationalization is not container [demo](http://vue-admin-box-template.51weblove.com/ts)
-3. template-js-i18n template，container js and internationalization [demo](http://vue-admin-box-template.51weblove.com/js-i18n)
-4. template-js template，container js，internationalization is not container [demo](http://vue-admin-box-template.51weblove.com/js)
+There are four basic templates, which are suitable for zero development and use, and can be found in [github](https://github.com/cmdparkour/vue-admin-box)、[gitee ](https://gitee.com/cmdparkour/vue-admin-box)View directly in the warehouse，The template is shown below:
+1. template-ts-i18n template，container ts and internationalization [github](https://github.com/cmdparkour/vue-admin-box/tree/template-ts-i18n) [gitee](https://gitee.com/cmdparkour/vue-admin-box/tree/template-ts-i18n/) [demo](http://vue-admin-box-template.51weblove.com/ts-i18n/)
+2. template-ts template，container ts，internationalization is not container [github](https://github.com/cmdparkour/vue-admin-box/tree/template-ts) [gitee](https://gitee.com/cmdparkour/vue-admin-box/tree/template-ts/) [demo](http://vue-admin-box-template.51weblove.com/ts)
+3. template-js-i18n template，container js and internationalization [github](https://github.com/cmdparkour/vue-admin-box/tree/template-js-i18n) [gitee](https://gitee.com/cmdparkour/vue-admin-box/tree/template-js-i18n/) [demo](http://vue-admin-box-template.51weblove.com/js-i18n)
+4. template-js template，container js，internationalization is not container [github](https://github.com/cmdparkour/vue-admin-box/tree/template-js) [gitee](https://gitee.com/cmdparkour/vue-admin-box/tree/template-js/) [demo](http://vue-admin-box-template.51weblove.com/js)
 
 ## Introduction
 
