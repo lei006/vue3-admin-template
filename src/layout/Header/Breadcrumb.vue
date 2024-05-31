@@ -14,13 +14,10 @@
   </el-breadcrumb>
 </template>
 
-<script lang="js">
+<script setup>
 import { ref, defineComponent, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { isBackMenu } from '@/config'
-export default defineComponent({
-  name: "BreadCrumb",
-  setup() {
+
     const levelList = ref([]);
     const route = useRoute();
     const router = useRouter();
@@ -32,10 +29,7 @@ export default defineComponent({
       );
     };
     getBreadcrumb();
-    watch(
-      () => route.path,
-      () => getBreadcrumb()
-    );
+
     const handleLink = (item) => {
       const { redirect, path } = item;
       if (redirect) {
@@ -44,9 +38,7 @@ export default defineComponent({
       }
       router.push(path);
     };
-    return { levelList, handleLink, isBackMenu };
-  }
-});
+
 </script>
 
 <style scoped >

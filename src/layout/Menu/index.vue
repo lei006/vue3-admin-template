@@ -18,7 +18,6 @@
     >
       <menu-item v-for="(menu, key) in allRoutes" :key="key" :menu="menu" />
     </el-menu>
-    {{ allRoutes }}
   </el-scrollbar>
 </template>
 

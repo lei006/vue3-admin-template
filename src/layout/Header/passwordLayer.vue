@@ -1,5 +1,8 @@
 <template>
+  <!--
   <Layer :layer="layer" @confirm="submit" ref="layerDom">
+  </Layer>
+  -->
     <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
       <el-form-item label="用户名：" prop="name">
         管理员
@@ -11,19 +14,15 @@
 			  <el-input v-model="form.new" placeholder="请输入新密码" show-password></el-input>
 			</el-form-item>
     </el-form>
-  </Layer>
+
 </template>
 
 <script lang="js">
 import { defineComponent, ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { useStore } from 'vuex'
-import { passwordChange } from '@/api/user'
-import Layer from '@/components/layer/index.vue'
+//import { passwordChange } from '@/api/user'
+//import Layer from '@/components/layer/index.vue'
 export default defineComponent({
-  components: {
-    Layer
-  },
   props: {
     layer: {
       type: Object,
@@ -39,7 +38,6 @@ export default defineComponent({
   setup(props, ctx) {
     const ruleForm = ref(null)
     const layerDom = ref(null)
-    const store = useStore()
     let form = ref({
       userId: '123465',
       name: '',
@@ -59,17 +57,15 @@ export default defineComponent({
               old: form.value.old,
               new: form.value.new
             }
-            passwordChange(params)
-            .then(res => {
-              ElMessage({
-                type: 'success',
-                message: '密码修改成功，即将跳转到登录页面'
-              })
+            /*
+            passwordChange(params).then(res => {
+              ElMessage({type: 'success',message: '密码修改成功，即将跳转到登录页面'})
               layerDom.value && layerDom.value.close()
               setTimeout(() => {
-                store.dispatch('user/loginOut')
+                //store.dispatch('user/loginOut')
               }, 2000)
             })
+            */
           } else {
             return false;
           }
