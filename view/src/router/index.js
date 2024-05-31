@@ -15,24 +15,77 @@ const routes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    meta: { title: 'message.menu.dashboard.name', icon: 'sfont system-home' },
+    meta: { title: 'message.menu.dashboard.name', icon: 'Search' },
     children: [
       {
         path: 'dashboard',
         component: () => import('@/views/HomeView.vue'),
-        meta: { title: 'message.menu.dashboard.index', icon: 'sfont system-home', hideClose: true }
-      }
+        meta: { title: '我是', icon: 'Search', hideClose: true }
+      },
     ]
   },
   {
+    path: '/nested',
+    component: Layout,
+    redirect: '/nested/menu1',
+    meta: { title: 'nested', icon: 'Search' },
+    children: [
+      {
+        path: 'menu1',
+        component: () => import('@/views/nested/menu1/index.vue'),
+        meta: { title: 'menu1', icon: 'Search', hideClose: true },
+        children: [
+          {
+            path: 'menu1-1',
+            component: () => import('@/views/nested/menu1/menu1-1/index.vue'),
+            meta: { title: 'menu1-1', icon: 'Search', hideClose: true }
+          },
+          {
+            path: 'menu1-2',
+            component: () => import('@/views/nested/menu1/menu1-2/index.vue'),
+            meta: { title: 'menu1-2', icon: 'Search', hideClose: true },
+            children: [
+              {
+                path: 'menu1-2-1',
+                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1/index.vue'),
+                meta: { title: 'menu1-2-1', icon: 'Search', hideClose: true }
+              },
+              {
+                path: 'menu1-2-2',
+                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2/index.vue'),
+                meta: { title: 'menu1-2-2', icon: 'Search', hideClose: true }
+              },
+            ]            
+          },
+          {
+            path: 'menu1-3',
+            component: () => import('@/views/nested/menu1/menu1-3/index.vue'),
+            meta: { title: 'menu1-3', icon: 'Search', hideClose: true }
+          },
+        ]
+      },
+
+      {
+        path: 'menu2',
+        component: () => import('@/views/nested/menu2/index.vue'),
+        meta: { title: 'menu2', icon: 'Search', hideClose: true }
+      },
+
+    ]
+  },
+  
+  {
     path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-    }
+    redirect: '/dashboard',
+    component: Layout,
+    meta: { title: 'nested', icon: 'Search' },
+    children: [
+      {
+        path: 'About',
+        component: () => import('@/views/AboutView.vue'),
+        meta: { title: 'About', icon: 'sfont system-home', hideClose: true }
+      }
+    ]
   }
 ]
 

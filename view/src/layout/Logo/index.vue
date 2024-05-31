@@ -1,7 +1,7 @@
 <template>
   <div class="logo-container">
     <img class="img" src="@/assets/logo.png" alt="">
-    <h1 >{{ $t(systemTitle) }}</h1>
+    <h1 >我是系统</h1>
   </div>
 </template>
 

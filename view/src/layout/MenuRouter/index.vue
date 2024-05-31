@@ -2,10 +2,10 @@
   <el-scrollbar>
     <el-menu
       class="layout-menu system-scrollbar"
-      background-color="var(--system-menu-background)"
-      text-color="var(--system-menu-text-color)"
-      active-text-color="var(--system-primary-color)"
-      :default-active="activeMenu"
+      text-color="#fff"
+      active-text-color="#ffd04b"
+      background-color="#545c64"           
+
       :class="isCollapse? 'collapse': ''"
       :collapse="isCollapse"
       :collapse-transition="false"
@@ -22,22 +22,27 @@ import { useRouter, useRoute } from 'vue-router'
 
 import MenuItem from './MenuItem.vue'
 
+import LayoutStore from "@/pinia/layout.js"
+const layoutStore = LayoutStore();
 
 
 let isCollapse = ref(false)
 let expandOneMenu = ref(false)
 
 const allRoutes = useRouter().options.routes
-const activeMenu = computed(() => {
-  const route = useRoute()
 
+
+/*
+const activeMenu = computed(() => {
+  const route = useRoute()  
+  console.log("route==", route)
       const { meta, path } = route;
       if (meta.activeMenu) {
         return meta.activeMenu;
       }
       return path;
     });
-
+*/
     
 </script>
 

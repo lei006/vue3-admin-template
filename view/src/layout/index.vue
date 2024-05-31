@@ -1,18 +1,16 @@
 <template>
   <el-container style="height: 100vh">
     <el-aside
-      :width="isCollapse ? '60px' : '220px'"
-      :class="isCollapse ? 'hide-aside' : 'show-side'"
+      :width="layoutStore.isCollapse ? '60px' : '220px'"
+      :class="layoutStore.isCollapse ? 'hide-aside' : 'show-side'"
       v-show="!contentFullScreen"
     >
-      <Logo v-if="showLogo" />
+      <Logo v-if="layoutStore.showLogo" />
       <MenuRouter />
       <MenuBottom></MenuBottom>
     </el-aside>
     <el-container>
       <el-header v-show="!contentFullScreen">
-        <el-button @click="onBtnClick">DefaultAA{{ count }}</el-button>
-        isCollapse:{{ isCollapse }}
         <Header />
       </el-header>
       <!--
@@ -46,14 +44,11 @@ import Header from "./Header/index.vue";
 import Tabs from "./Tabs/index.vue";
 import { useRouter, useRoute } from 'vue-router'
 
-import AppStore from "@/pinia/app.js"
-const appStore = AppStore();
+import LayoutStore from "@/pinia/layout.js"
+const layoutStore = LayoutStore();
 
 
-let isCollapse = ref(false)
-let showLogo = ref(true)
 let contentFullScreen = ref(false)
-let showTabs = ref(false)
 let keepAliveComponentsName = ref('aa')
 let count = ref(0)
 
@@ -140,10 +135,7 @@ export default defineComponent({
 
 <style scoped>
 
-.el-header {
-  padding-left: 0;
-  padding-right: 0;
-}
+
 .el-aside {
   display: flex;
   flex-direction: column;

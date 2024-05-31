@@ -5,9 +5,9 @@
         <span
           v-if="item.redirect === 'noRedirect' || index == levelList.length - 1"
           class="no-redirect"
-        >{{  isBackMenu ? item.meta.title : $t(item.meta.title) }}</span>
+        >{{  layoutStore.isBackMenu ? item.meta.title : $t(item.meta.title) }}</span>
         <a v-else @click.prevent="handleLink(item)">
-          {{ isBackMenu ? item.meta.title : $t(item.meta.title) }}
+          {{ layoutStore.isBackMenu ? item.meta.title : $t(item.meta.title) }}
         </a>
       </el-breadcrumb-item>
     </transition-group>
@@ -17,6 +17,9 @@
 <script setup>
 import { ref, defineComponent, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import LayoutStore from "@/pinia/layout.js"
+const layoutStore = LayoutStore();
+
 
     const levelList = ref([]);
     const route = useRoute();
