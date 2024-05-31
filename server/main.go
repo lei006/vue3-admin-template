@@ -3,8 +3,9 @@ package main
 import (
 	"os"
 	"yc-webreport-server/api"
-	"yc-webreport-server/api/utils"
 	"yc-webreport-server/config"
+	"yc-webreport-server/logger"
+	"yc-webreport-server/model"
 
 	"github.com/lei006/go-daemon/daemontool"
 	"github.com/sohaha/zlsgo/zlog"
@@ -30,24 +31,6 @@ func main() {
 
 	is_daemon := true
 
-	err := config.OnInit()
-	if err != nil {
-		zlog.Error(err)
-		return
-	}
-
-	///////////////////////////////////////////
-	// 如果在vscode 则不是服务模式
-	at_vscode, err := utils.RunAtVscode()
-	if err != nil {
-		zlog.Error("error: ")
-		return
-	}
-	is_daemon = !at_vscode
-	config.ReportCfg.RunAtVscode = at_vscode
-
-	zlog.Debug("is_daemon ", is_daemon)
-
 	///////////////////////////////////////////
 	// 如果 参数 alone 则不是服务模式
 	if len(os.Args) == 2 {
@@ -55,6 +38,17 @@ func main() {
 			is_daemon = false
 		}
 	}
+
+	err := config.OnInit()
+	if err != nil {
+		zlog.Error(err)
+		return
+	}
+
+	if config.ReportCfg.RunAtVscode {
+		is_daemon = false
+	}
+
 	///////////////////////////////////////////
 	// 如果 开始程序
 
@@ -71,7 +65,17 @@ func main() {
 func RunApp() {
 	//rtsp2web.Start()
 
-	err := api.RunAndServer()
+	// 加载配置-日志系统
+	err := logger.OnInit()
+	if err != nil {
+		return
+	}
+	err = model.OnInit()
+	if err != nil {
+		return
+	}
+
+	err = api.RunAndServer()
 	if err != nil {
 		zlog.Error(err)
 	}

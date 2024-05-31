@@ -6,7 +6,7 @@ import (
 	"github.com/sohaha/zlsgo/zlog"
 )
 
-func LoadConfig() error {
+func OnInit() error {
 
 	logPath := config.ReportCfg.Logger.Path
 	if logPath == "" {

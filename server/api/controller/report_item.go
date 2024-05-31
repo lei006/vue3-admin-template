@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"yc-webreport-server/api/model"
 	"yc-webreport-server/api/utils"
+	"yc-webreport-server/model"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sohaha/zlsgo/zlog"
@@ -22,7 +22,7 @@ func (control *ReportItemControl) Create(ctx *gin.Context) {
 		control.RetError(ctx, ERROR, err.Error())
 		return
 	}
-	
+
 	verify := utils.Rules{
 		"name":  {utils.NotEmpty()},
 		"title": {utils.NotEmpty()},

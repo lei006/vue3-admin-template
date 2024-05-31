@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"yc-webreport-server/api/controller"
-	"yc-webreport-server/api/model"
+	"yc-webreport-server/model"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sohaha/zlsgo/zlog"

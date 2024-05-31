@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"yc-webreport-server/api/utils"
 
 	"github.com/sohaha/zlsgo/zlog"
 	"github.com/spf13/viper"
@@ -38,22 +39,24 @@ type Server struct {
 }
 
 func OnInit() error {
-	return nil
-}
 
-func LoadConfig() error {
+	///////////////////////////////////////////
+	// 如果在vscode 则不是服务模式
+	at_vscode, err := utils.RunAtVscode()
+	if err != nil {
+		zlog.Error("error: ")
+		return err
+	}
 
-	///////////////////////////////////////////////
-	// 1. 配置目录--支持 服务模式
+	ReportCfg.RunAtVscode = at_vscode
 
-	configFile := DefConfigFile
 	if !ReportCfg.RunAtVscode {
 		exePath, err := os.Executable()
 		if err != nil {
 			return fmt.Errorf("os.Executable error " + err.Error())
 		}
 		ReportCfg.WorkPath = filepath.Dir(exePath)
-		ReportCfg.ConfigFilePath = ReportCfg.WorkPath + "/" + configFile
+		ReportCfg.ConfigFilePath = ReportCfg.WorkPath + "/" + DefConfigFile
 	} else {
 
 		pwdPath, err := os.Getwd()
@@ -61,8 +64,22 @@ func LoadConfig() error {
 			return fmt.Errorf("os.Getwd error " + err.Error())
 		}
 		ReportCfg.WorkPath = pwdPath
-		ReportCfg.ConfigFilePath = ReportCfg.WorkPath + "/" + configFile
+		ReportCfg.ConfigFilePath = ReportCfg.WorkPath + "/" + DefConfigFile
 	}
+
+	// 加载配置-配置
+	err = loadConfig()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func loadConfig() error {
+
+	///////////////////////////////////////////////
+	// 1. 配置目录--支持 服务模式
 
 	zlog.Debug("ReportCfg.RunAtVscode ", ReportCfg.RunAtVscode)
 	zlog.Debug("config： ", ReportCfg.ConfigFilePath)
