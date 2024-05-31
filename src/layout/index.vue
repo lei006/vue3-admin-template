@@ -6,7 +6,8 @@
       v-show="!contentFullScreen"
     >
       <Logo v-if="showLogo" />
-      <Menu />
+      <MenuRouter />
+      <MenuBottom></MenuBottom>
     </el-aside>
     <el-container>
       <el-header v-show="!contentFullScreen">
@@ -38,7 +39,8 @@
 <script setup>
 import { ref, defineComponent, onMounted, computed, onBeforeMount } from "vue";
 import { useEventListener } from "@vueuse/core";
-import Menu from "./Menu/index.vue";
+import MenuRouter from "./MenuRouter/index.vue";
+import MenuBottom from "./MenuBottom/index.vue";
 import Logo from "./Logo/index.vue";
 import Header from "./Header/index.vue";
 import Tabs from "./Tabs/index.vue";
