@@ -136,8 +136,6 @@ export default defineComponent({
 });
 */
 
-
-
 </script>
 
 <style scoped>
@@ -161,9 +159,21 @@ export default defineComponent({
   overflow-x: hidden;
 }
 
-.el-aside {
-    background-color: #181f31;
+
+.hide-aside {
+  left: -250px;
+  background-color: rgb(67, 74, 80);
+  color: #fafafa;
 }
+
+.show-side {
+  background-color: rgb(67, 74, 80);
+  color: #fafafa;
+}
+
+
+
+
 
 
 </style>

@@ -1,10 +1,5 @@
 <template>
   <el-scrollbar>
-    <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
-      <el-radio-button :value="false">expand</el-radio-button>
-      <el-radio-button :value="true">collapse</el-radio-button>
-    </el-radio-group>
-
     <el-menu
       class="layout-menu system-scrollbar"
       background-color="var(--system-menu-background)"
