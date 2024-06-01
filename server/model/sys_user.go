@@ -2,27 +2,20 @@ package model
 
 import (
 	"errors"
-
-	"github.com/gofrs/uuid/v5"
 )
 
 type SysUser struct {
 	BASE_MODEL
-	UUID     uuid.UUID `json:"uuid" gorm:"index;comment:用户UUID"`               // 用户UUID
-	Username string    `json:"userName" gorm:"index;comment:用户登录名"`            // 用户登录名
-	Password string    `json:"-"  gorm:"comment:用户登录密码"`                       // 用户登录密码
-	NickName string    `json:"nickName" gorm:"default:系统用户;comment:用户昵称"`      // 用户昵称
-	Token    string    `json:"token" gorm:"index;default:token;comment:token"` // token
-	SideMode string    `json:"sideMode" gorm:"default:dark;comment:用户侧边主题"`    // 用户侧边主题
-	//HeaderImg   string         `json:"headerImg" gorm:"type:TEXT; default:https://qmplusimg.henrongyi.top/gva_header.jpg;comment:用户头像"` // 用户头像
-	HeaderImg   string `json:"headerImg" gorm:"type:TEXT; comment:用户头像"`           // 用户头像
-	UserSign    string `json:"userSign" gorm:"type:TEXT;comment:用户签名"`             // 用户签名
-	BaseColor   string `json:"baseColor" gorm:"default:#fff;comment:基础颜色"`         // 基础颜色
-	ActiveColor string `json:"activeColor" gorm:"default:#1890ff;comment:活跃颜色"`    // 活跃颜色
-	Authority   string `json:"authority" gorm:"default:888;comment:用户角色ID"`        // 用户角色ID
-	Phone       string `json:"phone"  gorm:"comment:用户手机号"`                        // 用户手机号
-	Email       string `json:"email"  gorm:"comment:用户邮箱"`                         // 用户邮箱
-	Disenable   bool   `json:"disenable" gorm:"default:0;comment:用户是否被冻结 0正常 1冻结"` //用户是否被冻结 0正常 1冻结
+	Username  string `json:"username" gorm:"index;comment:用户登录名"`                // 用户登录名
+	Password  string `json:"-"  gorm:"comment:用户登录密码"`                           // 用户登录密码
+	Nickname  string `json:"nickname" gorm:"default:系统用户;comment:用户昵称"`          // 用户昵称
+	Token     string `json:"token" gorm:"index;default:token;comment:token"`     // token
+	Headerimg string `json:"headerimg" gorm:"type:TEXT; comment:用户头像"`           // 用户头像
+	UserSign  string `json:"user_sign" gorm:"type:TEXT;comment:用户签名"`            // 用户签名
+	IsAdmin   bool   `json:"is_admin" gorm:"default:0;comment:是否管理员"`            // 用户角色ID
+	Phone     string `json:"phone"  gorm:"comment:用户手机号"`                        // 用户手机号
+	Email     string `json:"email"  gorm:"comment:用户邮箱"`                         // 用户邮箱
+	Disenable bool   `json:"disenable" gorm:"default:0;comment:用户是否被冻结 0正常 1冻结"` //用户是否被冻结 0正常 1冻结
 }
 
 func (SysUser) TableName() string {
@@ -82,6 +75,13 @@ func (model *SysUser) GetOneByUsername(username string) (retVal *SysUser, err er
 	// 通过username 取得一行
 	retVal = &SysUser{}
 	err = g_db.Where("username = ?", username).First(retVal).Error
+	return
+}
+
+func (model *SysUser) GetOneByToken(token string) (retVal *SysUser, err error) {
+	// 通过username 取得一行
+	retVal = &SysUser{}
+	err = g_db.Where("token = ?", token).First(retVal).Error
 	return
 }
 

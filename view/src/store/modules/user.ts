@@ -1,4 +1,7 @@
 import { loginApi, getInfoApi, loginOutApi } from '@/api/user'
+import apiAuth from '@/api/auth'
+
+
 import { ActionContext } from 'vuex'
 
 export interface userState {
@@ -32,8 +35,8 @@ const actions = {
   // login by login.vue
   login({ commit, dispatch }: ActionContext<userState, userState>, params: any) {
     return new Promise((resolve, reject) => {
-      loginApi(params)
-      .then(res => {
+      apiAuth.login(params).then(res => {
+        console.log(res)
         commit('tokenChange', res.data.token)
         dispatch('getInfo', { token: res.data.token })
         .then(infoRes => {
@@ -47,6 +50,7 @@ const actions = {
   // get user info after user logined
   getInfo({ commit }: ActionContext<userState, userState>, params: any) {
     return new Promise((resolve, reject) => {
+      console.log("getInfoApi", params);
       getInfoApi(params)
       .then(res => {
         commit('infoChange', res.data.info)

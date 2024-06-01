@@ -77,7 +77,28 @@ func (control *SysUserAuthControl) Logout(ctx *gin.Context) {
 
 func (control *SysUserAuthControl) Info(ctx *gin.Context) {
 
-	control.RetOK(ctx)
+	zlog.Debug("1111111111111111111")
+
+	type TokenReq struct {
+		Token string `json:"token"` // 用户名
+	}
+	req_token := TokenReq{}
+	err := ctx.ShouldBindJSON(&req_token)
+	if err != nil {
+		zlog.Debug("token:", zap.Error(err))
+		control.RetErrorParam(ctx, "")
+		return
+	}
+	modelUser := &model.SysUser{}
+	user_info, err := modelUser.GetOneByToken(req_token.Token)
+	if err != nil {
+		zlog.Debug("未找到用户:", err.Error())
+		control.RetErrorMessage(ctx, "未找到用户信息")
+		return
+	}
+
+	zlog.Debug("user_info", user_info)
+	control.RetOkData(ctx, user_info)
 }
 
 func (control *SysUserAuthControl) SetPassword(ctx *gin.Context) {

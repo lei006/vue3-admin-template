@@ -98,6 +98,7 @@ import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 
 import { useStore } from 'vuex'
+const store = useStore()
 
 
 const router = useRouter()
@@ -170,16 +171,18 @@ const rules = reactive({
 })
 
 
-const login = async() => {
+const login = async(data) => {
 
-  let ret = await apiAuth.login(loginFormData)
+  //let ret = await apiAuth.login(loginFormData)
+  let ret = store.dispatch('user/login', data)
+
   return ret;
 }
 const submitForm = () => {
 
   loginForm.value.validate(async(v) => {
     if (v) {
-      const ret = await apiAuth.login(loginFormData)
+      const ret = await login(loginFormData)
       if (ret.code == 200) {
         router.push({ path: "/" })
         console.log("====================")
