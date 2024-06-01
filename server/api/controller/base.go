@@ -44,8 +44,13 @@ type ResMsg struct {
 	Msg  string `json:"msg"`
 }
 
+type PatchReq struct {
+	Field string      `json:"field"`
+	Data  interface{} `json:"data"`
+}
+
 type JsonItemList struct {
-	Items interface{} `json:"items"` //Data字段需要设置为interface类型以便接收任意数据
+	List interface{} `json:"list"` //Data字段需要设置为interface类型以便接收任意数据
 }
 
 type JsonReturn struct {
@@ -67,7 +72,7 @@ func (base *BaseController) _ret_data(ctx *gin.Context, code int, data interface
 func (base *BaseController) ReturnList(ctx *gin.Context, data_list interface{}) {
 
 	val := JsonItemList{
-		Items: data_list,
+		List: data_list,
 	}
 
 	base._ret_data(ctx, http.StatusOK, val, "success")

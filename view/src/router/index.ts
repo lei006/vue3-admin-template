@@ -44,7 +44,8 @@ import Tab from './modules/tab'
  **/
 let modules = reactive([
   ...Dashboard,
-  ...System
+  ...System,
+  ...SystemManage,
 ])
 
 const { t } = i18n.global

@@ -50,9 +50,9 @@ func (model *SysUser) UpdateOne(val *SysUser) (err error) {
 	return err
 }
 
-func (model *SysUser) PatchOne(id uint, data interface{}) error {
+func (model *SysUser) PatchOne(id string, field string, data interface{}) error {
 
-	result := g_db.Model(&SysUser{}).Where("id = ?", id).Update("token", data)
+	result := g_db.Model(&SysUser{}).Where("id = ?", id).Update(field, data)
 	if result.RowsAffected == 0 {
 		return errors.New("No rows were updated")
 	}

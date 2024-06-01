@@ -1,11 +1,17 @@
 <template>
   <Layer :layer="layer" @confirm="submit">
     <el-form :model="ruleForm" :rules="rules" ref="form" label-width="120px" style="margin-right:30px;">
-      <el-form-item label="名称：" prop="name">
-        <el-input v-model="ruleForm.name" placeholder="请输入名称"></el-input>
+      <el-form-item label="名称：" prop="username">
+        <el-input v-model="ruleForm.username" placeholder="请输入名称"></el-input>
       </el-form-item>
-      <el-form-item label="数字：" prop="sort">
-        <el-input v-model="ruleForm.sort" oninput="value=value.replace(/[^\d]/g,'')" placeholder="只能输入正整数"></el-input>
+      <el-form-item label="昵称：" prop="nickname">
+        <el-input v-model="ruleForm.nickname" placeholder="请输入昵称"></el-input>
+      </el-form-item>
+      <el-form-item label="密码：" prop="password">
+        <el-input v-model="ruleForm.password" placeholder="请输入密码"></el-input>
+      </el-form-item>
+      <el-form-item label="确认密码:" prop="password1">
+        <el-input v-model="ruleForm.password1" placeholder="请输入密码"></el-input>
       </el-form-item>
 			<el-form-item label="选择器：" prop="select">
 			  <el-select v-model="ruleForm.select" placeholder="请选择" clearable>
@@ -17,13 +23,6 @@
 					</el-option>
 				</el-select>
 			</el-form-item>
-      <el-form-item label="单选框：" prop="radio">
-        <el-radio-group v-model="ruleForm.radio">
-          <el-radio :label="0">最新开播</el-radio>
-          <el-radio :label="1">最早开播</el-radio>
-          <el-radio :label="2">最多观看</el-radio>
-        </el-radio-group>
-      </el-form-item>
     </el-form>
   </Layer>
 </template>
@@ -31,7 +30,8 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
 import Layer from '@/components/layer/index.vue'
-import { add, update } from '@/api/table'
+import apiUser from "@/api/user.js"
+
 export default defineComponent({
   components: {
     Layer
@@ -43,6 +43,7 @@ export default defineComponent({
         return {
           show: false,
           title: '',
+          row:{},
           showButton: true
         }
       }
@@ -50,14 +51,21 @@ export default defineComponent({
   },
   setup(props, ctx) {
     let ruleForm = reactive({
-      name: ''
+      username: '',
+      nickname: '',
+      password: '',
+      password1: '',
     })
     const rules = {
-      name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+      username: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+      nickname: [{ required: true, message: '请输入昵称', trigger: 'blur' }],
       sort: [{ required: true, message: '请输入数字', trigger: 'blur' }],
       select: [{ required: true, message: '请选择', trigger: 'blur' }],
       radio: [{ required: true, message: '请选择', trigger: 'blur' }]
     }
+
+    Object.assign(ruleForm, props.layer.row)
+
     const options = [
       { value: 1, label: '运动'},
       { value: 2, label: '健身'},
@@ -87,8 +95,7 @@ export default defineComponent({
     },
     // 新增提交事件
     addForm(params: object) {
-      add(params)
-      .then(res => {
+      apiUser.Create(params).then(res => {
         this.$message({
           type: 'success',
           message: '新增成功'
@@ -99,12 +106,8 @@ export default defineComponent({
     },
     // 编辑提交事件
     updateForm(params: object) {
-      update(params)
-      .then(res => {
-        this.$message({
-          type: 'success',
-          message: '编辑成功'
-        })
+      apiUser.PutOne(params).then(res => {
+        this.$message({type: 'success',message: '编辑成功'})
         this.$emit('getTableData', false)
       })
     }

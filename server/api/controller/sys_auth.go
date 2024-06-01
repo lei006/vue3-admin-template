@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"yc-webreport-server/api/utils"
 	"yc-webreport-server/config"
 	"yc-webreport-server/model"
@@ -57,7 +58,11 @@ func (control *SysUserAuthControl) Login(ctx *gin.Context) {
 	}
 
 	new_token := utils.RandomString(32, true, true, false)
-	err = modelUser.PatchOne(user_info.ID, new_token)
+
+	// 把 user_info.ID 转为字符串
+	tmp_id := fmt.Sprintf("%d", user_info.ID)
+
+	err = modelUser.PatchOne(tmp_id, "token", new_token)
 	if err != nil {
 		zlog.Debug("set token error:", zap.Error(err))
 		control.RetErrorMessage(ctx, "请求出错")
@@ -81,7 +86,9 @@ func (control *SysUserAuthControl) Logout(ctx *gin.Context) {
 		control.RetErrorMessage(ctx, "未找到用户信息")
 		return
 	}
-	err = modelUser.PatchOne(user_info.ID, "")
+
+	tmp_id := fmt.Sprintf("%d", user_info.ID)
+	err = modelUser.PatchOne(tmp_id, "token", "")
 	if err != nil {
 		zlog.Debug("set token error:", zap.Error(err))
 		control.RetErrorMessage(ctx, "请求出错")

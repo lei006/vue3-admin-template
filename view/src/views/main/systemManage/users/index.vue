@@ -44,23 +44,24 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column prop="id" label="Id" align="center" width="80" />
-        <el-table-column prop="name" label="用户名" align="center" />
-        <el-table-column prop="nickName" label="昵称" align="center" />
+        <el-table-column prop="username" label="用户名" align="center" />
+        <el-table-column prop="nickname" label="昵称" align="center" />
+        <el-table-column prop="password" label="密码" align="center" />
         <el-table-column prop="role" label="角色" align="center" />
-        <el-table-column prop="isAdmin" label="超级管理员" align="center">
+        <el-table-column prop="is_admin" label="管理员" align="center">
           <template #default="scope">
-            <span class="statusName">{{ scope.row.isAdmin === 1 ? "是" : "否" }}</span>
+            <span class="statusName">{{ scope.row.is_admin === 1 ? "是" : "否" }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态" align="center">
+        <el-table-column prop="disenable" label="状态" align="center">
           <template #default="scope">
-            <span class="statusName">{{ scope.row.status === 1 ? "启用" : "禁用" }}</span>
+            <span class="statusName">{{scope.row.disenable}}=={{ scope.row.disenable == false ? "启用" : "禁用" }}</span>
             <el-switch
-              v-model="scope.row.status"
+              v-model="scope.row.disenable"
               active-color="#13ce66"
               inactive-color="#ff4949"
-              :active-value="1"
-              :inactive-value="0"
+              :active-value="false"
+              :inactive-value="true"
               :loading="scope.row.loading"
               @change="handleUpdateStatus(scope.row)"
             ></el-switch>
@@ -95,7 +96,9 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from "vue";
 import { Page } from "@/components/table/type";
-import { getData, del, updateStatus } from "@/api/system/user";
+import apiUser from "@/api/user.js"
+
+
 import { LayerInterface } from "@/components/layer/index.vue";
 import { ElMessage } from "element-plus";
 import Table from "@/components/table/index.vue";
@@ -141,14 +144,15 @@ export default defineComponent({
         pageSize: page.size,
         ...query
       }
-      getData(params)
-        .then((res) => {
+      apiUser.GetList(params).then((res) => {
           let data = res.data.list
           data.forEach((d: any) => {
             d.loading = false
           })
           tableData.value = data
-          page.total = Number(res.data.pager.total);
+          console.log(tableData.value);
+          //page.total = Number(res.data.pager.total);
+          console.log(tableData.value);
         })
         .catch((error) => {
           tableData.value = [];
@@ -161,18 +165,12 @@ export default defineComponent({
     }
      // 删除功能
     const handleDel = (data: object[]) => {
-      let params = {
-        ids: data
-          .map((e: any) => {
-            return e.id;
-          })
-          .join(","),
-      };
-      del(params).then((res) => {
-        ElMessage({
-          type: "success",
-          message: "删除成功",
-        });
+      let params = [];
+      
+      params.push(data[0].id)
+      
+      apiUser.DeleteMany(params).then((res) => {
+        ElMessage({type: "success",message: "删除成功",});
         getTableData(tableData.value.length === 1 ? true : false);
       });
     }
@@ -198,8 +196,8 @@ export default defineComponent({
         id: row.id,
         status: row.status
       }
-      updateStatus(params)
-      .then(res => {
+      console.log("11111111111",row);
+      apiUser.PatchOne(row.id, "disenable", !row.disenable).then(res => {
         ElMessage({
           type: 'success',
           message: '状态变更成功'
