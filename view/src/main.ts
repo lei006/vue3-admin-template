@@ -19,6 +19,10 @@ if (import.meta.env.MODE !== 'development') { // 非开发环境调用百度统�
   baidu()
 }
 
+
+console.log(import.meta.env);
+
+
 /** 权限路由处理主方法 */
 getAuthRoutes().then(() => {
   const app = createApp(App)

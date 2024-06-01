@@ -2,10 +2,12 @@ import request from '@/utils/system/request'
 
 /** 登录api */
 export function loginApi(data: object) {
+
+
+  console.log("loginApi", data);
   return request({
-    url: '/user/login',
+    url: '/auth/login',
     method: 'post',
-    baseURL: '/mock',
     data
   })
 }
@@ -13,9 +15,8 @@ export function loginApi(data: object) {
 /** 获取用户信息Api */
 export function getInfoApi(data: object) {
   return request({
-    url: '/user/info',
+    url: '/auth/info',
     method: 'post',
-    baseURL: '/mock',
     data
   })
 }
@@ -23,18 +24,16 @@ export function getInfoApi(data: object) {
 /** 退出登录Api */
 export function loginOutApi() {
   return request({
-    url: '/user/out',
+    url: '/auth/logout',
     method: 'post',
-    baseURL: '/mock'
   })
 }
 
 /** 获取用户信息Api */
 export function passwordChange(data: object) {
   return request({
-    url: '/user/passwordChange',
+    url: '/auth/password',
     method: 'post',
-    baseURL: '/mock',
     data
   })
 }
@@ -44,6 +43,5 @@ export function getMenuApi() {
   return request({
     url: '/menu/list',
     method: 'post',
-    baseURL: '/mock'
   })
 }
