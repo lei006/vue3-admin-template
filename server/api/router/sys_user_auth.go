@@ -17,6 +17,6 @@ func initSysUserAuthRouter(publicRouter *gin.RouterGroup, privateGroup *gin.Rout
 	authPriRouter.DELETE("logout", baseApi.Logout)
 	authPriRouter.PATCH("password", baseApi.SetPassword)
 	authPubRouter.POST("regedit", baseApi.Regedit)
-	authPriRouter.POST("info", baseApi.Info)
+	authPriRouter.GET("info", baseApi.Info)
 	authPubRouter.GET("captcha", baseApi.Captcha)
 }

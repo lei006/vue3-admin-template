@@ -44,6 +44,7 @@ const whiteList = ['/login']
 
 // 路由跳转前的监听操作
 router.beforeEach((to, _from, next) => {
+  console.log("router.beforeEach", to, _from);
   NProgress.start();
   if (store.state.user.token) {
     to.meta.title ? (changeTitle(to.meta.title)) : "" // 动态title
@@ -63,6 +64,9 @@ router.beforeEach((to, _from, next) => {
 
 // 路由跳转后的监听操作
 router.afterEach((to, _from) => {
+  console.log("router.afterEach", to, _from);
+
+
   const keepAliveComponentsName = store.getters['keepAlive/keepAliveComponentsName'] || []
   const name = to.matched[to.matched.length - 1].components.default.name
   if (to.meta && to.meta.cache && name && !keepAliveComponentsName.includes(name)) {

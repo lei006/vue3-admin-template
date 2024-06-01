@@ -72,32 +72,49 @@ func (control *SysUserAuthControl) Login(ctx *gin.Context) {
 
 func (control *SysUserAuthControl) Logout(ctx *gin.Context) {
 
+	token := ctx.Request.Header.Get("x-token")
+
+	modelUser := &model.SysUser{}
+	user_info, err := modelUser.GetOneByToken(token)
+	if err != nil {
+		zlog.Debug("未找到用户:", err.Error())
+		control.RetErrorMessage(ctx, "未找到用户信息")
+		return
+	}
+	err = modelUser.PatchOne(user_info.ID, "")
+	if err != nil {
+		zlog.Debug("set token error:", zap.Error(err))
+		control.RetErrorMessage(ctx, "请求出错")
+		return
+	}
+
 	control.RetOK(ctx)
 }
 
 func (control *SysUserAuthControl) Info(ctx *gin.Context) {
 
-	zlog.Debug("1111111111111111111")
+	/*
+		type TokenReq struct {
+			Token string `json:"token"` // 用户名
+		}
+		req_token := TokenReq{}
+		err := ctx.ShouldBindJSON(&req_token)
+		if err != nil {
+			zlog.Debug("token:", zap.Error(err))
+			control.RetErrorParam(ctx, "")
+			return
+		}
+	*/
+	token := ctx.Request.Header.Get("x-token")
 
-	type TokenReq struct {
-		Token string `json:"token"` // 用户名
-	}
-	req_token := TokenReq{}
-	err := ctx.ShouldBindJSON(&req_token)
-	if err != nil {
-		zlog.Debug("token:", zap.Error(err))
-		control.RetErrorParam(ctx, "")
-		return
-	}
 	modelUser := &model.SysUser{}
-	user_info, err := modelUser.GetOneByToken(req_token.Token)
+	user_info, err := modelUser.GetOneByToken(token)
 	if err != nil {
 		zlog.Debug("未找到用户:", err.Error())
 		control.RetErrorMessage(ctx, "未找到用户信息")
 		return
 	}
 
-	zlog.Debug("user_info", user_info)
 	control.RetOkData(ctx, user_info)
 }
 

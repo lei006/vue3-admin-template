@@ -184,11 +184,8 @@ const submitForm = () => {
     if (v) {
       const ret = await login(loginFormData)
       if (ret.code == 200) {
-        router.push({ path: "/" })
-        console.log("====================")
+        router.push({ path: "/dashboard" })
       }else{
-        console.log("===11======", ret)
-
         loginVerify()
       }
     } else {
