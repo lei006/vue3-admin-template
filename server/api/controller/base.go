@@ -85,6 +85,10 @@ func (base *BaseController) RetError(ctx *gin.Context, code int, message string)
 	base._ret_data(ctx, code, nil, message)
 }
 
+func (base *BaseController) RetErrorMessage(ctx *gin.Context, message string) {
+	base._ret_data(ctx, http.StatusBadRequest, nil, message)
+}
+
 func (base *BaseController) RetErrorParam(ctx *gin.Context, message string) {
 	base._ret_data(ctx, http.StatusBadRequest, nil, message)
 }

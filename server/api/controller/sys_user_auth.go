@@ -1,8 +1,12 @@
 package controller
 
 import (
+	"yc-webreport-server/config"
+
 	"github.com/gin-gonic/gin"
+	"github.com/mojocn/base64Captcha"
 	"github.com/sohaha/zlsgo/zlog"
+	"go.uber.org/zap"
 )
 
 type SysUserAuthControl struct {
@@ -23,9 +27,11 @@ func (control *SysUserAuthControl) Login(ctx *gin.Context) {
 	login := Login{}
 	err := ctx.ShouldBindJSON(&login)
 	if err != nil {
+		zlog.Debug("login:", zap.Error(err))
 		control.RetErrorParam(ctx, "")
 		return
 	}
+
 	zlog.Debug("login:", login)
 	/*
 		err := ctx.ShouldBindJSON(&l)
@@ -62,5 +68,30 @@ func (control *SysUserAuthControl) Regedit(ctx *gin.Context) {
 // 验证码
 func (control *SysUserAuthControl) Captcha(ctx *gin.Context) {
 
-	control.RetOK(ctx)
+	driver := base64Captcha.NewDriverDigit(config.ReportCfg.Captcha.ImgHeight, config.ReportCfg.Captcha.ImgWidth, config.ReportCfg.Captcha.KeyLong, 0.7, 80)
+	cp := base64Captcha.NewCaptcha(driver, base64Captcha.DefaultMemStore)
+	id, b64s, _, err := cp.Generate()
+	if err != nil {
+		zlog.Error("验证码获取失败!", zap.Error(err))
+		control.RetErrorMessage(ctx, "验证码获取失败!")
+		return
+	}
+
+	type CaptchaResponse struct {
+		Id      string `json:"id"`
+		PicPath string `json:"captcha"`
+		Length  int    `json:"length"`
+		Height  int    `json:"height"`
+		Width   int    `json:"width"`
+		Enable  bool   `json:"enable"`
+	}
+
+	control.RetOkData(ctx, CaptchaResponse{
+		Id:      id,
+		PicPath: b64s,
+		Length:  config.ReportCfg.Captcha.KeyLong,
+		Height:  config.ReportCfg.Captcha.ImgHeight,
+		Width:   config.ReportCfg.Captcha.ImgWidth,
+		Enable:  config.ReportCfg.Captcha.Enable,
+	})
 }

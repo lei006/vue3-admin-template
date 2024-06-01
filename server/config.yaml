@@ -1,4 +1,5 @@
 captcha:
+    enable: true
     key-long: 4
     img-width: 200
     img-height: 100
