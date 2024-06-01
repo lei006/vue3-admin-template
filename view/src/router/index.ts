@@ -22,6 +22,20 @@ NProgress.configure({ showSpinner: false })
 
 // 引入不需要权限的modules
 import System from './modules/system'
+import Dashboard from './modules/dashboard'
+import Document from './modules/document'
+import Pages from './modules/pages'
+import Menu from './modules/menu'
+import Component from './modules/component'
+import Directive from './modules/directive'
+import SystemManage from './modules/systemManage'
+import Chart from './modules/chart'
+import Print from './modules/print'
+import Community from './modules/community'
+import Tab from './modules/tab'
+
+
+
 
 /** 
  * @name 初始化必须要的路由
@@ -29,6 +43,7 @@ import System from './modules/system'
  * @detail 针对modules的任何修改，均会同步至菜单级别，记住，是针对变量名为：moduels的修改
  **/
 let modules = reactive([
+  ...Dashboard,
   ...System
 ])
 
