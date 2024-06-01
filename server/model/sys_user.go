@@ -46,7 +46,7 @@ func (model *SysUser) DeleteMany(ids []uint) (err error) {
 // UpdateReportStruct 更新报告的数据结构记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (model *SysUser) UpdateOne(val *SysUser) (err error) {
-	err = g_db.Save(&val).Error
+	err = g_db.Model(val).Select("nickname", "password", "is_admin", "disenable").Save(val).Error
 	return err
 }
 
