@@ -1,7 +1,9 @@
 package controller
 
 import (
+	"yc-webreport-server/api/utils"
 	"yc-webreport-server/config"
+	"yc-webreport-server/model"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
@@ -33,16 +35,39 @@ func (control *SysUserAuthControl) Login(ctx *gin.Context) {
 	}
 
 	zlog.Debug("login:", login)
-	/*
-		err := ctx.ShouldBindJSON(&l)
-		//key := ctx.ClientIP()
 
-		if err != nil {
-			//baseApi.FailWithMessage(err.Error(), c)
-			return
-		}*/
+	modelUser := &model.SysUser{}
+	user_info, err := modelUser.GetOneByUsername(login.Username)
+	if err != nil {
+		zlog.Debug("GetOneByUsername:", err.Error())
+		control.RetErrorMessage(ctx, "用户名或密码错误")
+		return
+	}
 
-	control.RetOK(ctx)
+	if user_info.Password != login.Password {
+		zlog.Debug("password error:", user_info.Password, login.Password)
+		control.RetErrorMessage(ctx, "用户名或密码错误")
+		return
+	}
+
+	if user_info.Disenable {
+		zlog.Debug("user disenable error:", user_info.Password, login.Password)
+		control.RetErrorMessage(ctx, "用户已禁用")
+		return
+	}
+
+	new_token := utils.RandomString(32, true, true, false)
+	err = modelUser.PatchOne(user_info.ID, new_token)
+	if err != nil {
+		zlog.Debug("set token error:", zap.Error(err))
+		control.RetErrorMessage(ctx, "请求出错")
+		return
+	}
+
+	user_info.Token = new_token
+	user_info.Password = ""
+
+	control.RetOkData(ctx, user_info)
 }
 
 func (control *SysUserAuthControl) Logout(ctx *gin.Context) {

@@ -182,10 +182,12 @@ const submitForm = () => {
       const ret = await apiAuth.login(loginFormData)
       if (ret.code == 200) {
         router.push({ path: "/" })
+        console.log("====================")
       }else{
+        console.log("===11======", ret)
+
         loginVerify()
       }
-      console.log("11111111111111111111")
     } else {
       ElMessage({type: 'error',message: '请正确填写登录信息',showClose: true,})
       loginVerify()

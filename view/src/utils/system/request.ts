@@ -55,7 +55,8 @@ function showError(error: any) {
   // token过期，清除本地数据，并跳转至登录页面
   if (error.code === 403) {
     // to re-login
-    store.dispatch('user/loginOut')
+    //store.dispatch('user/loginOut')
+    console.warn("token过期，清除本地数据，并跳转至登录页面")
   } else {
     ElMessage({ message: error.msg || error.message || '服务异常', type: 'error', duration: 3 * 1000})
   }
