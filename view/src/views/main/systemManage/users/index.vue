@@ -50,12 +50,12 @@
         <el-table-column prop="role" label="角色" align="center" />
         <el-table-column prop="is_admin" label="管理员" align="center">
           <template #default="scope">
-            <span class="statusName">{{ scope.row.is_admin === 1 ? "是" : "否" }}</span>
+            <span class="statusName">{{ scope.row.is_admin ? "是" : "否" }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="is_disable" label="状态" align="center">
           <template #default="scope">
-            <span class="statusName">{{scope.row.is_disable}}=={{ scope.row.is_disable == false ? "启用" : "禁用" }}</span>
+            <span class="statusName">{{ scope.row.is_disable == false ? "启用" : "禁用" }}</span>
             <el-switch
               v-model="scope.row.is_disable"
               active-color="#13ce66"
@@ -192,22 +192,11 @@ export default defineComponent({
         return
       }
       row.loading = true
-      let params = {
-        id: row.id,
-        status: row.status
-      }
-      console.log("11111111111",row);
       apiUser.PatchOne(row.id, "is_disable", !row.is_disable).then(res => {
-        ElMessage({
-          type: 'success',
-          message: '状态变更成功'
-        })
+        ElMessage({type: 'success',message: '状态变更成功'})
       })
       .catch(err => {
-        ElMessage({
-          type: 'error',
-          message: '状态变更失败'
-        })
+        ElMessage({type: 'error',message: '状态变更失败'})
       })
       .finally(() => {
         row.loading = false

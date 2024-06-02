@@ -13,16 +13,6 @@
       <el-form-item label="确认密码:" prop="password1">
         <el-input v-model="ruleForm.password1" placeholder="请输入密码"></el-input>
       </el-form-item>
-			<el-form-item label="选择器：" prop="select">
-			  <el-select v-model="ruleForm.select" placeholder="请选择" clearable>
-					<el-option
-						v-for="item in options"
-						:key="item.value"
-						:label="item.label"
-						:value="item.value">
-					</el-option>
-				</el-select>
-			</el-form-item>
     </el-form>
   </Layer>
 </template>
@@ -61,7 +51,6 @@ export default defineComponent({
       nickname: [{ required: true, message: '请输入昵称', trigger: 'blur' }],
       sort: [{ required: true, message: '请输入数字', trigger: 'blur' }],
       select: [{ required: true, message: '请选择', trigger: 'blur' }],
-      radio: [{ required: true, message: '请选择', trigger: 'blur' }]
     }
 
     Object.assign(ruleForm, props.layer.row)
