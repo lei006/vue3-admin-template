@@ -78,7 +78,7 @@ const lang = {
         map: '地图',
       },
       systemManage: {
-        name: '系统管理',
+        name: '管理',
         menu: '菜单',
         role: '角色',
         user: '用户'

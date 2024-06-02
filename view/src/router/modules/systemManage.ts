@@ -18,14 +18,23 @@ const route: Route[] = [
         path: 'role',
         component: createNameComponent(() => import('@/views/main/systemManage/role/index.vue')),
         meta: { title: 'message.menu.systemManage.role' }
-      },
+      }
+    ]
+  },
+  {
+    path: '/users',
+    component: Layout,
+    redirect: '/users/index',
+    meta: { title: 'message.menu.print.name', icon: 'sfont system-24gl-printer' },
+    children: [
       {
-        path: 'user',
-        component: createNameComponent(() => import('@/views/main/systemManage/users/index.vue')),
+        path: 'index',
+        component: createNameComponent(() => import('@/views/users/index.vue')),
         meta: { title: 'message.menu.systemManage.user' }
       }
     ]
   }
+
 ]
 
 export default route
