@@ -121,7 +121,7 @@ const checkUsername = (rule, value, callback) => {
   }
 }
 const checkPassword = (rule, value, callback) => {
-  if (value.length < 6) {
+  if (value.length < 1) {
     return callback(new Error('请输入正确的密码'))
   } else {
     callback()

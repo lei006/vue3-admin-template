@@ -10,6 +10,9 @@
 			<el-form-item label="新密码：" prop="new">
 			  <el-input v-model="form.new" placeholder="请输入新密码" show-password></el-input>
 			</el-form-item>
+			<el-form-item label="确认新密码：" prop="new">
+			  <el-input v-model="form.new1" placeholder="请输入新密码" show-password></el-input>
+			</el-form-item>
     </el-form>
   </Layer>
 </template>
@@ -21,7 +24,7 @@ import type { ElFormItemContext } from 'element-plus/lib/el-form/src/token'
 import { defineComponent, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useStore } from 'vuex'
-import { passwordChange } from '@/api/user.ts'
+import apiAuth from '@/api/auth.js'
 import Layer from '@/components/layer/index.vue'
 export default defineComponent({
   components: {
@@ -47,11 +50,13 @@ export default defineComponent({
       userId: '123465',
       name: '',
       old: '',
-      new: ''
+      new: '',
+      new1: ''
     })
     const rules = {
       old: [{ required: true, message: '请输入原密码', trigger: 'blur' }],
       new: [{ required: true, message: '请输入新密码', trigger: 'blur' }],
+      new1: [{ required: true, message: '请再次输入密码', trigger: 'blur' }],
     }
     function submit() {
       if (ruleForm.value) {
@@ -60,18 +65,16 @@ export default defineComponent({
             let params = {
               id: form.value.userId,
               old: form.value.old,
-              new: form.value.new
+              new: form.value.new,
+              new1: form.value.new1
             }
-            passwordChange(params)
-            .then(res => {
-              ElMessage({
-                type: 'success',
-                message: '密码修改成功，即将跳转到登录页面'
-              })
+            console.log("apiAuth.password", params);
+            apiAuth.password(params).then(res => {
+              ElMessage({type: 'success',message: '密码修改成功，即将跳转到登录页面'})
               layerDom.value && layerDom.value.close()
               setTimeout(() => {
                 store.dispatch('user/loginOut')
-              }, 2000)
+              }, 20000)
             })
           } else {
             return false;

@@ -53,11 +53,11 @@
             <span class="statusName">{{ scope.row.is_admin === 1 ? "是" : "否" }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="disenable" label="状态" align="center">
+        <el-table-column prop="is_disable" label="状态" align="center">
           <template #default="scope">
-            <span class="statusName">{{scope.row.disenable}}=={{ scope.row.disenable == false ? "启用" : "禁用" }}</span>
+            <span class="statusName">{{scope.row.is_disable}}=={{ scope.row.is_disable == false ? "启用" : "禁用" }}</span>
             <el-switch
-              v-model="scope.row.disenable"
+              v-model="scope.row.is_disable"
               active-color="#13ce66"
               inactive-color="#ff4949"
               :active-value="false"
@@ -197,7 +197,7 @@ export default defineComponent({
         status: row.status
       }
       console.log("11111111111",row);
-      apiUser.PatchOne(row.id, "disenable", !row.disenable).then(res => {
+      apiUser.PatchOne(row.id, "is_disable", !row.is_disable).then(res => {
         ElMessage({
           type: 'success',
           message: '状态变更成功'

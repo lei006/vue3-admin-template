@@ -51,7 +51,7 @@ func (control *SysUserAuthControl) Login(ctx *gin.Context) {
 		return
 	}
 
-	if user_info.Disenable {
+	if user_info.IsDisable {
 		zlog.Debug("user disenable error:", user_info.Password, login.Password)
 		control.RetErrorMessage(ctx, "用户已禁用")
 		return
@@ -100,18 +100,6 @@ func (control *SysUserAuthControl) Logout(ctx *gin.Context) {
 
 func (control *SysUserAuthControl) Info(ctx *gin.Context) {
 
-	/*
-		type TokenReq struct {
-			Token string `json:"token"` // 用户名
-		}
-		req_token := TokenReq{}
-		err := ctx.ShouldBindJSON(&req_token)
-		if err != nil {
-			zlog.Debug("token:", zap.Error(err))
-			control.RetErrorParam(ctx, "")
-			return
-		}
-	*/
 	token := ctx.Request.Header.Get("x-token")
 
 	modelUser := &model.SysUser{}
@@ -126,6 +114,38 @@ func (control *SysUserAuthControl) Info(ctx *gin.Context) {
 }
 
 func (control *SysUserAuthControl) SetPassword(ctx *gin.Context) {
+
+	type PasswordResponse struct {
+		Old string `json:"old"`
+		New string `json:"new"`
+	}
+
+	passwordRes := PasswordResponse{}
+	err := ctx.ShouldBindJSON(&passwordRes)
+	if err != nil {
+		control.RetError(ctx, ERROR, err.Error())
+		return
+	}
+
+	token := ctx.Request.Header.Get("x-token")
+	user_info, err := modelUser.GetOneByToken(token)
+	if err != nil {
+		zlog.Debug("未找到用户:", err.Error())
+		control.RetErrorMessage(ctx, "未找到用户信息")
+		return
+	}
+
+	if user_info.Password != passwordRes.Old {
+		control.RetErrorMessage(ctx, "原始密码错误")
+		return
+	}
+
+	err = modelUser.PatchOne(fmt.Sprintf("%d", user_info.ID), "password", passwordRes.New)
+	if err != nil {
+		zlog.Debug("修改密码出错:", err.Error())
+		control.RetErrorMessage(ctx, "未找到用户信息")
+		return
+	}
 
 	control.RetOK(ctx)
 }
