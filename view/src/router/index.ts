@@ -46,6 +46,7 @@ let modules = reactive([
   ...Dashboard,
   ...System,
   ...SystemManage,
+  ...Menu,
 ])
 
 const { t } = i18n.global
