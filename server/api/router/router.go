@@ -45,11 +45,19 @@ func LoadRouter(engine *gin.Engine) error {
 		//privateGroup.Use(middleware.CasbinHandler()) //权限管理
 	}
 
+	initRouterBaseTest(publicGroup, privateGroup)
+
 	{
-		initRouterSystem(publicGroup, privateGroup)
-		initRouterSysAuth(publicGroup, privateGroup)   //用户授权
-		initRouterSysUser(publicGroup, privateGroup)   //用户
-		initRouterSysRecode(publicGroup, privateGroup) //记录操作
+		initRouterReportPrefield(publicGroup, privateGroup) // 报告-预置字段
+		initRouterReportPrint(publicGroup, privateGroup)    // 报告-打印
+		initRouterReportReport(publicGroup, privateGroup)   // 报告-报告单
+		initRouterReportTemplate(publicGroup, privateGroup) // 报告-模板
+
+		//
+		initRouterSysSetup(publicGroup, privateGroup)  // 路由系统设置
+		initRouterSysAuth(publicGroup, privateGroup)   // 路由授权
+		initRouterSysUser(publicGroup, privateGroup)   // 路由用户管理
+		initRouterSysRecode(publicGroup, privateGroup) // 路由操作记录
 	}
 
 	return nil

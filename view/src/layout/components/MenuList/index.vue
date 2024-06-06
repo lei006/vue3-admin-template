@@ -2,31 +2,26 @@
   <el-scrollbar>
 
     <div class="menu-box">
-        <div class="btn-item" :class="activeMenu == '/dashboard'?'btn-item-active':'' " @click="jumpPath('/dashboard')">
+        <div class="btn-item" :class="activeMenu == '/report/edit'?'btn-item-active':'' " @click="jumpPath('/report/edit')">
             <div class="icon"><el-icon><User /></el-icon></div>
-            <div class="text">编写报告</div>
+            <div class="text">撰写报告</div>
         </div>
-        <div class="btn-item" @click="jumpPath('/report_manage')">
+        <div class="btn-item" :class="activeMenu == '/report/manage'?'btn-item-active':'' " @click="jumpPath('/report/manage')">
             <div class="icon"><el-icon><Setting /></el-icon></div>
             <div class="text">预置字段</div>
         </div>
-        <div class="btn-item" @click="jumpPath('/report_prefield')">
+        <div class="btn-item" :class="activeMenu == '/report/prefield'?'btn-item-active':'' " @click="jumpPath('/report/prefield')">
             <div class="icon"><el-icon><Setting /></el-icon></div>
             <div class="text">预置字段</div>
         </div>
-        <div class="btn-item" @click="jumpPath('/report_template')">
+        <div class="btn-item" :class="activeMenu == '/report/template'?'btn-item-active':'' " @click="jumpPath('/report/template')">
             <div class="icon"><el-icon><Warning /></el-icon></div>
             <div class="text">模板管理</div>
         </div>
-        <div class="btn-item" @click="jumpPath('/report_setup')">
-            <div class="icon"><el-icon><Warning /></el-icon></div>
-            <div class="text">报告设置</div>
-        </div>
-        <div class="btn-item" @click="jumpPath('/report_print')">
+        <div class="btn-item" :class="activeMenu == '/report/print'?'btn-item-active':'' " @click="jumpPath('/report/print')">
             <div class="icon"><el-icon><Warning /></el-icon></div>
             <div class="text">打印管理</div>
         </div>
-        {{ activeMenu }}
         <!--
         <div class="btn-item" v-for="(menu, key) in allRoutes"  :key="key"  @click="jumpPath('')">
             <div class="icon"><el-icon><Warning /></el-icon></div>
@@ -61,8 +56,6 @@ const activeMenu = computed(() => {
 });
 
 const allRoutes = useRouter().options.routes
-
-console.log("allRoutes", allRoutes);
 
 
 /*

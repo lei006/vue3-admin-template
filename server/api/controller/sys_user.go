@@ -116,30 +116,24 @@ func (control *SysUserControl) PatchOne(ctx *gin.Context) {
 
 func (control *SysUserControl) GetOne(ctx *gin.Context) {
 	id := ctx.Param("id")
-
-	upload_path := config.ReportCfg.Api.UploadPrintPath
-	file_pathname := upload_path + "/" + id + ".doc"
-
-	//ctx.
-	//	w.Header().Set("Content-Disposition", "attachment; filename="+filepath.Base(filePath))
-	//w.Header().Set("Content-Length", fmt.Sprintf("%d", fileInfo.Size()))
-	if _, err := os.Stat(file_pathname); os.IsNotExist(err) {
-		ctx.AbortWithStatus(http.StatusNotFound) // File not found
-		return
-	}
-	ctx.File(file_pathname)
-	//control.RetOK(ctx)
-}
-
-func (control *SysUserControl) GetList(ctx *gin.Context) {
-
-	user_list, total, err := modelUser.GetList()
+	item, err := modelUser.GetOne(id)
 	if err != nil {
 		control.RetError(ctx, ERROR, err.Error())
 		return
 	}
 
-	control.ReturnList(ctx, total, user_list)
+	control.RetOkData(ctx, item)
+}
+
+func (control *SysUserControl) GetList(ctx *gin.Context) {
+
+	user_list, _, err := modelUser.GetList()
+	if err != nil {
+		control.RetError(ctx, ERROR, err.Error())
+		return
+	}
+
+	control.RetOkList(ctx, user_list)
 }
 
 func (control *SysUserControl) GetPage(ctx *gin.Context) {

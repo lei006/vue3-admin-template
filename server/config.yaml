@@ -15,9 +15,9 @@ mysql:
     port: "3306"
     config: charset=utf8mb4&parseTime=True&loc=Local
     db-name: github
-    username: root
-    password: wLei6700413@
-    path: 120.26.171.169
+    username: 
+    password: 
+    path: 
     engine: ""
     log-mode: error
     max-idle-conns: 10
@@ -68,5 +68,5 @@ zap:
 api:
     addr: ":8081"
     debug: false
-    upload-print-path: "D:\\Work\\xz_yc\\WebStation\\server\\uploads"
+    upload-print-path: "D:\\Work\\xz_yc\\WebStation\\trunk\\server\\uploads"
 

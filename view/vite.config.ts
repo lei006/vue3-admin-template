@@ -17,7 +17,8 @@ const pathResolve = (dir: string): any => {
 }
 
 const alias: Record<string, string> = {
-  '@': pathResolve("src")
+  '@': pathResolve("src"),
+  'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js',
 }
 
 /** 
@@ -81,6 +82,11 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
             }
         ],
       },
-    }
+    },
+    define: {
+      // enable hydration mismatch details in production build
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'true'
+    },
+
   };
 }

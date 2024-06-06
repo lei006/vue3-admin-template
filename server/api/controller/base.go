@@ -51,6 +51,10 @@ type PatchReq struct {
 
 type JsonItemList struct {
 	Items interface{} `json:"items"` //Data字段需要设置为interface类型以便接收任意数据
+}
+
+type JsonPageInfo struct {
+	Items interface{} `json:"items"` //Data字段需要设置为interface类型以便接收任意数据
 	Total int64       `json:"total"`
 }
 
@@ -70,11 +74,20 @@ func (base *BaseController) _ret_data(ctx *gin.Context, code int, data interface
 	ctx.JSON(http.StatusOK, _ret)
 }
 
-func (base *BaseController) ReturnList(ctx *gin.Context, total int64, data_list interface{}) {
+func (base *BaseController) RetOkPage(ctx *gin.Context, total int64, data_list interface{}) {
 
-	val := JsonItemList{
+	val := JsonPageInfo{
 		Items: data_list,
 		Total: total,
+	}
+
+	base._ret_data(ctx, http.StatusOK, val, "success")
+}
+
+func (base *BaseController) RetOkList(ctx *gin.Context, list interface{}) {
+
+	val := JsonItemList{
+		Items: list,
 	}
 
 	base._ret_data(ctx, http.StatusOK, val, "success")

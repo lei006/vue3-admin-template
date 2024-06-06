@@ -123,7 +123,7 @@ const systemManage = {
   /** 角色 */
   role: createNameComponent(() => import('@/views/main/systemManage/role/index.vue')),
   /** 用户 */
-  user: createNameComponent(() => import('@/views/main/systemManage/users/index.vue')),
+  user: createNameComponent(() => import('@/views/main/systemManage/sys_user/index.vue')),
 }
 
 /** JS打印事件 */

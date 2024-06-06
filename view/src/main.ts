@@ -20,6 +20,13 @@ if (import.meta.env.MODE !== 'development') { // 非开发环境调用百度统�
 }
 
 
+// pinia 并且持久化
+import { createPinia } from "pinia";
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate)
+
+
 
 
 console.log(import.meta.env);
@@ -28,12 +35,13 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 
 const app = createApp(App)
-
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
 
+
 app.use(ElementPlus, { size: store.state.app.elementSize })
+app.use(pinia)
 app.use(store)
 app.use(router)
 app.use(i18n)

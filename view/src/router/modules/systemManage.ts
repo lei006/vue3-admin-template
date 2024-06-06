@@ -22,15 +22,15 @@ const route: Route[] = [
     ]
   },
   {
-    path: '/users',
+    path: '/sys_user',
     component: Layout,
-    redirect: '/users/index',
+    redirect: '/sys_user/index',
     hideMenu: true,
     meta: { title: 'message.menu.print.name', icon: 'sfont system-24gl-printer' },
     children: [
       {
         path: 'index',
-        component: createNameComponent(() => import('@/views/users/index.vue')),
+        component: createNameComponent(() => import('@/views/sys_user/index.vue')),
         meta: { title: 'message.menu.systemManage.user' }
       }
     ]

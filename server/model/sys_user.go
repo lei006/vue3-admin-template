@@ -6,12 +6,12 @@ import (
 
 type SysUser struct {
 	BASE_MODEL
-	Username  string `json:"username" gorm:"index;comment:用户登录名"`                 // 用户登录名
+	Username  string `json:"username" gorm:"uniqueIndex;comment:用户登录名"`           // 用户登录名
 	Password  string `json:"-"  gorm:"comment:用户登录密码"`                            // 用户登录密码
 	Nickname  string `json:"nickname" gorm:"default:系统用户;comment:用户昵称"`           // 用户昵称
 	Token     string `json:"token" gorm:"index;default:token;comment:token"`      // token
-	Headerimg string `json:"headerimg" gorm:"type:TEXT; comment:用户头像"`            // 用户头像
-	UserSign  string `json:"user_sign" gorm:"type:TEXT;comment:用户签名"`             // 用户签名
+	Headerimg string `json:"headerimg" gorm:"type:mediumtext; comment:用户头像"`      // 用户头像
+	UserSign  string `json:"user_sign" gorm:"type:mediumtext;comment:用户签名"`       // 用户签名
 	IsAdmin   bool   `json:"is_admin" gorm:"default:0;comment:是否管理员"`             // 用户角色ID
 	Phone     string `json:"phone"  gorm:"comment:用户手机号"`                         // 用户手机号
 	Email     string `json:"email"  gorm:"comment:用户邮箱"`                          // 用户邮箱
@@ -43,8 +43,6 @@ func (model *SysUser) DeleteMany(ids []uint) (err error) {
 	return err
 }
 
-// UpdateReportStruct 更新报告的数据结构记录
-// Author [piexlmax](https://github.com/piexlmax)
 func (model *SysUser) UpdateOne(val *SysUser) (err error) {
 	err = g_db.Model(val).Select("nickname", "password", "is_admin", "is_disable").Save(val).Error
 	return err
@@ -64,8 +62,6 @@ func (model *SysUser) PatchOne(id string, field string, data interface{}) error 
 	return nil
 }
 
-// GetReportStruct 根据id获取报告的数据结构记录
-// Author [piexlmax](https://github.com/piexlmax)
 func (model *SysUser) GetOne(id string) (retVal SysUser, err error) {
 	err = g_db.Where("id = ?", id).First(&retVal).Error
 	return

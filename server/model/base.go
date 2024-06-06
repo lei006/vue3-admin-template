@@ -82,6 +82,7 @@ func registerTables() {
 	err := g_db.AutoMigrate(
 		//SysApi{},
 		SysUser{},
+		SysSetup{},
 		JwtBlacklist{},
 		SysOperationRecord{},
 	)

@@ -3,6 +3,7 @@ import store from '@/store'
 import { ElMessage } from 'element-plus'
 const baseURL: any = import.meta.env.VITE_BASE_URL
 
+console.log("VITE_BASE_URL--------:", baseURL);
 
 const service: AxiosInstance = axios.create({
   baseURL: baseURL,

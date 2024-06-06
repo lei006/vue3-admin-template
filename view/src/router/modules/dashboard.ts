@@ -10,11 +10,12 @@ const route: Route[] = [
     children: [
       {
         path: 'dashboard',
-        component: createNameComponent(() => import('@/views/main/dashboard/index.vue')),
+        component: createNameComponent(() => import('@/views/dashboard/index.vue')),
         meta: { title: 'message.menu.dashboard.index', icon: 'sfont system-home', hideClose: true }
       }
     ]
   }
+  
 ]
 
 export default route

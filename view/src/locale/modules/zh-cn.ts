@@ -108,6 +108,12 @@ const lang = {
       tab: {
         name: 'tab事件公用',
       },
+      report_edit:"撰写报告",
+      report_manage:"报告管理",
+      report_prefield:"预置字段",
+      report_template:"报告模板",
+      report_setup:"报告设置",
+      report_print:"报告打印",
     },
     system: {
       title: '管理系统',
