@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"time"
-
-	"github.com/lei006/go-daemon/daemontool"
+	"vue3-admin-template/pkg/daemon"
+	"vue3-admin-template/pkg/shell"
 )
 
 //go:generate go env -w GO111MODULE=on
@@ -14,21 +14,25 @@ import (
 
 func main() {
 
-	daemonTool := daemontool.DefDaemonTool
+	daemon.Run(main_run)
 
-	ok, _ := daemontool.RunAtBuild()
-	if ok {
-		daemonTool.Run("test_app12", "desc 111测试333", Run)
-	} else {
-		Run()
-	}
 }
 
-func Run() {
+func main_run() {
 
 	for true {
-		fmt.Println("xxxxxxx", daemontool.DefDaemonTool.GetWordPath())
+
+		path, err := daemon.GetWordPath()
+		if err != nil {
+			fmt.Println("get word path error:", err)
+			continue
+		}
+
+		fmt.Println("xxxxxxx", path)
 		time.Sleep(time.Second)
 	}
+
+	// 保证 shell 程序一直在运行
+	shell.RunUntilSignal()
 
 }
