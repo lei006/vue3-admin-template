@@ -12,7 +12,7 @@ const users = [
 ]
 export default [
   {
-    url: `/mock/auth/login`,
+    url: `/mock/auth/admin/login`,
     method: 'post',
     response: ({ body }) => {
       const user = users.find(user => {
@@ -36,7 +36,7 @@ export default [
     }
   },
   {
-    url: `/mock/auth/info`,
+    url: `/mock/auth/admin/info`,
     method: 'post',
     response: ({ body }) => {
       const { token } = body
@@ -61,7 +61,7 @@ export default [
     }
   },
   {
-    url: `/mock/auth/out`,
+    url: `/mock/auth/admin/logout`,
     method: 'post',
     response: () => {
       return {
@@ -72,7 +72,7 @@ export default [
     }
   },
   {
-    url: `/mock/auth/passwordChange`,
+    url: `/mock/auth/admin/passwordChange`,
     method: 'post',
     response: () => {
       return {
