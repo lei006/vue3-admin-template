@@ -3,7 +3,7 @@ import request from '@/utils/system/request'
 /** 登录api */
 export function loginApi(data: object) {
   return request({
-    url: '/user/login',
+    url: '/auth/login',
     method: 'post',
     data
   })
@@ -12,7 +12,7 @@ export function loginApi(data: object) {
 /** 获取用户信息Api */
 export function getInfoApi(data: object) {
   return request({
-    url: '/user/info',
+    url: '/auth/info',
     method: 'post',
     data
   })
@@ -21,7 +21,7 @@ export function getInfoApi(data: object) {
 /** 退出登录Api */
 export function loginOutApi() {
   return request({
-    url: '/user/out',
+    url: '/auth/out',
     method: 'post',
   })
 }
@@ -29,16 +29,8 @@ export function loginOutApi() {
 /** 获取用户信息Api */
 export function passwordChange(data: object) {
   return request({
-    url: '/user/passwordChange',
+    url: '/auth/passwordChange',
     method: 'post',
     data
-  })
-}
-
-/** 获取登录后需要展示的菜单 */
-export function getMenuApi() {
-  return request({
-    url: '/menu/list',
-    method: 'post',
   })
 }

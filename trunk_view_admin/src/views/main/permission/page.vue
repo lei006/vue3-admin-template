@@ -16,7 +16,7 @@ import { useStore } from 'vuex'
 export default defineComponent({
   setup() {
     const store = useStore()
-    const radio = ref(store.state.user.token)
+    const radio = ref(store.state.auth.token)
     const change = () => {
       store.commit('user/tokenChange', radio.value)
     }

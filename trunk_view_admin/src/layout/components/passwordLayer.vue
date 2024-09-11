@@ -70,7 +70,7 @@ export default defineComponent({
               })
               layerDom.value && layerDom.value.close()
               setTimeout(() => {
-                store.dispatch('user/loginOut')
+                store.dispatch('auth/loginOut')
               }, 2000)
             })
           } else {

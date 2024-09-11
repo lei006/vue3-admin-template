@@ -41,7 +41,7 @@
             </template>
           </el-input>
 
-          <el-button type="primary" :loading="form.loading" @click="submit" style="width: 100%;" size="medium">
+          <el-button type="primary" :loading="form.loading" @click="submit" style="width: 100%;" size="default">
             {{ $t('message.system.login') }}
           </el-button>
         </el-form>
@@ -108,8 +108,7 @@ export default defineComponent({
           name: form.name,
           password: form.password
         }
-        store.dispatch('user/login', params)
-        .then(async () => {
+        store.dispatch('auth/login', params).then(async () => {
           ElMessage.success({
             message: '登录成功',
             type: 'success',

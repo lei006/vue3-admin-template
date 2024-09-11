@@ -1,6 +1,6 @@
 import { createStore, createLogger } from 'vuex'
 import Persistent from './plugins/persistent'
-import {userState} from "@/store/modules/user";
+import {userState} from "@/store/modules/auth";
 import {keepAliveState} from "@/store/modules/keepAlive";
 import {appState} from "@/store/modules/app";
 const debug = import.meta.env.MODE !== 'production'
