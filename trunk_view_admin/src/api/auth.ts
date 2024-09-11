@@ -32,9 +32,9 @@ export function loginOutApi() {
 }
 
 /** 获取用户信息Api */
-export function passwordChange(data: object) {
+export function SetPassword(data: object) {
   return request({
-    url: api_url_prefix + '/passwordChange',
+    url: api_url_prefix + '/setpassword',
     method: 'post',
     data
   })

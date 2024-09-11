@@ -20,8 +20,6 @@ var CaptchaImgWidth = 100
 var CaptchaImgHeight = 100
 var CaptchaKeyLong = 4
 
-var ControlerUserAuth = new(SysAuthUserControl)
-
 func (control *SysAuthUserControl) Login(ctx *gin.Context) {
 
 	//key := ctx.ClientIP()

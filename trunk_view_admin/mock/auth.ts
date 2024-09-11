@@ -72,7 +72,7 @@ export default [
     }
   },
   {
-    url: `/mock/auth/admin/passwordChange`,
+    url: `/mock/auth/admin/SetPassword`,
     method: 'post',
     response: () => {
       return {

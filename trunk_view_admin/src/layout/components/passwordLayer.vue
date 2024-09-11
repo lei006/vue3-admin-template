@@ -21,7 +21,7 @@ import type { ElFormItemContext } from 'element-plus/lib/el-form/src/token'
 import { defineComponent, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useStore } from 'vuex'
-import { passwordChange } from '@/api/auth'
+import { SetPassword } from '@/api/auth'
 import Layer from '@/components/layer/index.vue'
 export default defineComponent({
   components: {
@@ -62,7 +62,7 @@ export default defineComponent({
               old: form.value.old,
               new: form.value.new
             }
-            passwordChange(params)
+            SetPassword(params)
             .then(res => {
               ElMessage({
                 type: 'success',

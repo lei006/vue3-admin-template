@@ -43,11 +43,12 @@ func Init() error {
 	}
 
 	//
-	initRouterSysSetup(publicGroup, privateGroup)  // 路由系统设置
-	initRouterSysAuth(publicGroup, privateGroup)   // 认证模块
-	initRouterSysAdmin(publicGroup, privateGroup)  // 路由管理员
-	initRouterSysUser(publicGroup, privateGroup)   // 路由用户管理
-	initRouterSysOption(publicGroup, privateGroup) // 路由操作记录
+	initRouterSysSetup(publicGroup, privateGroup)     // 路由系统设置
+	initRouterSysAuthUser(publicGroup, privateGroup)  // 认证模块
+	initRouterSysAuthAdmin(publicGroup, privateGroup) // 认证模块
+	initRouterSysAdmin(publicGroup, privateGroup)     // 路由管理员
+	initRouterSysUser(publicGroup, privateGroup)      // 路由用户管理
+	initRouterSysOption(publicGroup, privateGroup)    // 路由操作记录
 
 	go func() {
 		log.Info("listen at ", config.AdminPort)

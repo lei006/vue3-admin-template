@@ -6,16 +6,31 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func initRouterSysAuth(publicRouter *gin.RouterGroup, privateGroup *gin.RouterGroup) {
+func initRouterSysAuthUser(publicRouter *gin.RouterGroup, privateGroup *gin.RouterGroup) {
 
-	authPubRouter := publicRouter.Group("auth") //.Use(middleware.OperationRecord())
-	authPriRouter := privateGroup.Group("auth")
+	authPubRouter := publicRouter.Group("auth/user") //.Use(middleware.OperationRecord())
+	authPriRouter := privateGroup.Group("auth/user")
 
-	baseApi := controller.ControlerUserAuth
+	baseApi := controller.SysAuthUserControl{}
 
 	authPubRouter.POST("login", baseApi.Login)
 	authPriRouter.DELETE("logout", baseApi.Logout)
-	authPriRouter.PATCH("password", baseApi.SetPassword)
+	authPriRouter.PATCH("setpassword", baseApi.SetPassword)
+	authPubRouter.POST("regedit", baseApi.Regedit)
+	authPriRouter.GET("info", baseApi.Info)
+	authPubRouter.GET("captcha", baseApi.Captcha)
+}
+
+func initRouterSysAuthAdmin(publicRouter *gin.RouterGroup, privateGroup *gin.RouterGroup) {
+
+	authPubRouter := publicRouter.Group("auth/admin") //.Use(middleware.OperationRecord())
+	authPriRouter := privateGroup.Group("auth/admin")
+
+	baseApi := controller.SysAuthAdminControl{}
+
+	authPubRouter.POST("login", baseApi.Login)
+	authPriRouter.DELETE("logout", baseApi.Logout)
+	authPriRouter.PATCH("setpassword", baseApi.SetPassword)
 	authPubRouter.POST("regedit", baseApi.Regedit)
 	authPriRouter.GET("info", baseApi.Info)
 	authPubRouter.GET("captcha", baseApi.Captcha)
