@@ -1,7 +1,6 @@
 package app
 
 import (
-	"fmt"
 	"vue3-admin-template/internal/admin"
 	"vue3-admin-template/internal/config"
 	"vue3-admin-template/pkg/daemon"
@@ -9,21 +8,27 @@ import (
 	"github.com/lei006/zlog"
 )
 
-var log = zlog.New("app")
-
 func Init() error {
 
-	WorkPath, err := daemon.GetWordPath()
-	if err != nil {
-		fmt.Println("get word path error:", err)
-		return err
+	//日志保存
+	if config.LogSave {
+		zlog.SetSaveFile("logs.log", true)
+	} else {
+		zlog.ForceConsoleColor()
 	}
 
+	// 设置工作目录
+	WorkPath, err := daemon.GetWordPath()
+	if err != nil {
+		zlog.Error(err)
+		return err
+	}
 	config.WorkPath = WorkPath
 
+	// 初始化后台
 	err = admin.Init()
 	if err != nil {
-		log.Error(err)
+		zlog.Error(err)
 		return err
 	}
 

@@ -6,6 +6,7 @@ import (
 	"vue3-admin-template/pkg/utils"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sohaha/zlsgo/zlog"
 )
 
 type SysAdminControl struct {
@@ -20,7 +21,7 @@ func (control *SysAdminControl) Create(ctx *gin.Context) {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
-	log.Debugf("user_info: %+v \n", user_info)
+	zlog.Debugf("user_info: %+v \n", user_info)
 	err = modelUser.Create(&user_info)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -103,7 +104,7 @@ func (control *SysAdminControl) PatchOne(ctx *gin.Context) {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
-	log.Debug("patch:", id, req, data)
+	zlog.Debug("patch:", id, req, data)
 
 	RetData(ctx, data)
 }

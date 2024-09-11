@@ -8,6 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
+	"github.com/sohaha/zlsgo/zlog"
 	"go.uber.org/zap"
 	"golang.org/x/exp/rand"
 )
@@ -167,7 +168,7 @@ func (control *SysUserAuthControl) Captcha(ctx *gin.Context) {
 	cp := base64Captcha.NewCaptcha(driver, base64Captcha.DefaultMemStore)
 	id, b64s, _, err := cp.Generate()
 	if err != nil {
-		log.Error("验证码获取失败!", zap.Error(err))
+		zlog.Error("验证码获取失败!", zap.Error(err))
 		RetErr(ctx, http.StatusBadRequest, "验证码获取失败!")
 		return
 	}

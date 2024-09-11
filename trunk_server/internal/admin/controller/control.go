@@ -6,11 +6,7 @@ import (
 	"vue3-admin-template/pkg/utils"
 
 	"github.com/gin-gonic/gin"
-
-	"github.com/lei006/zlog"
 )
-
-var log = zlog.New("admin-controller")
 
 var JwtSigningKey = ""
 

@@ -23,7 +23,6 @@ var (
 	//这是Mysql示例:  DbSource = user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local
 	//这是sqlite示例:  DbSource = data.db
 )
-var log = zlog.New("admin_model")
 
 type BASE_MODEL struct {
 	ID        uint           `gorm:"primarykey" json:"id"` // 主键ID
@@ -62,7 +61,7 @@ func getdb(dbType string, dbSource string) *gorm.DB {
 			}
 			db, err := gorm.Open(mysql.New(mysqlConfig), gorm_config)
 			if err != nil {
-				log.Fatal(err)
+				zlog.Fatal(err)
 				panic(fmt.Sprintf("Failed to connect to database: %v", err))
 			}
 
@@ -70,12 +69,12 @@ func getdb(dbType string, dbSource string) *gorm.DB {
 		} else if dbType == "sqlite" {
 			db, err := gorm.Open(sqlite.Open(dbSource), &gorm.Config{})
 			if err != nil {
-				log.Fatal(err)
+				zlog.Fatal(err)
 				panic(fmt.Sprintf("Failed to connect to database: %v", err))
 			}
 			tmp_db = db
 		} else {
-			log.Error("unknow database type " + dbType)
+			zlog.Error("unknow database type " + dbType)
 			panic("unknow database type " + dbType)
 		}
 
@@ -87,7 +86,7 @@ func getdb(dbType string, dbSource string) *gorm.DB {
 			JwtBlacklist{},
 		)
 		if err != nil {
-			log.Error(err.Error())
+			zlog.Error(err.Error())
 			panic("register table failed" + err.Error())
 		}
 		g_db = tmp_db

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/lei006/zlog"
 	"gorm.io/gorm"
 )
 
@@ -115,7 +116,7 @@ func (model *SysSetup) NoFoundCreate(name string, data string, desc string) erro
 
 	err = g_db.Create(&val).Error
 	if err != nil {
-		log.Error(err)
+		zlog.Error(err)
 		return err
 	}
 	return nil
@@ -140,7 +141,7 @@ func (model *SysSetup) AutoGetStringByName(name string) (string, error) {
 	}
 
 	if err != nil {
-		log.Error(err)
+		zlog.Error(err)
 		return "", err
 	}
 
@@ -169,7 +170,7 @@ func (model *SysSetup) AutoSetStringByName(name string, data string) error {
 	}
 
 	if err != nil {
-		log.Error(err)
+		zlog.Error(err)
 		return err
 	}
 

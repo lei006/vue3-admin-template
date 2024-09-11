@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"time"
 	"vue3-admin-template/internal/app"
 	"vue3-admin-template/internal/config"
@@ -10,8 +9,6 @@ import (
 
 	"github.com/lei006/zlog"
 )
-
-var log = zlog.New("main ")
 
 //go:generate go env -w GO111MODULE=on
 //go:generate go env -w GOPROXY=https://goproxy.cn,direct
@@ -26,15 +23,17 @@ func main() {
 
 func main_run() {
 
+	zlog.SetSaveFile("logs.log", true)
+
 	err := app.Init()
 	if err != nil {
-		fmt.Println("init app error:", err)
+		zlog.Error("init app error:", err)
 		return
 	}
 
 	for {
 
-		log.Debug("WorkPath =", config.WorkPath)
+		zlog.Info("WorkPath =", config.WorkPath)
 		time.Sleep(time.Second)
 	}
 
