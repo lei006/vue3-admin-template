@@ -82,7 +82,7 @@ func (control *SysAuthUserControl) Login(ctx *gin.Context) {
 
 func (control *SysAuthUserControl) Logout(ctx *gin.Context) {
 
-	token := ctx.Request.Header.Get("x-token")
+	token := ctx.Request.Header.Get("token")
 
 	modelUser := &model.SysUser{}
 	user_info, err := modelUser.GetOneByToken(token)
@@ -103,7 +103,7 @@ func (control *SysAuthUserControl) Logout(ctx *gin.Context) {
 
 func (control *SysAuthUserControl) Info(ctx *gin.Context) {
 
-	token := ctx.Request.Header.Get("x-token")
+	token := ctx.Request.Header.Get("token")
 
 	modelUser := &model.SysUser{}
 	user_info, err := modelUser.GetOneByToken(token)
@@ -132,6 +132,7 @@ func (control *SysAuthUserControl) SetPassword(ctx *gin.Context) {
 	id := GetUserID(ctx)
 	id_str := fmt.Sprintf("%d", id)
 
+	modelUser := &model.SysUser{}
 	user_info, err := modelUser.GetOne(id_str)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, "未找到用户"+err.Error())

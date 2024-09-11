@@ -29,8 +29,6 @@ func main_run() {
 		return
 	}
 
-	zlog.Debug("init app")
-
 	// 保证 shell 程序一直在运行
 	shell.RunUntilSignal()
 

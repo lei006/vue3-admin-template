@@ -15,14 +15,15 @@ type SysAdminControl struct {
 
 func (control *SysAdminControl) Create(ctx *gin.Context) {
 
-	user_info := model.SysUser{}
+	user_info := model.SysAdmin{}
 	err := ctx.ShouldBindJSON(&user_info)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 	zlog.Debugf("user_info: %+v \n", user_info)
-	err = modelUser.Create(&user_info)
+	modelAdmin := &model.SysAdmin{}
+	err = modelAdmin.Create(&user_info)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
@@ -35,7 +36,8 @@ func (control *SysAdminControl) DeleteOne(ctx *gin.Context) {
 
 	id := ctx.Param("id")
 
-	err := modelUser.DeleteOne(id)
+	modelAdmin := &model.SysAdmin{}
+	err := modelAdmin.DeleteOne(id)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
@@ -51,7 +53,8 @@ func (control *SysAdminControl) DeleteMany(ctx *gin.Context) {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
-	err = modelUser.DeleteMany(ids)
+	modelAdmin := &model.SysAdmin{}
+	err = modelAdmin.DeleteMany(ids)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
@@ -62,7 +65,7 @@ func (control *SysAdminControl) DeleteMany(ctx *gin.Context) {
 
 func (control *SysAdminControl) PutOne(ctx *gin.Context) {
 
-	var reportItem model.SysUser
+	var reportItem model.SysAdmin
 	err := ctx.ShouldBindJSON(&reportItem)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -76,7 +79,8 @@ func (control *SysAdminControl) PutOne(ctx *gin.Context) {
 		return
 	}
 
-	if err := modelUser.UpdateOne(&reportItem); err != nil {
+	modelAdmin := &model.SysAdmin{}
+	if err := modelAdmin.UpdateOne(&reportItem); err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -93,13 +97,13 @@ func (control *SysAdminControl) PatchOne(ctx *gin.Context) {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
-
-	err = modelUser.PatchOne(id, req.Field, req.Data)
+	modelAdmin := &model.SysAdmin{}
+	err = modelAdmin.PatchOne(id, req.Field, req.Data)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
-	data, err := modelUser.GetOne(id)
+	data, err := modelAdmin.GetOne(id)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
@@ -111,7 +115,9 @@ func (control *SysAdminControl) PatchOne(ctx *gin.Context) {
 
 func (control *SysAdminControl) GetOne(ctx *gin.Context) {
 	id := ctx.Param("id")
-	item, err := modelUser.GetOne(id)
+
+	modelAdmin := &model.SysAdmin{}
+	item, err := modelAdmin.GetOne(id)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
@@ -122,12 +128,13 @@ func (control *SysAdminControl) GetOne(ctx *gin.Context) {
 
 func (control *SysAdminControl) GetPage(ctx *gin.Context) {
 
-	user_list, _, err := modelUser.GetPage()
+	modelAdmin := &model.SysAdmin{}
+	items, total, err := modelAdmin.GetPage()
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	RetList(ctx, user_list)
+	RetPage(ctx, items, total)
 
 }

@@ -1,12 +1,21 @@
 
 
 admin:
-  port: 8090
-  debug: true
+    port: 8090
+    debug: false
 
 log:
-  save: false
-  level: 8
+    save: false
+    level: -1
+
+model:
+    # sqlite or mysql
+    dbtype: "mysql"    
+    # data.db or root:wLei6700413@@tcp(127.0.0.1:3306)/media_nvr?charset=utf8mb4&parseTime=True&loc=Local
+    dbsource: "root:wLei6700413@@tcp(127.0.0.1:3306)/test_db?charset=utf8mb4&parseTime=True&loc=Local"
+
+
+
 
 
 

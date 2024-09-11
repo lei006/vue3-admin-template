@@ -12,8 +12,7 @@ type SysAdmin struct {
 	Token    string `json:"token" gorm:"index;default:token;comment:token"` // token
 	//Headerimg string `json:"headerimg" gorm:"type:mediumtext; comment:用户头像"` // 用户头像
 	UserSign string `json:"user_sign" gorm:"type:mediumtext;comment:用户签名"` // 用户签名
-	IsAdmin  bool   `json:"is_admin" gorm:"default:0;comment:是否管理员"`       // 用户角色ID
-	Phone    string `json:"phone"  gorm:"comment:用户手机号"`                   // 用户手机号
+	Desc     string `json:"desc"  gorm:"comment:描述"`                       //
 	//Email     string `json:"email"  gorm:"comment:用户邮箱"`                          // 用户邮箱
 	IsDisable bool `json:"is_disable" gorm:"default:0;comment:用户是否被冻结 0正常 1冻结"` //用户是否被冻结 0正常 1冻结
 }
@@ -77,8 +76,12 @@ func (model *SysAdmin) GetOne(id string) (retVal SysAdmin, err error) {
 func (model *SysAdmin) GetOneByUsername(username string) (retVal *SysAdmin, err error) {
 	// 通过username 取得一行
 	retVal = &SysAdmin{}
-	err = g_db.Where("username = ?", username).First(retVal).Error
-	return
+	result := g_db.Where("username = ?", username).First(retVal)
+	if result.RowsAffected == 0 {
+		return nil, errors.New("no rows were returned")
+	}
+
+	return retVal, result.Error
 }
 
 func (model *SysAdmin) GetOneByToken(token string) (retVal *SysAdmin, err error) {

@@ -94,11 +94,11 @@ func (control *SysSetupControl) SetOneByName(ctx *gin.Context) {
 
 func (control *SysSetupControl) GetList(ctx *gin.Context) {
 
-	items, _, err := modelSetup.GetList()
+	items, total, err := modelSetup.GetList()
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
+	RetPage(ctx, items, total)
 
-	RetList(ctx, items)
 }

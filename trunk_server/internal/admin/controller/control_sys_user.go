@@ -9,13 +9,12 @@ import (
 	"github.com/sohaha/zlsgo/zlog"
 )
 
-var modelUser model.SysUser
-
 type SysUserControl struct {
 	ControllerBase
 }
 
 func (control *SysUserControl) Create(ctx *gin.Context) {
+	var modelUser model.SysUser
 
 	user_info := model.SysUser{}
 	err := ctx.ShouldBindJSON(&user_info)
@@ -36,6 +35,7 @@ func (control *SysUserControl) Create(ctx *gin.Context) {
 func (control *SysUserControl) DeleteOne(ctx *gin.Context) {
 
 	id := ctx.Param("id")
+	var modelUser model.SysUser
 
 	err := modelUser.DeleteOne(id)
 	if err != nil {
@@ -53,6 +53,8 @@ func (control *SysUserControl) DeleteMany(ctx *gin.Context) {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
+	var modelUser model.SysUser
+
 	err = modelUser.DeleteMany(ids)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -78,6 +80,8 @@ func (control *SysUserControl) PutOne(ctx *gin.Context) {
 		return
 	}
 
+	var modelUser model.SysUser
+
 	if err := modelUser.UpdateOne(&reportItem); err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
@@ -95,6 +99,7 @@ func (control *SysUserControl) PatchOne(ctx *gin.Context) {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
+	var modelUser model.SysUser
 
 	err = modelUser.PatchOne(id, req.Field, req.Data)
 	if err != nil {
@@ -113,6 +118,9 @@ func (control *SysUserControl) PatchOne(ctx *gin.Context) {
 
 func (control *SysUserControl) GetOne(ctx *gin.Context) {
 	id := ctx.Param("id")
+
+	var modelUser model.SysUser
+
 	item, err := modelUser.GetOne(id)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -124,12 +132,14 @@ func (control *SysUserControl) GetOne(ctx *gin.Context) {
 
 func (control *SysUserControl) GetPage(ctx *gin.Context) {
 
-	user_list, _, err := modelUser.GetPage()
+	var modelUser model.SysUser
+
+	user_list, total, err := modelUser.GetPage()
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	RetList(ctx, user_list)
+	RetPage(ctx, user_list, total)
 
 }

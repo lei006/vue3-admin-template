@@ -14,10 +14,10 @@ func initRouterSysAuthUser(publicRouter *gin.RouterGroup, privateGroup *gin.Rout
 	baseApi := controller.SysAuthUserControl{}
 
 	authPubRouter.POST("login", baseApi.Login)
-	authPriRouter.DELETE("logout", baseApi.Logout)
+	authPriRouter.POST("logout", baseApi.Logout)
 	authPriRouter.PATCH("setpassword", baseApi.SetPassword)
 	authPubRouter.POST("regedit", baseApi.Regedit)
-	authPriRouter.GET("info", baseApi.Info)
+	authPriRouter.POST("info", baseApi.Info)
 	authPubRouter.GET("captcha", baseApi.Captcha)
 }
 
@@ -29,9 +29,9 @@ func initRouterSysAuthAdmin(publicRouter *gin.RouterGroup, privateGroup *gin.Rou
 	baseApi := controller.SysAuthAdminControl{}
 
 	authPubRouter.POST("login", baseApi.Login)
-	authPriRouter.DELETE("logout", baseApi.Logout)
+	authPriRouter.POST("logout", baseApi.Logout)
 	authPriRouter.PATCH("setpassword", baseApi.SetPassword)
 	authPubRouter.POST("regedit", baseApi.Regedit)
-	authPriRouter.GET("info", baseApi.Info)
+	authPriRouter.POST("info", baseApi.Info)
 	authPubRouter.GET("captcha", baseApi.Captcha)
 }

@@ -2,6 +2,7 @@ package app
 
 import (
 	"vue3-admin-template/internal/admin"
+	"vue3-admin-template/internal/admin/model"
 	"vue3-admin-template/internal/config"
 	"vue3-admin-template/pkg/daemon"
 
@@ -37,6 +38,12 @@ func Init() error {
 	// 强制控制台输出颜色
 	if config.App.Zlog.Color {
 		zlog.ForceConsoleColor()
+	}
+
+	err = model.Init(config.App.Model.DbType, config.App.Model.DbSource)
+	if err != nil {
+		zlog.Error(err)
+		return err
 	}
 
 	// 初始化后台

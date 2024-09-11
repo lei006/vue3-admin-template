@@ -18,7 +18,7 @@ export default defineComponent({
     const store = useStore()
     const radio = ref(store.state.auth.token)
     const change = () => {
-      store.commit('user/tokenChange', radio.value)
+      store.commit('auth/tokenChange', radio.value)
     }
     return {
       radio,

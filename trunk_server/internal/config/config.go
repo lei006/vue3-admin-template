@@ -14,20 +14,27 @@ var (
 	App            AppConfig
 )
 
+type ModelConfig struct {
+	DbType   string `mapstructure:"dbtype" json:"dbtype" yaml:"dbtype"`
+	DbSource string `mapstructure:"dbsource" json:"dbsource" yaml:"dbsource"`
+	Test     string `mapstructure:"test" json:"test" yaml:"test"`
+}
+
 type AdminConfig struct {
 	Debug bool `mapstructure:"debug" json:"debug" yaml:"debug"`
-	Port  int  `mapstructure:"port json:"port" yaml:"port"`
+	Port  int  `mapstructure:"port" json:"port" yaml:"port"`
 }
 
 type LogConfig struct {
 	Save  bool `mapstructure:"save" json:"save" yaml:"save"`
-	Level int  `mapstructure:"level json:"level" yaml:"level"`
+	Level int  `mapstructure:"level" json:"level" yaml:"level"`
 	Color bool `mapstructure:"color" json:"color" yaml:"color"`
 }
 
 type AppConfig struct {
 	Admin AdminConfig `mapstructure:"admin" json:"admin" yaml:"admin"`
 	Zlog  LogConfig   `mapstructure:"zlog" json:"zlog" yaml:"zlog"`
+	Model ModelConfig `mapstructure:"model" json:"model" yaml:"model"`
 }
 
 func Init() error {
@@ -55,6 +62,8 @@ func Init() error {
 	if App.Admin.Port <= 0 || App.Admin.Port > 65535 {
 		App.Admin.Port = 8090
 	}
+
+	zlog.Debugf("Model = %+v \n", App)
 
 	return nil
 }

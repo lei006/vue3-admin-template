@@ -51,10 +51,6 @@ type FieldDataRequest struct {
 	Data  interface{} `json:"data"`
 }
 
-type JsonItemList struct {
-	List interface{} `json:"list"` //Data字段需要设置为interface类型以便接收任意数据
-}
-
 type JsonPageInfo struct {
 	Items interface{} `json:"items"` //Data字段需要设置为interface类型以便接收任意数据
 	Total int64       `json:"total"`
@@ -87,15 +83,6 @@ func RetPage(ctx *gin.Context, data_list interface{}, total int64) {
 	_ret_data(ctx, http.StatusOK, val, "success")
 }
 
-func RetList(ctx *gin.Context, list interface{}) {
-
-	val := JsonItemList{
-		List: list,
-	}
-
-	_ret_data(ctx, http.StatusOK, val, "success")
-}
-
 func RetOK(ctx *gin.Context) {
 	_ret_data(ctx, http.StatusOK, nil, "success")
 }
@@ -109,7 +96,7 @@ func RetErr(ctx *gin.Context, code int, message string) {
 }
 
 func GetClaims(c *gin.Context) (*utils.CustomClaims, error) {
-	token := c.Request.Header.Get("x-token")
+	token := c.Request.Header.Get("token")
 	j := utils.NewJWT(JwtSigningKey)
 	claims, err := j.ParseToken(token)
 	if err != nil {

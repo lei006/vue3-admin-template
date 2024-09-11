@@ -41,8 +41,8 @@ func (control *SysAuthAdminControl) Login(ctx *gin.Context) {
 		}
 	}
 
-	modelUser := &model.SysUser{}
-	user_info, err := modelUser.GetOneByUsername(login.Username)
+	modelAdmin := &model.SysAdmin{}
+	user_info, err := modelAdmin.GetOneByUsername(login.Username)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, "用户名或密码错误")
 		return
@@ -63,7 +63,7 @@ func (control *SysAuthAdminControl) Login(ctx *gin.Context) {
 	// 把 user_info.ID 转为字符串
 	tmp_id := fmt.Sprintf("%d", user_info.ID)
 
-	err = modelUser.PatchOne(tmp_id, "token", new_token)
+	err = modelAdmin.PatchOne(tmp_id, "token", new_token)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, "请求token出错")
 		return
@@ -77,17 +77,17 @@ func (control *SysAuthAdminControl) Login(ctx *gin.Context) {
 
 func (control *SysAuthAdminControl) Logout(ctx *gin.Context) {
 
-	token := ctx.Request.Header.Get("x-token")
+	token := ctx.Request.Header.Get("token")
 
-	modelUser := &model.SysUser{}
-	user_info, err := modelUser.GetOneByToken(token)
+	modelAdmin := &model.SysAdmin{}
+	user_info, err := modelAdmin.GetOneByToken(token)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, "未找到用户信息")
 		return
 	}
 
 	tmp_id := fmt.Sprintf("%d", user_info.ID)
-	err = modelUser.PatchOne(tmp_id, "token", "")
+	err = modelAdmin.PatchOne(tmp_id, "token", "")
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, "请求出错")
 		return
@@ -98,10 +98,10 @@ func (control *SysAuthAdminControl) Logout(ctx *gin.Context) {
 
 func (control *SysAuthAdminControl) Info(ctx *gin.Context) {
 
-	token := ctx.Request.Header.Get("x-token")
+	token := ctx.Request.Header.Get("token")
 
-	modelUser := &model.SysUser{}
-	user_info, err := modelUser.GetOneByToken(token)
+	modelAdmin := &model.SysAdmin{}
+	user_info, err := modelAdmin.GetOneByToken(token)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, "未找到token用户信息")
 		return
@@ -127,7 +127,8 @@ func (control *SysAuthAdminControl) SetPassword(ctx *gin.Context) {
 	id := GetUserID(ctx)
 	id_str := fmt.Sprintf("%d", id)
 
-	user_info, err := modelUser.GetOne(id_str)
+	modelAdmin := &model.SysAdmin{}
+	user_info, err := modelAdmin.GetOne(id_str)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, "未找到用户"+err.Error())
 		return
@@ -138,7 +139,7 @@ func (control *SysAuthAdminControl) SetPassword(ctx *gin.Context) {
 		return
 	}
 
-	err = modelUser.PatchOne(id_str, "password", passwordRes.New)
+	err = modelAdmin.PatchOne(id_str, "password", passwordRes.New)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, "修改密码出错")
 		return

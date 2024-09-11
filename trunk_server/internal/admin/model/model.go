@@ -43,6 +43,8 @@ func Init(dbType string, dbSource string) error {
 
 func getdb(dbType string, dbSource string) (*gorm.DB, error) {
 
+	zlog.Info("dbType:", dbType, " dbSource:", dbSource)
+
 	if g_db == nil {
 
 		var tmp_db *gorm.DB
@@ -63,7 +65,6 @@ func getdb(dbType string, dbSource string) (*gorm.DB, error) {
 			}
 			db, err := gorm.Open(mysql.New(mysqlConfig), gorm_config)
 			if err != nil {
-
 				zlog.Fatal(err)
 				return nil, err
 			}

@@ -1,12 +1,12 @@
 import { MockMethod } from 'vite-plugin-mock'
 const users = [
-  { name: 'admin', password: '123456', token: 'admin', info: {
+  { username: 'admin', password: '123456', token: 'admin', info: {
     name: '系统管理员'
   }},
-  { name: 'editor', password: '123456', token: 'editor', info: {
+  { username: 'editor', password: '123456', token: 'editor', info: {
     name: '编辑人员'
   }},
-  { name: 'test', password: '123456', token: 'test', info: {
+  { username: 'test', password: '123456', token: 'test', info: {
     name: '测试人员'
   }},
 ]
@@ -16,7 +16,7 @@ export default [
     method: 'post',
     response: ({ body }) => {
       const user = users.find(user => {
-        return body.name === user.name && body.password === user.password
+        return body.name === user.username && body.password === user.password
       })
       if (user) {
         return {
