@@ -3,9 +3,15 @@ package main
 import (
 	"fmt"
 	"time"
+	"vue3-admin-template/internal/app"
+	"vue3-admin-template/internal/config"
 	"vue3-admin-template/pkg/daemon"
 	"vue3-admin-template/pkg/shell"
+
+	"github.com/lei006/zlog"
 )
+
+var log = zlog.New("main ")
 
 //go:generate go env -w GO111MODULE=on
 //go:generate go env -w GOPROXY=https://goproxy.cn,direct
@@ -20,15 +26,15 @@ func main() {
 
 func main_run() {
 
-	for true {
+	err := app.Init()
+	if err != nil {
+		fmt.Println("init app error:", err)
+		return
+	}
 
-		path, err := daemon.GetWordPath()
-		if err != nil {
-			fmt.Println("get word path error:", err)
-			continue
-		}
+	for {
 
-		fmt.Println("xxxxxxx", path)
+		log.Debug("WorkPath =", config.WorkPath)
 		time.Sleep(time.Second)
 	}
 
