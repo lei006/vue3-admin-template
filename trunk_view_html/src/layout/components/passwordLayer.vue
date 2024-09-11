@@ -21,7 +21,7 @@ import type { ElFormItemContext } from 'element-plus/lib/el-form/src/token'
 import { defineComponent, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useStore } from 'vuex'
-import { passwordChange } from '@/api/user'
+import { passwordChange } from '@/api/auth'
 import Layer from '@/components/layer/index.vue'
 export default defineComponent({
   components: {
@@ -70,7 +70,7 @@ export default defineComponent({
               })
               layerDom.value && layerDom.value.close()
               setTimeout(() => {
-                store.dispatch('user/loginOut')
+                store.dispatch('auth/loginOut')
               }, 2000)
             })
           } else {

@@ -49,7 +49,7 @@ async function addRoutes() {
  */
 export async function getAuthRoutes() {
   // 判断token是否存在，存在则调用添加路由的方法
-  if (store.state.user.token) {
+  if (store.state.auth.token) {
     await addRoutes()
   }
 }

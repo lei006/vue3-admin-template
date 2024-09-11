@@ -8,12 +8,15 @@ const service: AxiosInstance = axios.create({
   timeout: 5000
 })
 
+
+
+
 // 请求前的统一处理
-service.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+service.interceptors.request.use((config: AxiosRequestConfig) => {
+
     // JWT鉴权处理
     if (store.getters['user/token']) {
-      config.headers['token'] = store.state.user.token
+      config.headers['token'] = store.state.auth.token
     }
     return config
   },
@@ -23,8 +26,8 @@ service.interceptors.request.use(
   }
 )
 
-service.interceptors.response.use(
-  (response: AxiosResponse) => {
+service.interceptors.response.use((response: AxiosResponse) => {
+
     const res = response.data
     if (res.code === 200) {
       return res
@@ -47,13 +50,9 @@ function showError(error: any) {
   // token过期，清除本地数据，并跳转至登录页面
   if (error.code === 403) {
     // to re-login
-    store.dispatch('user/loginOut')
+    store.dispatch('auth/loginOut')
   } else {
-    ElMessage({
-      message: error.msg || error.message || '服务异常',
-      type: 'error',
-      duration: 3 * 1000
-    })
+    ElMessage({ message: error.msg || error.message || '服务异常', type: 'error', duration: 3 * 1000})
   }
   
 }

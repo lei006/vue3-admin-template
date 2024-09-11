@@ -73,7 +73,7 @@ export default defineComponent({
 
     // login out the system
     const loginOut = () => {
-      store.dispatch('user/loginOut')
+      store.dispatch('auth/loginOut')
     }
     
     const showPasswordLayer = () => {

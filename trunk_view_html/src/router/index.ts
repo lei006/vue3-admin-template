@@ -45,7 +45,7 @@ const whiteList = ['/login']
 // 路由跳转前的监听操作
 router.beforeEach((to, _from, next) => {
   NProgress.start();
-  if (store.state.user.token) {
+  if (store.state.auth.token) {
     to.meta.title ? (changeTitle(to.meta.title)) : "" // 动态title
     if (to.path === '/login') {
       next('/')
