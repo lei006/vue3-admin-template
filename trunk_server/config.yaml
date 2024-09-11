@@ -1,0 +1,12 @@
+
+
+admin:
+  port: 8090
+  debug: true
+
+log:
+  save: false
+  level: 8
+
+
+

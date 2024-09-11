@@ -1,9 +1,7 @@
 package main
 
 import (
-	"time"
 	"vue3-admin-template/internal/app"
-	"vue3-admin-template/internal/config"
 	"vue3-admin-template/pkg/daemon"
 	"vue3-admin-template/pkg/shell"
 
@@ -31,11 +29,7 @@ func main_run() {
 		return
 	}
 
-	for {
-
-		zlog.Info("WorkPath =", config.WorkPath)
-		time.Sleep(time.Second)
-	}
+	zlog.Debug("init app")
 
 	// 保证 shell 程序一直在运行
 	shell.RunUntilSignal()

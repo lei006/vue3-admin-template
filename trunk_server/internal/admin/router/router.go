@@ -17,7 +17,7 @@ func Init() error {
 
 	var engine = gin.Default()
 
-	if !config.AdminDebug {
+	if !config.App.Admin.Debug {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
@@ -51,8 +51,8 @@ func Init() error {
 	initRouterSysOption(publicGroup, privateGroup)    // 路由操作记录
 
 	go func() {
-		log.Info("listen at ", config.AdminPort)
-		engine.Run(fmt.Sprintf(":%d", config.AdminPort))
+		log.Info("listen at ", config.App.Admin.Port)
+		engine.Run(fmt.Sprintf(":%d", config.App.Admin.Port))
 	}()
 	time.Sleep(100 * time.Millisecond)
 
