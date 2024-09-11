@@ -3,17 +3,15 @@ package controller
 import (
 	"fmt"
 	"net/http"
-	"time"
 	"vue3-admin-template/internal/admin/model"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
 	"github.com/sohaha/zlsgo/zlog"
 	"go.uber.org/zap"
-	"golang.org/x/exp/rand"
 )
 
-type SysUserAuthControl struct {
+type SysAuthUserControl struct {
 	ControllerBase
 }
 
@@ -22,9 +20,9 @@ var CaptchaImgWidth = 100
 var CaptchaImgHeight = 100
 var CaptchaKeyLong = 4
 
-var ControlerUserAuth = new(SysUserAuthControl)
+var ControlerUserAuth = new(SysAuthUserControl)
 
-func (control *SysUserAuthControl) Login(ctx *gin.Context) {
+func (control *SysAuthUserControl) Login(ctx *gin.Context) {
 
 	//key := ctx.ClientIP()
 
@@ -84,7 +82,7 @@ func (control *SysUserAuthControl) Login(ctx *gin.Context) {
 	RetData(ctx, user_info)
 }
 
-func (control *SysUserAuthControl) Logout(ctx *gin.Context) {
+func (control *SysAuthUserControl) Logout(ctx *gin.Context) {
 
 	token := ctx.Request.Header.Get("x-token")
 
@@ -105,7 +103,7 @@ func (control *SysUserAuthControl) Logout(ctx *gin.Context) {
 	RetOK(ctx)
 }
 
-func (control *SysUserAuthControl) Info(ctx *gin.Context) {
+func (control *SysAuthUserControl) Info(ctx *gin.Context) {
 
 	token := ctx.Request.Header.Get("x-token")
 
@@ -119,7 +117,7 @@ func (control *SysUserAuthControl) Info(ctx *gin.Context) {
 	RetData(ctx, user_info)
 }
 
-func (control *SysUserAuthControl) SetPassword(ctx *gin.Context) {
+func (control *SysAuthUserControl) SetPassword(ctx *gin.Context) {
 
 	type PasswordResponse struct {
 		Old string `json:"old_password"`
@@ -156,13 +154,13 @@ func (control *SysUserAuthControl) SetPassword(ctx *gin.Context) {
 	RetOK(ctx)
 }
 
-func (control *SysUserAuthControl) Regedit(ctx *gin.Context) {
+func (control *SysAuthUserControl) Regedit(ctx *gin.Context) {
 
 	RetOK(ctx)
 }
 
 // 验证码
-func (control *SysUserAuthControl) Captcha(ctx *gin.Context) {
+func (control *SysAuthUserControl) Captcha(ctx *gin.Context) {
 
 	driver := base64Captcha.NewDriverDigit(CaptchaImgHeight, CaptchaImgWidth, CaptchaKeyLong, 0.7, 80)
 	cp := base64Captcha.NewCaptcha(driver, base64Captcha.DefaultMemStore)
@@ -190,31 +188,4 @@ func (control *SysUserAuthControl) Captcha(ctx *gin.Context) {
 		Width:   CaptchaImgWidth,
 		Enable:  CaptchaEnable,
 	})
-}
-
-// RandomString 生成指定长度和字符集的随机字符串
-func RandomString(length int, numbers, letters, specials bool) string {
-	rand.Seed(uint64(time.Now().UnixNano()))
-
-	var charSet []rune
-
-	if numbers {
-		charSet = append(charSet, '0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
-	}
-	if letters {
-		charSet = append(charSet, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
-	}
-	if specials {
-		charSet = append(charSet, '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=', '{', '}', '[', ']', '|', '\\', ';', ':', ',', '.', '<', '>', '/', '?', '`', '~')
-	}
-
-	if len(charSet) == 0 {
-		panic("At least one character type (numbers, letters, or specials) must be enabled.")
-	}
-
-	result := make([]rune, length)
-	for i := range result {
-		result[i] = charSet[rand.Intn(len(charSet))]
-	}
-	return string(result)
 }
