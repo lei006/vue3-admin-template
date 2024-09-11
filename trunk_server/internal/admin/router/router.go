@@ -44,7 +44,7 @@ func Init() error {
 
 	//
 	initRouterSysSetup(publicGroup, privateGroup)  // 路由系统设置
-	initRouterSysAuth(publicGroup, privateGroup)   // 路由授权
+	initRouterSysAuth(publicGroup, privateGroup)   // 认证模块
 	initRouterSysAdmin(publicGroup, privateGroup)  // 路由管理员
 	initRouterSysUser(publicGroup, privateGroup)   // 路由用户管理
 	initRouterSysOption(publicGroup, privateGroup) // 路由操作记录

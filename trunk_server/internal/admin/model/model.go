@@ -1,7 +1,7 @@
 package model
 
 import (
-	"fmt"
+	"errors"
 	"time"
 
 	"github.com/glebarez/sqlite"
@@ -32,13 +32,16 @@ type BASE_MODEL struct {
 }
 
 func Init(dbType string, dbSource string) error {
-	zlog.Debug("111111111")
-	g_db = getdb(dbType, dbSource)
+	db, err := getdb(dbType, dbSource)
+	if err != nil {
+		return err
+	}
+	g_db = db
 
 	return nil
 }
 
-func getdb(dbType string, dbSource string) *gorm.DB {
+func getdb(dbType string, dbSource string) (*gorm.DB, error) {
 
 	if g_db == nil {
 
@@ -54,15 +57,15 @@ func getdb(dbType string, dbSource string) *gorm.DB {
 			}
 			gorm_config := &gorm.Config{
 				NamingStrategy: schema.NamingStrategy{
-					//TablePrefix:   "",
 					SingularTable: false,
 				},
 				DisableForeignKeyConstraintWhenMigrating: true,
 			}
 			db, err := gorm.Open(mysql.New(mysqlConfig), gorm_config)
 			if err != nil {
+
 				zlog.Fatal(err)
-				panic(fmt.Sprintf("Failed to connect to database: %v", err))
+				return nil, err
 			}
 
 			tmp_db = db
@@ -70,20 +73,19 @@ func getdb(dbType string, dbSource string) *gorm.DB {
 			db, err := gorm.Open(sqlite.Open(dbSource), &gorm.Config{})
 			if err != nil {
 				zlog.Fatal(err)
-				panic(fmt.Sprintf("Failed to connect to database: %v", err))
+				return nil, err
 			}
 			tmp_db = db
 		} else {
-			zlog.Error("unknow database type " + dbType)
-			panic("unknow database type " + dbType)
+			return nil, errors.New("unknow database type " + dbType)
 		}
 
 		///////////////////////////////////////
 		// 连接成功，自动生成表
 		err := tmp_db.AutoMigrate(
+			SysAdmin{},
 			SysUser{},
 			SysSetup{},
-			JwtBlacklist{},
 		)
 		if err != nil {
 			zlog.Error(err.Error())
@@ -92,18 +94,11 @@ func getdb(dbType string, dbSource string) *gorm.DB {
 		g_db = tmp_db
 	}
 
-	return g_db
+	return g_db, nil
 }
 
 type DBBASE interface {
 	GetLogMode() string
-}
-
-func ErrRecordNotFound(err error) bool {
-	if err == gorm.ErrRecordNotFound {
-		return true
-	}
-	return false
 }
 
 /*

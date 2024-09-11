@@ -124,21 +124,6 @@ func (model *SysSetup) NoFoundCreate(name string, data string, desc string) erro
 
 func (model *SysSetup) AutoGetStringByName(name string) (string, error) {
 	ret, err := model.GetOneByName(name)
-	if ErrRecordNotFound(err) {
-
-		// 如果没有取到数据，则创建一个
-		newVal := SysSetup{
-			Name: name,
-			Data: "1",
-			Desc: "",
-		}
-		err = model.Create(&newVal)
-		if err != nil {
-			return "", err
-		}
-
-		return newVal.Data, nil
-	}
 
 	if err != nil {
 		zlog.Error(err)
@@ -151,23 +136,6 @@ func (model *SysSetup) AutoGetStringByName(name string) (string, error) {
 func (model *SysSetup) AutoSetStringByName(name string, data string) error {
 
 	err := model.PatchOneByName(name, data)
-
-	if ErrRecordNotFound(err) {
-
-		// 如果没有取到数据，则创建一个
-		newVal := SysSetup{
-			Name: name,
-			Data: "1",
-			Desc: "",
-		}
-
-		err = model.Create(&newVal)
-		if err != nil {
-			return err
-		}
-
-		return nil
-	}
 
 	if err != nil {
 		zlog.Error(err)

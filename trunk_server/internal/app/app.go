@@ -14,6 +14,7 @@ func Init() error {
 	if config.LogSave {
 		zlog.SetSaveFile("logs.log", true)
 	} else {
+		// 强制控制台输出颜色
 		zlog.ForceConsoleColor()
 	}
 
