@@ -1,5 +1,5 @@
 <template>
-  <Layer :layer="layer" @confirm="submit">
+  <Layer ref="refForm" :layer="layer" @confirm="submit">
     <el-form :model="ruleForm" :rules="rules" ref="form" label-width="120px" style="margin-right:30px;">
       <el-form-item label="名称：" prop="username">
         <el-input v-model="ruleForm.username" placeholder="请输入名称"></el-input>
@@ -30,9 +30,8 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, ref, reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import Layer from '@/components/layer/index.vue'
-import { add, update } from '@/api/table'
 import apiUsers from "@/api/system/user";
 import { ElMessage } from 'element-plus'
 import stringRandom  from 'string-random'
@@ -46,6 +45,7 @@ let layer = ref({
 
 let is_edit = false;
 
+const refForm = ref()
 
         
 let ruleForm = reactive({
@@ -74,7 +74,8 @@ const options = [
 
 
 
-const submit = () => {
+const submit = async () => {
+
 
     let params = ruleForm
     // is_disable 必需是 bool,true

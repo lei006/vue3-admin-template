@@ -80,10 +80,8 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, onMounted, ref, reactive } from "vue";
+import { onMounted, ref, reactive } from "vue";
 import { Page } from "@/components/table/type";
-import { getData, del, updateStatus } from "@/api/system/user";
-import { LayerInterface } from "@/components/layer/index.vue";
 import { ElMessage } from "element-plus";
 import Table from "@/components/table/index.vue";
 import Layer from "./layer.vue";

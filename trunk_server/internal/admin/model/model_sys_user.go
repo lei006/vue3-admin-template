@@ -58,12 +58,12 @@ func (model *SysUser) UpdateOne(val *SysUser) (err error) {
 func (model *SysUser) PatchOne(id string, field string, data interface{}) error {
 
 	result := g_db.Model(&SysUser{}).Where("id = ?", id).Update(field, data)
-	if result.RowsAffected == 0 {
-		return errors.New("no rows were updated")
-	}
 
 	if result.Error != nil {
 		return result.Error
+	}
+	if result.RowsAffected == 0 {
+		return errors.New("no field were updated")
 	}
 
 	return nil
