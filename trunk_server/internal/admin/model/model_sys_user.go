@@ -7,12 +7,12 @@ import (
 type SysUser struct {
 	BASE_MODEL
 	Username string `json:"username" gorm:"uniqueIndex;comment:用户登录名"`      // 用户登录名
-	Password string `json:"-"  gorm:"comment:用户登录密码"`                       // 用户登录密码
+	Password string `json:"password"  gorm:"comment:用户登录密码"`                // 用户登录密码
 	Nickname string `json:"nickname" gorm:"default:系统用户;comment:用户昵称"`      // 用户昵称
 	Token    string `json:"token" gorm:"index;default:token;comment:token"` // token
 	//Headerimg string `json:"headerimg" gorm:"type:mediumtext; comment:用户头像"` // 用户头像
-	UserSign string `json:"user_sign" gorm:"type:mediumtext;comment:用户签名"` // 用户签名
-	Desc     string `json:"desc"  gorm:"comment:描述"`                       //
+	UserSign string `json:"usersign" gorm:"type:mediumtext;comment:用户签名"` // 用户签名
+	Desc     string `json:"desc"  gorm:"comment:描述"`                      //
 	//Email     string `json:"email"  gorm:"comment:用户邮箱"`                          // 用户邮箱
 	IsDisable bool `json:"is_disable" gorm:"default:0;comment:用户是否被冻结 0正常 1冻结"` //用户是否被冻结 0正常 1冻结
 }
@@ -24,8 +24,16 @@ func (SysUser) TableName() string {
 // CreateReportStruct 创建报告的数据结构记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (model *SysUser) Create(newVal *SysUser) (err error) {
-	err = g_db.Create(newVal).Error
-	return err
+	result := g_db.Create(newVal)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	if result.RowsAffected == 0 {
+		return errors.New("no rows were inserted")
+	}
+
+	return nil
 }
 
 // DeleteReportStruct 删除报告的数据结构记录
@@ -37,7 +45,7 @@ func (model *SysUser) DeleteOne(id string) (err error) {
 
 // DeleteReportStructByIds 批量删除报告的数据结构记录
 // Author [piexlmax](https://github.com/piexlmax)
-func (model *SysUser) DeleteMany(ids []uint) (err error) {
+func (model *SysUser) DeleteMany(ids []int) (err error) {
 	err = g_db.Delete(&[]SysUser{}, "id in ?", ids).Error
 	return err
 }
@@ -93,15 +101,28 @@ func (model *SysUser) GetOneByToken(token string) (retVal *SysUser, err error) {
 
 // GetReportStructInfoList 分页获取报告的数据结构记录
 // Author [piexlmax](https://github.com/piexlmax)
-func (model *SysUser) GetPage() (list []SysUser, total int64, err error) {
+func (model *SysUser) GetPage(page PageInfo) (list []SysUser, total int64, err error) {
+
+	limit := page.PageSize
+	offset := page.PageSize * (page.Page - 1)
 
 	// 创建db
 	db := g_db.Model(&SysUser{})
+
+	if len(page.Keyword) > 0 {
+		db = db.Where("username LIKE ?", "%"+page.Keyword+"%")
+	}
+
 	var reportItems []SysUser
 	err = db.Count(&total).Error
 	if err != nil {
 		return
 	}
-	err = db.Find(&reportItems).Error
+
+	result := db.Limit(limit).Offset(offset).Order("id desc").Find(&reportItems)
+	if result.Error != nil {
+		return nil, 0, result.Error
+	}
+
 	return reportItems, total, err
 }

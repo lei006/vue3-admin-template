@@ -13,7 +13,7 @@ import Menu from '../modules/menu'
 import Component from '../modules/component'
 import Directive from '../modules/directive'
 import SystemManage from '../modules/systemManage'
-import UserManage from '../modules/userManage'
+import Users from '../modules/users'
 import Chart from '../modules/chart'
 import Print from '../modules/print'
 import Community from '../modules/community'
@@ -28,7 +28,8 @@ const FrontRoutes: Route[] = [
   //...Menu,
   //...Directive,
   //...Chart,
-  ...UserManage,
+  ...SystemManage,
+  ...Users,
   //...Print,
   //...Community,
   //...Tab,

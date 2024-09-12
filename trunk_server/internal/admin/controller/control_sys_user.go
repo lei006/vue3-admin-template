@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"strconv"
 	"vue3-admin-template/internal/admin/model"
 	"vue3-admin-template/pkg/utils"
 
@@ -47,7 +48,7 @@ func (control *SysUserControl) DeleteOne(ctx *gin.Context) {
 }
 
 func (control *SysUserControl) DeleteMany(ctx *gin.Context) {
-	var ids []uint
+	var ids []int
 	err := ctx.ShouldBindJSON(&ids)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -132,9 +133,30 @@ func (control *SysUserControl) GetOne(ctx *gin.Context) {
 
 func (control *SysUserControl) GetPage(ctx *gin.Context) {
 
-	var modelUser model.SysUser
+	reqPageInfo := model.PageInfo{}
+	// 从参数中获取分页信息
+	page := ctx.Query("page")
+	pageSize := ctx.Query("pageSize")
+	keyword := ctx.Query("keyword")
 
-	user_list, total, err := modelUser.GetPage()
+	var err error
+
+	// page 转为 int
+	reqPageInfo.Page, err = strconv.Atoi(page)
+	if err != nil {
+		reqPageInfo.Page = 1
+	}
+	// pageSize 转为 int
+	reqPageInfo.PageSize, err = strconv.Atoi(pageSize)
+	if err != nil {
+		reqPageInfo.PageSize = 10
+	}
+
+	// keyword 转为 string
+	reqPageInfo.Keyword = keyword
+
+	var modelUser model.SysUser
+	user_list, total, err := modelUser.GetPage(reqPageInfo)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
