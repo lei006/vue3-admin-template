@@ -14,9 +14,6 @@ const service: AxiosInstance = axios.create({
 // 请求前的统一处理
 service.interceptors.request.use((config: AxiosRequestConfig) => {
 
-
-  console.log("token", store.state.auth.token);
-
     // JWT鉴权处理
     if (store.getters['auth/token']) {
       config.headers['token'] = store.state.auth.token

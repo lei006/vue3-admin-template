@@ -45,14 +45,24 @@
       >
         <el-table-column prop="id" label="Id" align="center" width="80" />
         <el-table-column prop="username" label="用户名" align="center" />
-        <el-table-column prop="nickname" label="昵称" align="center" />
+        <el-table-column prop="nickname" label="昵称" align="center" >
+            <template #default="scope">
+                <div style="line-height: 32px; cursor: pointer; background-color: rgba(100, 100, 100, 0.05);" @click="handleFieldEdit(scope.row, 'nickname')"> {{ scope.row.nickname?scope.row.nickname:"-" }} </div>
+            </template>
+        </el-table-column>
         <el-table-column prop="usersign" label="签名" align="center" />
         <el-table-column prop="status" label="状态" align="center">
           <template #default="scope">
             <el-checkbox v-model="scope.row.is_disable" label="禁用" @change="handleUpdateStatus(scope.row, 'is_disable', scope.row.is_disable)" />
           </template>
         </el-table-column>
-        <el-table-column prop="desc" label="desc" />
+        <el-table-column prop="desc" label="desc" align="center">
+            <template #default="scope">
+                <div style="line-height: 32px; cursor: pointer; background-color: rgba(100, 100, 100, 0.05);" @click="handleFieldEdit(scope.row, 'desc')"> {{ scope.row.desc?scope.row.desc:"-" }} </div>
+            </template>
+        </el-table-column>
+
+
         <el-table-column
           :label="$t('message.common.handle')"
           align="center"
@@ -82,7 +92,7 @@
 <script setup lang="ts">
 import { onMounted, ref, reactive } from "vue";
 import { Page } from "@/components/table/type";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import Table from "@/components/table/index.vue";
 import Layer from "./layer.vue";
 import { Plus, Delete, Search } from '@element-plus/icons'
@@ -199,6 +209,31 @@ const handleUpdateStatus = (row, field, data) => {
 
     
 }
+
+
+const handleFieldEdit = (row: object, field :string) => {
+
+    ElMessageBox.prompt('修改域', 'Tip', {inputValue: row[field], confirmButtonText: 'OK',cancelButtonText: 'Cancel'}).then(({ value }) => {
+        apiUsers.PatchOne(row.id, field, value).then(res => {
+            if (res.code === 200) {
+                row[field] = res.data[field];
+            } else {
+                ElMessage({type: 'error',message: '操作失败'})
+            }
+      })
+  })
+  .catch(() => {
+      ElMessage({type: 'info',message: 'Input canceled'})
+  })
+
+}
+
+
+
+
+
+
+
 
 onMounted(()=>{
     getTableData(true)
