@@ -49,16 +49,7 @@
         <el-table-column prop="usersign" label="签名" align="center" />
         <el-table-column prop="status" label="状态" align="center">
           <template #default="scope">
-            <span class="statusName">{{ scope.row.is_disable ? "禁用" : "启用" }}</span>
-            <el-switch
-              v-model="scope.row.is_disable"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-              :active-value="1"
-              :inactive-value="0"
-              :loading="scope.row.loading"
-              @change="handleUpdateStatus(scope.row, 'is_disable', scope.row.is_disable)"
-            ></el-switch>
+            <el-checkbox v-model="scope.row.is_disable" label="禁用" @change="handleUpdateStatus(scope.row, 'is_disable', scope.row.is_disable)" />
           </template>
         </el-table-column>
         <el-table-column prop="desc" label="desc" />
@@ -89,7 +80,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, ref, reactive } from "vue";
+import { defineComponent, onMounted, ref, reactive } from "vue";
 import { Page } from "@/components/table/type";
 import { getData, del, updateStatus } from "@/api/system/user";
 import { LayerInterface } from "@/components/layer/index.vue";
@@ -189,16 +180,17 @@ const handleEdit = (row: any) => {
 }
 // 状态编辑功能
 const handleUpdateStatus = (row, field, data) => {
+    
     if (!row.id) {
       return
     }
     row.loading = true
-
-    console.log("field, data", row, field, data)
-
-
     apiUsers.PatchOne(row.id,field, data ). then(res => {
-
+        if (res.code === 200) {
+            row[field] = res.data[field];
+        } else {
+            ElMessage({type: 'error',message: '操作失败'})
+        }
     }).catch(err => {
       ElMessage({type: 'error',message: '操作失败'})
     }).finally(() => {
@@ -206,20 +198,13 @@ const handleUpdateStatus = (row, field, data) => {
     })
     
 
-    /*
 
-    updateStatus(params).then(res => {
-      ElMessage({type: 'success',message: '状态变更成功'})
-    }).catch(err => {
-      ElMessage({type: 'error',message: '状态变更失败'})
-    }).finally(() => {
-      row.loading = false
-    })
-    */
+    
 }
-getTableData(true)
 
-
+onMounted(()=>{
+    getTableData(true)
+})
 
 
 

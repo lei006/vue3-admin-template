@@ -77,6 +77,9 @@ const options = [
 const submit = () => {
 
     let params = ruleForm
+    // is_disable 必需是 bool,true
+    params.is_disable = (params.is_disable != 0);
+
     if (is_edit) {
         updateForm(params)
     }else{
@@ -84,21 +87,18 @@ const submit = () => {
     }
 }
 
-    // 新增提交事件
+// 新增提交事件
 const addForm = (params: object) => {
-
-
-
-
     apiUsers.AddOne(params).then(res => {
         ElMessage({type: 'success',message: '新增成功'})
         layer.value.show = false;
     })
 }
 
-    // 编辑提交事件
+// 编辑提交事件
 const updateForm = (params: object) => {
-    apiUsers.PutOne(params).then(res => {
+
+  apiUsers.PutOne(params).then(res => {
         ElMessage({type: 'success',message: '编辑成功'})
         layer.value.show = false;
     })
