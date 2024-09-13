@@ -21,8 +21,9 @@ type ModelConfig struct {
 }
 
 type AdminConfig struct {
-	Debug bool `mapstructure:"debug" json:"debug" yaml:"debug"`
-	Port  int  `mapstructure:"port" json:"port" yaml:"port"`
+	Debug    bool   `mapstructure:"debug" json:"debug" yaml:"debug"`
+	Port     int    `mapstructure:"port" json:"port" yaml:"port"`
+	Password string `mapstructure:"password" json:"password" yaml:"password"`
 }
 
 type LogConfig struct {

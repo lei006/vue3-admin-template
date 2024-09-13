@@ -3,6 +3,7 @@
 admin:
     port: -1
     debug: false
+    password: 12345
 
 model:
     # sqlite or mysql

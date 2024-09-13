@@ -6,7 +6,6 @@ import (
 	"strconv"
 
 	"github.com/lei006/zlog"
-	"gorm.io/gorm"
 )
 
 // 配置文件结构体
@@ -97,29 +96,26 @@ func (model *SysSetup) GetList() (list []SysSetup, total int64, err error) {
 	return items, total, err
 }
 
-func (model *SysSetup) NoFoundCreate(name string, data string, desc string) error {
+func (model *SysSetup) FindOrCreate(name string, data string, desc string) (*SysSetup, error) {
 
 	val := SysSetup{
 		Name: name,
 		Data: data,
 		Desc: desc,
 	}
-	err := g_db.Where("name = ?", name).First(&val).Error
-
-	if err == nil {
-		return nil
+	result := g_db.Where("name = ?", name).First(&val)
+	if result.RowsAffected == 0 {
+		create_result := g_db.Create(&val)
+		if create_result.Error != nil {
+			return nil, create_result.Error
+		}
+		return &val, nil
+	}
+	if result.Error != nil {
+		return nil, result.Error
 	}
 
-	if err != gorm.ErrRecordNotFound { // 如果不是未找到错误，则说明用户已存在
-		return err
-	}
-
-	err = g_db.Create(&val).Error
-	if err != nil {
-		zlog.Error(err)
-		return err
-	}
-	return nil
+	return &val, nil
 }
 
 func (model *SysSetup) AutoGetStringByName(name string) (string, error) {
