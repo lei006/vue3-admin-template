@@ -21,8 +21,6 @@ func main() {
 
 func main_run() {
 
-	zlog.SetSaveFile("logs.log", true)
-
 	err := app.Init()
 	if err != nil {
 		zlog.Error("init app error:", err)

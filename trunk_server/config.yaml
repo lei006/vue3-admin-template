@@ -1,12 +1,8 @@
 
 
 admin:
-    port: 8090
+    port: -1
     debug: false
-
-log:
-    save: false
-    level: -1
 
 model:
     # sqlite or mysql
