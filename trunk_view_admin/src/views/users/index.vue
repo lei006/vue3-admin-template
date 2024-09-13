@@ -50,6 +50,12 @@
                 <div style="line-height: 32px; cursor: pointer; background-color: rgba(100, 100, 100, 0.05);" @click="handleFieldEdit(scope.row, 'nickname')"> {{ scope.row.nickname?scope.row.nickname:"-" }} </div>
             </template>
         </el-table-column>
+        <el-table-column prop="password" label="密码" align="center"  width="120">
+            <template #default="scope">
+                <div style="line-height: 32px; cursor: pointer; background-color: rgba(100, 100, 100, 0.05);" @click="handleFieldEdit(scope.row, 'password')"> {{ "-" }} </div>
+            </template>
+        </el-table-column>
+
         <el-table-column prop="usersign" label="签名" align="center"  width="180">
             <template #default="scope">
                 <div style="line-height: 32px; cursor: pointer; background-color: rgba(100, 100, 100, 0.05);" @click="handleFieldEdit(scope.row, 'usersign')"> {{ scope.row.usersign?scope.row.usersign:"-" }} </div>

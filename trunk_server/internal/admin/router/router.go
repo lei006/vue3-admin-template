@@ -11,8 +11,6 @@ import (
 	"github.com/lei006/zlog"
 )
 
-var log = zlog.New("admin-router ")
-
 func Init() error {
 
 	var engine = gin.Default()
@@ -33,6 +31,10 @@ func Init() error {
 		// 应映页面
 		utils.GinRouterView2Folder(engine, "/admin", workPath+"/views/admin")
 		utils.GinRouterHome2Folder(engine, workPath+"/views/html")
+
+		zlog.Info("映射html: ", "/     ", "------>", workPath+"/views/html")
+		zlog.Info("映射目录: ", "/admin", "------>", workPath+"/views/admin")
+
 	}
 
 	publicGroup := engine.Group("/api")  // 公有路由 （无权限检查）
@@ -51,7 +53,7 @@ func Init() error {
 	initRouterSysOption(publicGroup, privateGroup)    // 路由操作记录
 
 	go func() {
-		log.Info("listen at ", config.App.Admin.Port)
+		zlog.Info("Admin listen at ", config.App.Admin.Port)
 		engine.Run(fmt.Sprintf(":%d", config.App.Admin.Port))
 	}()
 	time.Sleep(100 * time.Millisecond)

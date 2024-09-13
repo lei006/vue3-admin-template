@@ -63,7 +63,5 @@ func Init() error {
 		App.Admin.Port = 8090
 	}
 
-	zlog.Debugf("Model = %+v \n", App)
-
 	return nil
 }
