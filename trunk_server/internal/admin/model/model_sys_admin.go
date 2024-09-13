@@ -109,12 +109,12 @@ func (model *SysAdmin) GetPage() (list []SysAdmin, total int64, err error) {
 func (model *SysAdmin) FindOrCreate(username string, password string) (*SysAdmin, error) {
 
 	val := SysAdmin{
-		Username: name,
-		Password: data,
-		Nickname: desc,
+		Username: username,
+		Password: password,
+		Nickname: username,
 	}
 
-	result := g_db.Where("name = ?", name).First(&val)
+	result := g_db.Where("name = ?", username).First(&val)
 	if result.RowsAffected == 0 {
 		create_result := g_db.Create(&val)
 		if create_result.Error != nil {

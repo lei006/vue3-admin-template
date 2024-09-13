@@ -18,16 +18,6 @@ onMounted(()=>{
 <style lang="scss" scoped>
 
 
-.layout-box {
-    background-color: var(--system-container-main-background);
-    width: calc(100% - 10px);
-    height: calc(100% - 10px);
-    margin: 15px;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-}
-
 
 
 </style>
