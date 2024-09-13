@@ -16,7 +16,7 @@ const lang = {
       exportExcelTip:'请输入导出文件名'
     },
     menu: {
-      logs:'操作日志',
+      option:'操作日志',
       config:'系统配置',
       about: '关于软件',
       dashboard: {

@@ -21,6 +21,7 @@ func Init() error {
 
 	engine.Use(middleware.CorsByRules())     // 按照配置的规则放行跨域请求
 	engine.Use(middleware.GinRecovery(true)) // 处理异常
+	engine.Use(middleware.RecordOption())    // 记录操作
 
 	{
 

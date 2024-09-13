@@ -61,19 +61,8 @@ func Init() error {
 		return err
 	}
 
-	// 从数据库-加载配置
-
+	////////////////////////////////////////////////////
 	// 配置检查
-	ConfigCheck()
-
-	// 配置使用
-	ConfigUse()
-
-	return nil
-}
-
-func ConfigCheck() {
-
 	//如果 admin.port 小于等于0 大于65535，则设置为8090
 	if App.Admin.Port <= 0 || App.Admin.Port > 65535 {
 		zlog.Warn("admin.port is invalid, set to 8090")
@@ -86,9 +75,8 @@ func ConfigCheck() {
 		App.Zlog.Level = zlog.LogDebug
 	}
 
-}
-
-func ConfigUse() {
+	////////////////////////////////////////////////////
+	// 配置使用
 	//日志过滤
 	for i := App.Zlog.Level; i < zlog.LogDebug; i++ {
 		zlog.SetLogLevel(i + 1)
@@ -104,4 +92,24 @@ func ConfigUse() {
 		zlog.ForceConsoleColor()
 	}
 
+	////////////////////////////////////////////////////
+	// 检查预置数据
+	err = checkPreData()
+	if err != nil {
+		zlog.Error(err)
+		return err
+	}
+
+	return nil
+}
+
+func checkPreData() error {
+	modelAdmin := model.SysAdmin{}
+	_, err := modelAdmin.FindOrCreate("admin", App.Admin.Password)
+	if err != nil {
+		zlog.Error(err)
+		return err
+	}
+
+	return nil
 }

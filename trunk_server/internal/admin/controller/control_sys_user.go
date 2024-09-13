@@ -156,12 +156,12 @@ func (control *SysUserControl) GetPage(ctx *gin.Context) {
 	reqPageInfo.Keyword = keyword
 
 	var modelUser model.SysUser
-	user_list, total, err := modelUser.GetPage(reqPageInfo)
+	items, total, err := modelUser.GetPage(reqPageInfo)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	RetPage(ctx, user_list, total)
+	RetPage(ctx, items, total)
 
 }

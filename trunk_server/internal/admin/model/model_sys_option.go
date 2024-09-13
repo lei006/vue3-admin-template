@@ -1,22 +1,58 @@
 // 自动生成模板SysOperationRecord
 package model
 
-import (
-	"time"
-)
-
 // 如果含有time.Time 请自行import time包
-type SysOperationRecord struct {
+type SysOption struct {
 	BASE_MODEL
-	Ip           string        `json:"ip" form:"ip" gorm:"column:ip;comment:请求ip"`                                   // 请求ip
-	Method       string        `json:"method" form:"method" gorm:"column:method;comment:请求方法"`                       // 请求方法
-	Path         string        `json:"path" form:"path" gorm:"column:path;comment:请求路径"`                             // 请求路径
-	Status       int           `json:"status" form:"status" gorm:"column:status;comment:请求状态"`                       // 请求状态
-	Latency      time.Duration `json:"latency" form:"latency" gorm:"column:latency;comment:延迟" swaggertype:"string"` // 延迟
-	Agent        string        `json:"agent" form:"agent" gorm:"column:agent;comment:代理"`                            // 代理
-	ErrorMessage string        `json:"error_message" form:"error_message" gorm:"column:error_message;comment:错误信息"`  // 错误信息
-	Body         string        `json:"body" form:"body" gorm:"type:text;column:body;comment:请求Body"`                 // 请求Body
-	Resp         string        `json:"resp" form:"resp" gorm:"type:text;column:resp;comment:响应Body"`                 // 响应Body
-	UserID       int           `json:"user_id" form:"user_id" gorm:"column:user_id;comment:用户id"`                    // 用户id
-	User         SysUser       `json:"user"`
+	UserID    int    `json:"user_id" form:"user_id" gorm:"column:user_id;comment:用户id"`       // 用户id
+	FromIp    string `json:"fromip" form:"fromip" gorm:"column:fromip;comment:请求ip"`          // 请求ip
+	MsgText01 string `json:"msgtext01" form:"msgtext01" gorm:"column:msgtext01;comment:请求方法"` // 0
+	MsgText02 string `json:"msgtext02" form:"msgtext02" gorm:"column:msgtext02;comment:请求方法"` // 0
+	MsgText03 string `json:"msgtext03" form:"msgtext03" gorm:"column:msgtext03;comment:请求方法"` // 0
+	MsgText04 string `json:"msgtext04" form:"msgtext04" gorm:"column:msgtext04;comment:请求方法"` // 0
+	MsgText05 string `json:"msgtext05" form:"msgtext05" gorm:"column:msgtext05;comment:请求方法"` // 0
+	MsgText06 string `json:"msgtext06" form:"msgtext06" gorm:"column:msgtext06;comment:请求方法"` // 0
+	MsgText07 string `json:"msgtext07" form:"msgtext07" gorm:"column:msgtext07;comment:请求方法"` // 0
+	MsgText08 string `json:"msgtext08" form:"msgtext08" gorm:"column:msgtext08;comment:请求方法"` // 0
+	MsgText09 string `json:"msgtext09" form:"msgtext09" gorm:"column:msgtext09;comment:请求方法"` // 0
+	MsgText10 string `json:"msgtext10" form:"msgtext10" gorm:"column:msgtext10;comment:请求方法"` // 0
+}
+
+func (SysOption) TableName() string {
+	return "sys_option"
+}
+
+func (model *SysOption) DeleteMany(ids []int) (err error) {
+	result := g_db.Unscoped().Delete(&[]SysOption{}, "id in ?", ids)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return err
+}
+
+func (model *SysOption) GetPage(page PageInfo) (list []SysOption, total int64, err error) {
+
+	limit := page.PageSize
+	offset := page.PageSize * (page.Page - 1)
+
+	// 创建db
+	db := g_db.Model(&SysOption{})
+
+	if len(page.Keyword) > 0 {
+		db = db.Where("username LIKE ?", "%"+page.Keyword+"%")
+	}
+
+	var items []SysOption
+	err = db.Count(&total).Error
+	if err != nil {
+		return
+	}
+
+	result := db.Limit(limit).Offset(offset).Order("id desc").Find(&items)
+	if result.Error != nil {
+		return nil, 0, result.Error
+	}
+
+	return items, total, err
 }

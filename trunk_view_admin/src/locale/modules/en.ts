@@ -17,7 +17,7 @@ const lang = {
       exportExcelTip:'please input file name'
     },
     menu: {
-      logs:'logs',
+      option:'logs',
       config:'config',
       about: 'about',      
       dashboard: {

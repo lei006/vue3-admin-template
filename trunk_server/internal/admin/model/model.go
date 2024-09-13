@@ -86,6 +86,7 @@ func getdb(dbType string, dbSource string) (*gorm.DB, error) {
 		err := tmp_db.AutoMigrate(
 			SysAdmin{},
 			SysUser{},
+			SysOption{},
 			SysSetup{},
 		)
 		if err != nil {

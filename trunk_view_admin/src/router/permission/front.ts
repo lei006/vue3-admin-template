@@ -14,7 +14,7 @@ import Component from '../modules/component'
 import Directive from '../modules/directive'
 import SystemManage from '../modules/systemManage'
 import SysUsers from '../modules/sys_users'
-import SysLogs from '../modules/sys_logs'
+import SysOption from '../modules/sys_option'
 import SysConfig from '../modules/sys_config'
 import SysAbout from '../modules/sys_about'
 import Chart from '../modules/chart'
@@ -31,7 +31,7 @@ const FrontRoutes: Route[] = [
   //...Menu,
   //...Directive,
   //...Chart,
-  ...SysLogs,
+  ...SysOption,
   ...SysUsers,
   ...SysConfig,
   ...SysAbout,

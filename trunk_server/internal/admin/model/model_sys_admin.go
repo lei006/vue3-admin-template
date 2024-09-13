@@ -2,6 +2,8 @@ package model
 
 import (
 	"errors"
+
+	"github.com/lei006/zlog"
 )
 
 type SysAdmin struct {
@@ -114,15 +116,17 @@ func (model *SysAdmin) FindOrCreate(username string, password string) (*SysAdmin
 		Nickname: username,
 	}
 
-	result := g_db.Where("name = ?", username).First(&val)
+	result := g_db.Where("username = ?", username).First(&val)
 	if result.RowsAffected == 0 {
 		create_result := g_db.Create(&val)
 		if create_result.Error != nil {
+			zlog.Error("FindOrCreate", create_result.Error)
 			return nil, create_result.Error
 		}
 		return &val, nil
 	}
 	if result.Error != nil {
+		zlog.Error("FindOrCreate", result.Error)
 		return nil, result.Error
 	}
 
