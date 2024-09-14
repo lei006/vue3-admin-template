@@ -130,7 +130,6 @@
 
 <script setup>
 import { onMounted, ref, reactive } from "vue";
-import { Page } from "@/components/table/type";
 import { ElMessage, ElMessageBox } from "element-plus";
 import Table from "@/components/table/index.vue";
 import { Plus, Delete, Search } from '@element-plus/icons'
@@ -138,8 +137,6 @@ import stringRandom  from 'string-random'
 import apiSystemAdmin from "@/api/system/admin";
 
 const refLayout = ref()
-
-
 
 // 存储搜索用的数据
 const query = reactive({
