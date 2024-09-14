@@ -1,23 +1,41 @@
 <template>
-    <div>aaaaaaa</div>
+    <div class="content-box">
+      <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+        <el-tab-pane label="User" name="first">User</el-tab-pane>
+        <el-tab-pane label="Config" name="second">Config</el-tab-pane>
+        <el-tab-pane label="Role" name="third">Role</el-tab-pane>
+        <el-tab-pane label="Task" name="fourth">Task</el-tab-pane>
+      </el-tabs>
+    </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { onMounted, ref, reactive } from "vue";
-import { Page } from "@/components/table/type";
-import { ElMessage, ElMessageBox } from "element-plus";
-import Table from "@/components/table/index.vue";
-import { Plus, Delete, Search } from '@element-plus/icons'
-import stringRandom  from 'string-random'
 import apiSystemOption from "@/api/system/option";
 
 
+const activeName = ref('first')
 
+const handleClick = (tab, event) => {
+  console.log(tab, event)
+}
 
 
 </script>
 
 <style lang="scss" scoped>
+
+.content-box {
+  margin-top: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 800px;
+  height: 640px;
+  padding: 25px;
+  background-color: #fff;
+}
+
+
 .statusName {
   margin-right: 10px;
 }
