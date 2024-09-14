@@ -5,25 +5,25 @@ const route: Route[] = [
   {
     path: '/systemManage',
     component: Layout,
-    redirect: '/systemManage/menu',
+    redirect: '/systemManage/user',
     meta: { title: 'message.menu.systemManage.name', icon: 'sfont system-xitongzhuangtai' },
     alwayShow: true,
     children: [
       {
-        path: 'menu',
-        component: createNameComponent(() => import('@/views/main/systemManage/menu/index.vue')),
-        meta: { title: 'message.menu.systemManage.menu' }
+        path: 'option',
+        component: createNameComponent(() => import('@/views/sys_option/index.vue')),
+        meta: { title: 'message.menu.option', icon: 'sfont system-24gl-printer', hideClose: true  }
+      },      
+      {
+        path: 'limit_ip',
+        component: createNameComponent(() => import('@/views/sys_limit_ip/index.vue')),
+        meta: { title: 'message.menu.limit_ip', icon: 'sfont system-24gl-printer', hideClose: true  }
       },
       {
-        path: 'role',
-        component: createNameComponent(() => import('@/views/main/systemManage/role/index.vue')),
-        meta: { title: 'message.menu.systemManage.role' }
-      },
-      {
-        path: 'user',
-        component: createNameComponent(() => import('@/views/main/systemManage/users/index.vue')),
-        meta: { title: 'message.menu.systemManage.user' }
-      }
+        path: 'setup',
+        component: createNameComponent(() => import('@/views/sys_setup/index.vue')),
+        meta: { title: 'message.menu.config', icon: 'sfont system-24gl-printer', hideClose: true  }
+      }      
     ]
   }
 ]

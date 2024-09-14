@@ -54,7 +54,7 @@ func (model *SysOption) GetPage(page PageInfo) (list []SysOption, total int64, e
 	db := g_db.Model(&SysOption{})
 
 	if len(page.Keyword) > 0 {
-		db = db.Where("username LIKE ?", "%"+page.Keyword+"%")
+		db = db.Where("typ LIKE ?", "%"+page.Keyword+"%").Or("fromip LIKE ?", "%"+page.Keyword+"%").Or("msgtext01 LIKE ?", "%"+page.Keyword+"%").Or("msgtext02 LIKE ?", "%"+page.Keyword+"%").Or("msgtext03 LIKE ?", "%"+page.Keyword+"%").Or("msgtext04 LIKE ?", "%"+page.Keyword+"%")
 	}
 
 	var items []SysOption

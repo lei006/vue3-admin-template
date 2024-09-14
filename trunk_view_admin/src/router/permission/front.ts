@@ -13,11 +13,8 @@ import Menu from '../modules/menu'
 import Component from '../modules/component'
 import Directive from '../modules/directive'
 import SystemManage from '../modules/systemManage'
-import SysUsers from '../modules/sys_users'
-import SysOption from '../modules/sys_option'
-import SysSetup from '../modules/sys_setup'
+import SysUser from '../modules/sys_user'
 import SysAbout from '../modules/sys_about'
-import SysLimitIp from '../modules/sys_limit_ip'
 import Chart from '../modules/chart'
 import Print from '../modules/print'
 import Community from '../modules/community'
@@ -32,10 +29,8 @@ const FrontRoutes: Route[] = [
   //...Menu,
   //...Directive,
   //...Chart,
-  ...SysOption,
-  ...SysUsers,
-  ...SysSetup,
-  ...SysLimitIp,
+  ...SysUser,
+  ...SystemManage,
   ...SysAbout,
   //...Print,
   //...Community,
