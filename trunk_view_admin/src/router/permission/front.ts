@@ -17,6 +17,7 @@ import SysUsers from '../modules/sys_users'
 import SysOption from '../modules/sys_option'
 import SysSetup from '../modules/sys_setup'
 import SysAbout from '../modules/sys_about'
+import SysLimitIp from '../modules/sys_limit_ip'
 import Chart from '../modules/chart'
 import Print from '../modules/print'
 import Community from '../modules/community'
@@ -34,6 +35,7 @@ const FrontRoutes: Route[] = [
   ...SysOption,
   ...SysUsers,
   ...SysSetup,
+  ...SysLimitIp,
   ...SysAbout,
   //...Print,
   //...Community,

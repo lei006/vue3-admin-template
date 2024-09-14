@@ -23,6 +23,7 @@ func (control *SysUserControl) Create(ctx *gin.Context) {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
+
 	zlog.Debugf("user_info: %+v \n", user_info)
 	err = modelUser.Create(&user_info)
 	if err != nil {

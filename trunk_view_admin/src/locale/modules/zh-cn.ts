@@ -19,6 +19,7 @@ const lang = {
       option:'操作日志',
       config:'系统配置',
       about: '关于软件',
+      limit_ip: '限制IP',
       dashboard: {
         name: 'dashboard',
         index: '首页'

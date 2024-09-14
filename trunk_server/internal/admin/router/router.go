@@ -19,7 +19,8 @@ func Init() error {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	engine.Use(middleware.CorsByRules())     // 按照配置的规则放行跨域请求
+	engine.Use(middleware.LimitIp())         // 限制IP
+	engine.Use(middleware.CorsByRules())     // 跨域请求
 	engine.Use(middleware.GinRecovery(true)) // 处理异常
 	engine.Use(middleware.RecordOption())    // 记录操作
 
@@ -52,6 +53,7 @@ func Init() error {
 	initRouterSysUser(publicGroup, privateGroup)      // 路由用户管理
 	initRouterSysOption(publicGroup, privateGroup)    // 路由操作记录
 	initRouterSysSetup(publicGroup, privateGroup)     // 路由系统设置
+	initRouterSysLimitIp(publicGroup, privateGroup)   // 路由系统设置
 
 	go func() {
 		zlog.Info("Admin listen at ", config.App.Admin.Port)
