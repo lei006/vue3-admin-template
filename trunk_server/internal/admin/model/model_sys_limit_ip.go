@@ -106,7 +106,7 @@ func (model *SysLimitIp) GetPage(page PageInfo) (items []SysLimitIp, total int64
 	db := g_db.Model(&SysLimitIp{})
 
 	if len(page.Keyword) > 0 {
-		db = db.Where("ip LIKE ?", "%"+page.Keyword+"%")
+		db = db.Where("ip LIKE ?", "%"+page.Keyword+"%").Or("desc LIKE ?", "%"+page.Keyword+"%")
 	}
 
 	err = db.Count(&total).Error

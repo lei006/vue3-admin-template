@@ -108,7 +108,7 @@ func (model *SysUser) GetPage(page PageInfo) (list []SysUser, total int64, err e
 	db := g_db.Model(&SysUser{})
 
 	if len(page.Keyword) > 0 {
-		db = db.Where("username LIKE ?", "%"+page.Keyword+"%")
+		db = db.Where("username LIKE ?", "%"+page.Keyword+"%").Or("nickname LIKE ?", "%"+page.Keyword+"%").Or("desc LIKE ?", "%"+page.Keyword+"%")
 	}
 
 	var reportItems []SysUser
