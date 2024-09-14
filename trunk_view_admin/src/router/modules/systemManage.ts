@@ -13,7 +13,12 @@ const route: Route[] = [
         path: 'option',
         component: createNameComponent(() => import('@/views/sys_option/index.vue')),
         meta: { title: 'message.menu.option', icon: 'sfont system-24gl-printer', hideClose: true  }
-      },      
+      },
+      {
+        path: 'admin',
+        component: createNameComponent(() => import('@/views/sys_admin/index.vue')),
+        meta: { title: 'message.menu.admin', icon: 'sfont system-24gl-printer', hideClose: true  }
+      },            
       {
         path: 'limit_ip',
         component: createNameComponent(() => import('@/views/sys_limit_ip/index.vue')),
@@ -23,7 +28,7 @@ const route: Route[] = [
         path: 'setup',
         component: createNameComponent(() => import('@/views/sys_setup/index.vue')),
         meta: { title: 'message.menu.config', icon: 'sfont system-24gl-printer', hideClose: true  }
-      }      
+      }
     ]
   }
 ]

@@ -20,6 +20,7 @@ const lang = {
       config:'系统配置',
       about: '关于软件',
       limit_ip: 'IP黑名单',
+      admin:'管理员',
       dashboard: {
         name: 'dashboard',
         index: '首页'

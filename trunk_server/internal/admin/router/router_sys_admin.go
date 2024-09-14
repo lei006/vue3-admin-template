@@ -11,7 +11,7 @@ func initRouterSysAdmin(publicRouter *gin.RouterGroup, privateGroup *gin.RouterG
 	//authPubRouter := publicRouter.Group("user") //.Use(middleware.OperationRecord())
 	authPriRouter := privateGroup
 
-	controller := controller.SysUserControl{}
+	controller := controller.SysAdminControl{}
 
 	{
 		// add

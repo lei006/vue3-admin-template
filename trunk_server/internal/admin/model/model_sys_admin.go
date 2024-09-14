@@ -8,15 +8,13 @@ import (
 
 type SysAdmin struct {
 	BASE_MODEL
-	Username string `json:"username" gorm:"uniqueIndex;comment:用户登录名"`      // 用户登录名
-	Password string `json:"-"  gorm:"comment:用户登录密码"`                       // 用户登录密码
-	Nickname string `json:"nickname" gorm:"default:系统用户;comment:用户昵称"`      // 用户昵称
-	Token    string `json:"token" gorm:"index;default:token;comment:token"` // token
-	//Headerimg string `json:"headerimg" gorm:"type:mediumtext; comment:用户头像"` // 用户头像
-	UserSign string `json:"user_sign" gorm:"type:mediumtext;comment:用户签名"` // 用户签名
-	Desc     string `json:"desc"  gorm:"comment:描述"`                       //
-	//Email     string `json:"email"  gorm:"comment:用户邮箱"`                          // 用户邮箱
-	IsDisable bool `json:"is_disable" gorm:"default:0;comment:用户是否被冻结 0正常 1冻结"` //用户是否被冻结 0正常 1冻结
+	Username  string `json:"username" gorm:"uniqueIndex;comment:用户登录名"`                                 // 用户登录名
+	Password  string `json:"password"  gorm:"comment:用户登录密码"`                                           // 用户登录密码
+	Nickname  string `json:"nickname" gorm:"default:系统用户;comment:用户昵称"`                                 // 用户昵称
+	Token     string `json:"token" gorm:"index;default:token;comment:token"`                            // token
+	UserSign  string `json:"usersign" gorm:"column:usersign;type:mediumtext;comment:用户签名"`              // 用户签名
+	Desc      string `json:"desc"  gorm:"column:desc;comment:描述"`                                       //
+	IsDisable bool   `json:"is_disable" gorm:"column:is_disable;default:false;comment:用户是否被冻结 0正常 1冻结"` //用户是否被冻结 0正常 1冻结
 }
 
 func (SysAdmin) TableName() string {
