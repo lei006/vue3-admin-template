@@ -85,12 +85,11 @@ func Init() error {
 	// 日志保存
 	if App.Zlog.SaveDay > 0 {
 		zlog.SetSaveFile("logs.log", true)
+		zlog.LogMaxDurationDate = App.Zlog.SaveDay
 	}
 
 	// 强制控制台输出颜色
-	if App.Zlog.Color {
-		zlog.ForceConsoleColor()
-	}
+	zlog.ForceConsoleColor()
 
 	////////////////////////////////////////////////////
 	// 检查预置数据
