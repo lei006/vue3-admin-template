@@ -5,12 +5,12 @@ const route: Route[] = [
   {
     path: '/',
     component: Layout,
-    redirect: '/config',
+    redirect: '/setup',
     meta: { title: 'message.menu.config', icon: 'sfont system-xitongzhuangtai' },
     children: [
       {
-        path: 'config',
-        component: createNameComponent(() => import('@/views/sys_config/index.vue')),
+        path: 'setup',
+        component: createNameComponent(() => import('@/views/sys_setup/index.vue')),
         meta: { title: 'message.menu.config', icon: 'sfont system-24gl-printer', hideClose: true  }
       }
     ]

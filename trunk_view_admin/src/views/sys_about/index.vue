@@ -20,9 +20,6 @@ onMounted(async ()=>{
 <style lang="scss" scoped>
 
 
-.box {
-  
-}
 
 
 </style>

@@ -15,7 +15,7 @@ import Directive from '../modules/directive'
 import SystemManage from '../modules/systemManage'
 import SysUsers from '../modules/sys_users'
 import SysOption from '../modules/sys_option'
-import SysConfig from '../modules/sys_config'
+import SysSetup from '../modules/sys_setup'
 import SysAbout from '../modules/sys_about'
 import Chart from '../modules/chart'
 import Print from '../modules/print'
@@ -33,7 +33,7 @@ const FrontRoutes: Route[] = [
   //...Chart,
   ...SysOption,
   ...SysUsers,
-  ...SysConfig,
+  ...SysSetup,
   ...SysAbout,
   //...Print,
   //...Community,
