@@ -1,21 +1,39 @@
 // 自动生成模板SysOperationRecord
 package model
 
+import (
+	"errors"
+
+	"github.com/sohaha/zlsgo/zlog"
+)
+
 // 如果含有time.Time 请自行import time包
 type SysOption struct {
 	BASE_MODEL
 	FromIp    string `json:"fromip" form:"fromip" gorm:"column:fromip;comment:请求ip"`      // 请求ip
-	Desc      string `json:"desc" form:"desc" gorm:"column:desc;comment:desc"`            // 0
+	Typ       string `json:"typ" form:"typ" gorm:"column:typ;comment:type"`               // 0
 	MsgText01 string `json:"msgtext01" form:"msgtext01" gorm:"column:msgtext01;comment:"` // 0
 	MsgText02 string `json:"msgtext02" form:"msgtext02" gorm:"column:msgtext02;comment:"` // 0
 	MsgText03 string `json:"msgtext03" form:"msgtext03" gorm:"column:msgtext03;comment:"` // 0
 	MsgText04 string `json:"msgtext04" form:"msgtext04" gorm:"column:msgtext04;comment:"` // 0
-	MsgText05 string `json:"msgtext05" form:"msgtext05" gorm:"column:msgtext05;comment:"` // 0
-	MsgText06 string `json:"msgtext06" form:"msgtext06" gorm:"column:msgtext06;comment:"` // 0
 }
 
 func (SysOption) TableName() string {
 	return "sys_option"
+}
+
+func (model *SysOption) Create(newVal *SysOption) (err error) {
+
+	result := g_db.Create(newVal)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	if result.RowsAffected == 0 {
+		return errors.New("no rows were inserted")
+	}
+
+	return nil
 }
 
 func (model *SysOption) DeleteMany(ids []int) (err error) {
@@ -51,4 +69,25 @@ func (model *SysOption) GetPage(page PageInfo) (list []SysOption, total int64, e
 	}
 
 	return items, total, err
+}
+
+func SysOptionLog(typ, msg1, msg2, msg3, msg4, FromIp string) error {
+
+	item := SysOption{
+		FromIp:    FromIp,
+		Typ:       typ,
+		MsgText01: msg1,
+		MsgText02: msg2,
+		MsgText03: msg3,
+		MsgText04: msg4,
+	}
+
+	var sys_options SysOption
+	err := sys_options.Create(&item)
+	if err != nil {
+		zlog.Error("SysOptionLog", err)
+		return err
+	}
+
+	return nil
 }
