@@ -30,9 +30,9 @@ export function loginOutApi() {
 }
 
 /** 获取用户信息Api */
-export function passwordChange(data: object) {
+export function SetPassword(data: object) {
   return request({
-    url: '/user/passwordChange',
+    url: '/user/SetPassword',
     method: 'post',
     baseURL: '/mock',
     data

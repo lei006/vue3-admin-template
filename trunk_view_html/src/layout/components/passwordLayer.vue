@@ -21,7 +21,7 @@ import type { ElFormItemContext } from 'element-plus/lib/el-form/src/token'
 import { defineComponent, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useStore } from 'vuex'
-import { passwordChange } from '@/api/auth'
+import { SetPassword } from '@/api/userauth'
 import Layer from '@/components/layer/index.vue'
 export default defineComponent({
   components: {
@@ -62,12 +62,8 @@ export default defineComponent({
               old: form.value.old,
               new: form.value.new
             }
-            passwordChange(params)
-            .then(res => {
-              ElMessage({
-                type: 'success',
-                message: '密码修改成功，即将跳转到登录页面'
-              })
+            SetPassword(params).then(res => {
+              ElMessage({type: 'success',message: '密码修改成功，即将跳转到登录页面'})
               layerDom.value && layerDom.value.close()
               setTimeout(() => {
                 store.dispatch('auth/loginOut')
