@@ -112,9 +112,11 @@ func (control *SysAuthAdminControl) Info(ctx *gin.Context) {
 
 func (control *SysAuthAdminControl) SetPassword(ctx *gin.Context) {
 
+	token := ctx.Request.Header.Get("token")
+
 	type PasswordResponse struct {
-		Old string `json:"old_password"`
-		New string `json:"new_password"`
+		Old string `json:"old"`
+		New string `json:"new"`
 	}
 
 	passwordRes := PasswordResponse{}
@@ -124,28 +126,24 @@ func (control *SysAuthAdminControl) SetPassword(ctx *gin.Context) {
 		return
 	}
 
-	id := GetUserID(ctx)
-	id_str := fmt.Sprintf("%d", id)
-
-	modelAdmin := &model.SysAdmin{}
-	user_info, err := modelAdmin.GetOne(id_str)
+	modelUser := &model.SysAdmin{}
+	user_info, err := modelUser.GetOneByToken(token)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, "未找到用户"+err.Error())
 		return
 	}
-
+	zlog.Debug("passwordRes", passwordRes)
+	zlog.Debug("user_info", user_info)
 	if user_info.Password != passwordRes.Old {
 		RetErr(ctx, http.StatusBadRequest, "原始密码错误")
 		return
 	}
 
-	err = modelAdmin.PatchOne(id_str, "password", passwordRes.New)
+	err = modelUser.PatchOne(fmt.Sprintf("%d", user_info.ID), "password", passwordRes.New)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, "修改密码出错")
 		return
 	}
-
-	RetOK(ctx)
 }
 
 func (control *SysAuthAdminControl) Regedit(ctx *gin.Context) {
