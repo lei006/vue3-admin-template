@@ -20,6 +20,8 @@
     "mockjs": "^1.1.0",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
+    "pinia": "^2.2.2",
+    "pinia-plugin-persistedstate": "^4.0.1",
     "sortablejs": "^1.14.0",
     "splitpanes": "^3.1.1",
     "string-random": "^0.1.3",

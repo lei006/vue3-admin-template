@@ -16,6 +16,12 @@ const lang = {
       exportExcelTip:'请输入导出文件名'
     },
     menu: {
+      option:'操作日志',
+      config:'系统配置',
+      about: '关于软件',
+      limit_ip: 'IP黑名单',
+      admin:'管理员',
+      personal:'个人中心',
       dashboard: {
         name: 'dashboard',
         index: '首页'
@@ -81,7 +87,7 @@ const lang = {
         name: '系统管理',
         menu: '菜单',
         role: '角色',
-        user: '用户'
+        user: '用户管理'
       },
       print: {
         name: '打印功能',

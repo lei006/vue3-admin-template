@@ -21,6 +21,7 @@ const lang = {
       about: '关于软件',
       limit_ip: 'IP黑名单',
       admin:'管理员',
+      personal:'个人中心',
       dashboard: {
         name: 'dashboard',
         index: '首页'

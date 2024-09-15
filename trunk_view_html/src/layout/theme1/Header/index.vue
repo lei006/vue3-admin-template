@@ -25,6 +25,7 @@
           </span>
           <template #dropdown>
             <el-dropdown-menu>
+              <el-dropdown-item @click="showPersonal">{{ $t('message.menu.personal') }}</el-dropdown-item>
               <el-dropdown-item @click="showPasswordLayer">{{ $t('message.system.changePassword') }}</el-dropdown-item>
               <el-dropdown-item @click="loginOut">{{ $t('message.system.loginOut') }}</el-dropdown-item>
             </el-dropdown-menu>
@@ -47,6 +48,9 @@ import Github from '../../components/functionList/github.vue'
 import Theme from '../../components/functionList/theme.vue'
 import Breadcrumb from './Breadcrumb.vue'
 import PasswordLayer from '../../components/passwordLayer.vue'
+
+
+
 export default defineComponent({
   components: {
     FullScreen,
@@ -79,10 +83,16 @@ export default defineComponent({
     const showPasswordLayer = () => {
       layer.show = true
     }
+    const showPersonal =()=>{
+      router.push({ path: "/personal" })
+    }
+
+
     return {
       isCollapse,
       layer,
       opendStateChange,
+      showPersonal,
       loginOut,
       showPasswordLayer
     }

@@ -12,6 +12,9 @@ import './assets/style/common.scss' // 公共css
 import './theme/modules/chinese/index.scss'
 import App from './App.vue'
 import store from './store'
+import pinia from './pinia'
+
+
 import router from './router'
 import { getAuthRoutes } from './router/permission'
 import i18n from './locale'
@@ -24,6 +27,7 @@ getAuthRoutes().then(() => {
   const app = createApp(App)
   app.use(ElementPlus, { size: store.state.app.elementSize })
   app.use(store)
+  app.use(pinia)
   app.use(router)
   app.use(i18n)
   // app.config.performance = true
