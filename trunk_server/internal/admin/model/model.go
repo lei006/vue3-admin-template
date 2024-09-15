@@ -43,7 +43,7 @@ func Init(dbType string, dbSource string) error {
 
 func getdb(dbType string, dbSource string) (*gorm.DB, error) {
 
-	zlog.Info("dbType:", dbType, " dbSource:", dbSource)
+	zlog.Info("dbType:", dbType)
 
 	if g_db == nil {
 

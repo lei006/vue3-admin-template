@@ -40,6 +40,7 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
       },
     },
     build: {
+      outDir: '../trunk_server/views/html',
       rollupOptions: {
         output: {
           manualChunks: {

@@ -15,7 +15,6 @@ func LimitIp() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		client_ip := c.ClientIP()
-		zlog.Error("IP:", client_ip, "is limit")
 
 		var modelLimitIp model.SysLimitIp
 		item, err := modelLimitIp.GetOneIp(client_ip)
