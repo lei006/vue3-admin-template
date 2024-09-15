@@ -21,7 +21,7 @@ import type { ElFormItemContext } from 'element-plus/lib/el-form/src/token'
 import { defineComponent, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useStore } from 'vuex'
-import { SetPassword } from '@/api/userauth'
+import { SetPassword } from '@/api/authuser'
 import Layer from '@/components/layer/index.vue'
 export default defineComponent({
   components: {

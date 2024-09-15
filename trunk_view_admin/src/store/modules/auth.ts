@@ -1,4 +1,4 @@
-import { loginApi, getInfoApi, loginOutApi } from '@/api/auth'
+import { loginApi, getInfoApi, loginOutApi } from '@/api/authadmin'
 import { ActionContext } from 'vuex'
 
 export interface userState {

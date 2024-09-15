@@ -28,7 +28,7 @@ const route: Route[] = [
   },
   {
     path: '/login',
-    component: createNameComponent(() => import('@/views/system/login.vue')),
+    component: createNameComponent(() => import('@/views/sys_login/login.vue')),
     hideMenu: true,
     meta: { title: 'message.system.login', hideTabs: true }
   },

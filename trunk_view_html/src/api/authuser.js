@@ -2,11 +2,11 @@ import request from '@/utils/system/request'
 
 
 
-let api_url_prefix = "/auth/admin";
+let api_url_prefix = "/auth/user";
 
 
 /** 登录api */
-export function loginApi(data: object) {
+export function loginApi(data) {
   return request({
     url: api_url_prefix + '/login',
     method: 'post',
@@ -15,7 +15,7 @@ export function loginApi(data: object) {
 }
 
 /** 获取用户信息Api */
-export function getInfoApi(data: object) {
+export function getInfoApi(data) {
   return request({
     url: api_url_prefix + '/info',
     method: 'post',
@@ -32,10 +32,10 @@ export function loginOutApi() {
 }
 
 /** 获取用户信息Api */
-export function SetPassword(data: object) {
+export function SetPassword(data) {
   return request({
     url: api_url_prefix + '/setpassword',
-    method: 'post',
+    method: 'patch',
     data
   })
 }

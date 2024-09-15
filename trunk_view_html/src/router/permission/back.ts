@@ -7,7 +7,7 @@ import MenuBox from '@/components/menu/index.vue'
 import { createNameComponent } from '../createNode'
 /** 引入所有的配置清单 */
 import backConfig from './backConfig'
-import { getMenuApi } from '@/api/userauth'
+import { getMenuApi } from '@/api/authuser'
 
 /** 获取后台模板配置清单 */
 const getMenu = async () => {
