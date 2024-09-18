@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"time"
-	"vue3-admin-template/pkg/sign_tool"
 )
 
 type LicenseStruct struct {
@@ -142,7 +141,16 @@ func (model *SysLicense) GetPage(page PageInfo) (list []SysLicense, total int64,
 	return reportItems, total, err
 }
 
-func (model *LicenseStruct) getLicenseData() string {
+func LicenseGetJson(model *LicenseStruct) (string, error) {
+	data, err := json.Marshal(model)
+	if err != nil {
+		return "", err
+	}
+	return string(data), nil
+
+}
+
+func (model *LicenseStruct) GetData() string {
 
 	str := model.AppName
 	str += model.Company
@@ -157,48 +165,4 @@ func (model *LicenseStruct) getLicenseData() string {
 	str += fmt.Sprintf("%d", model.LicenseTimeLen)
 
 	return str
-}
-
-func LicenseSign(model *LicenseStruct, pri string) (sign string, err error) {
-
-	str := model.getLicenseData()
-	//str += model.Desc
-
-	sign_str, err := sign_tool.Base64Sign(str, pri)
-	if err != nil {
-		return "", err
-	}
-
-	return sign_str, err
-}
-
-func LicenseVerify(license_json string) (bool, error) {
-
-	var license SysLicense
-	err := json.Unmarshal([]byte(license_json), &license)
-	if err != nil {
-		return false, err
-	}
-
-	license_data := license.getLicenseData()
-
-	bret, err := sign_tool.Base64Verify(license_data, license.Sign, license.PubKey)
-	if err != nil {
-		return false, errors.New("签名验证出错" + err.Error())
-	}
-
-	if !bret {
-		return false, nil
-	}
-
-	return bret, nil
-}
-
-func LicenseGetJson(model *LicenseStruct) (string, error) {
-	data, err := json.Marshal(model)
-	if err != nil {
-		return "", err
-	}
-	return string(data), nil
-
 }

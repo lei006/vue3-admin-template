@@ -32,6 +32,7 @@ type BASE_MODEL struct {
 }
 
 func Init(dbType string, dbSource string) error {
+
 	db, err := getdb(dbType, dbSource)
 	if err != nil {
 		return err

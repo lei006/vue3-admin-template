@@ -5,12 +5,12 @@
         <p>欢迎访问我们的网站！这里是我们项目的详细介绍。</p>
         <p>这是一个基于Vue.js和TypeScript构建的应用程序，旨在...</p>
         <p v-for="item in about_items">
-            {{ item.title }}
+            {{ item.title }}:
             {{ item.data }}
             {{ item.desc }}
         </p>
-        <p><el-button>导入授权文件</el-button></p>
-        
+        <p><el-button @click="handleClick">导入授权文件</el-button></p>
+
     </div>
 </template>
 
@@ -24,7 +24,7 @@ let about_items = ref([])
 
 
 const handleClick = (tab, event) => {
-console.log(tab, event)
+    readFile()
 }
 
 
@@ -36,6 +36,59 @@ onMounted(()=>{
     })
 
 })
+
+
+
+// 优化后的代码
+function readFile() {
+    // 创建文件输入框
+    const fileInput = document.createElement('input');
+    fileInput.setAttribute('type', 'file');
+    fileInput.setAttribute('style', 'display:none'); // 使用CSS隐藏
+    document.body.appendChild(fileInput);
+    fileInput.click();
+
+    const reader = new FileReader();
+    
+    // 文件读取成功后的处理
+    reader.onload = async function (event) {
+        const fileContent = window.encodeURIComponent(event.target.result);
+
+        console.log('----==----', fileContent);
+
+        // 用base64编码
+        const base64Content = btoa(fileContent);
+        console.log('----==--|-', base64Content);
+
+
+        apiAboutOption.SetLicense(base64Content).then((res)=>{
+            console.log('------------', res);
+        })
+
+        console.log('转义并上传的文本内容：', fileContent);
+    };
+
+    // 文件读取失败后的处理
+    reader.onerror = function (error) {
+        console.error('文件读取失败：', error);
+
+        document.body.removeChild(fileInput);
+    };
+
+    // 用户取消文件选择后的处理
+    fileInput.onchange = function () {
+        if (this.files && this.files.length > 0) {
+            reader.readAsText(this.files[0]);
+        } else {
+            console.warn('用户取消了文件选择');
+        }
+
+        document.body.removeChild(fileInput);
+    };
+}
+
+
+
 
 
 </script>

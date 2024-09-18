@@ -6,6 +6,7 @@ import (
 	"time"
 	"vue3-admin-template/internal/config"
 	"vue3-admin-template/internal/db_model"
+	"vue3-admin-template/internal/license"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sohaha/zlsgo/zlog"
@@ -30,7 +31,7 @@ func (control *SysLicense) Create(ctx *gin.Context) {
 	license_info.LicenseAt = time.Now()
 	license_info.PubKey = config.LicensePubKey
 
-	sign, err := db_model.LicenseSign(&license_info.LicenseStruct, config.LicensePriKey)
+	sign, err := license.Sign(&license_info.LicenseStruct, config.LicensePriKey)
 	if err != nil {
 		RetErr(ctx, http.StatusInternalServerError, err.Error())
 		return
@@ -43,7 +44,7 @@ func (control *SysLicense) Create(ctx *gin.Context) {
 	}
 
 	//验证一下
-	ret, err := db_model.LicenseVerify(license_info.LicenseData)
+	ret, err := license.VerifyOnly(license_info.LicenseData)
 	if err != nil {
 		RetErr(ctx, http.StatusInternalServerError, err.Error())
 		return

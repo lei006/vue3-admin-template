@@ -44,6 +44,7 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column prop="id" label="Id" align="center" width="60" />
+        <el-table-column prop="appname" label="程序名" align="center" width="100"/>
         <el-table-column prop="company" label="公司名" align="center" width="160"/>
         <el-table-column prop="hard_sn" label="硬件ID" align="center"  width="120">
         </el-table-column>
@@ -78,6 +79,9 @@
 
     <el-dialog v-model="addUserDialogVisible" title="Tips" width="500">
         <el-form :model="addUserForm" :rules="addUserRules" ref="form" label-width="120px" style="margin-right:30px;">
+            <el-form-item label="应用名称：" prop="company">
+                <el-input v-model="addUserForm.appname" placeholder="请输入程序名称"></el-input>
+            </el-form-item>
             <el-form-item label="名称：" prop="company">
                 <el-input v-model="addUserForm.company" placeholder="请输入名称"></el-input>
             </el-form-item>
@@ -134,6 +138,7 @@ const query = reactive({
 
 const addUserDialogVisible = ref(false)
 let addUserForm = reactive({
+  appname:"",
   company: '',
   hard_sn: '',
   license_text0: '',

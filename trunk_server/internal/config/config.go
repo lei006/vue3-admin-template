@@ -12,13 +12,13 @@ var (
 	WorkPath = "./" // 工作路径
 
 	ConfigFileName = "config.yaml"
-	AppName        = "程序名"
+	AppName        = "我是应用的程序名"
 	App            AppConfig
+	HardSn         string
+	LicenseFile    = "license.lic"
 
-	LicenseCheck  bool //授权检查是否成功
-	LicenseLimit0 int  //授权限制数量1
-	LicenseLimit1 int  //授权限制数量2
-	LicenseLimit2 int  //授权限制数量3
+	LicenseCheck bool //授权检查是否成功
+	Lic          db_model.LicenseStruct
 
 	LicensePubKey = "MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQAW9CZ4zNrhuDsmNSKst2T06S62QTO02B12GXMbWPrbUOApbIkO0Sswc3n45bCRDHp0fWyMMHUF/GLS12hurRyElYBXEQQLRxPl/VsXg+FLO+KkhIxVtaIhuYgsnrr3Fa0HZCa/7CtrfrjnlrzJD4tNJUjdA9gPP0GJCioOw32pH3PypU="
 	LicensePriKey = "MIHcAgEBBEIB4ZuxKV3TGWxV3rWeN4khLfPLXfcU+cTUyIRzZ2oh2pHEahbetiNJK3rCKF0lHkeLA7nhvQkCUiS1TCpqMqc0IamgBwYFK4EEACOhgYkDgYYABABb0JnjM2uG4OyY1Iqy3ZPTpLrZBM7TYHXYZcxtY+ttQ4ClsiQ7RKzBzefjlsJEMenR9bIwwdQX8YtLXaG6tHISVgFcRBAtHE+X9WxeD4Us74qSEjFW1oiG5iCyeuvcVrQdkJr/sK2t+uOeWvMkPi00lSN0D2A8/QYkKKg7Dfakfc/KlQ=="
@@ -66,13 +66,6 @@ func Init() error {
 		return fmt.Errorf("Fatal Unmarshal config file: " + err.Error())
 	}
 
-	// 数据库初始化
-	err = db_model.Init(App.Model.DbType, App.Model.DbSource)
-	if err != nil {
-		zlog.Error(err)
-		return err
-	}
-
 	////////////////////////////////////////////////////
 	// 配置检查
 	//如果 admin.port 小于等于0 大于65535，则设置为8090
@@ -102,25 +95,6 @@ func Init() error {
 
 	// 强制控制台输出颜色
 	zlog.ForceConsoleColor()
-
-	////////////////////////////////////////////////////
-	// 检查预置数据
-	err = checkPreData()
-	if err != nil {
-		zlog.Error(err)
-		return err
-	}
-
-	return nil
-}
-
-func checkPreData() error {
-	modelAdmin := db_model.SysAdmin{}
-	_, err := modelAdmin.FindOrCreate("admin", App.Admin.Password)
-	if err != nil {
-		zlog.Error(err)
-		return err
-	}
 
 	return nil
 }

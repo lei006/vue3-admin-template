@@ -4,6 +4,7 @@ import (
 	"vue3-admin-template/internal/admin"
 	"vue3-admin-template/internal/config"
 	"vue3-admin-template/internal/db_model"
+	"vue3-admin-template/internal/license"
 	"vue3-admin-template/pkg/daemon"
 
 	"github.com/lei006/zlog"
@@ -27,8 +28,22 @@ func Init() error {
 	}
 	config.WorkPath = WorkPath
 
+	// 加载授权文件
+	err = license.Init()
+	if err != nil {
+		zlog.Error("load License error:", err)
+		return err
+	}
+
 	// 初始化应用配置
 	err = config.Init()
+	if err != nil {
+		zlog.Error(err)
+		return err
+	}
+
+	// 数据库初始化
+	err = db_model.Init(config.App.Model.DbType, config.App.Model.DbSource)
 	if err != nil {
 		zlog.Error(err)
 		return err
@@ -38,6 +53,15 @@ func Init() error {
 
 	// 初始化后台
 	err = admin.Init()
+	if err != nil {
+		zlog.Error(err)
+		return err
+	}
+
+	////////////////////////////////////////////////////
+	// 预置数据
+	modelAdmin := db_model.SysAdmin{}
+	_, err = modelAdmin.FindOrCreate("admin", config.App.Admin.Password)
 	if err != nil {
 		zlog.Error(err)
 		return err

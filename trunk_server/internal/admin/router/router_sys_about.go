@@ -13,7 +13,8 @@ func initRouterSysAbout(publicRouter *gin.RouterGroup, privateGroup *gin.RouterG
 	controller := controller.SysAboutControl{}
 
 	{
-		publicRouter.GET("/about", controller.GetPage) // 获取报告的数据结构列表
+		publicRouter.GET("/about", controller.GetPage)                // 获取报告的数据结构列表
+		publicRouter.PATCH("/about/license", controller.PatchLicense) // 获取报告的数据结构列表
 	}
 
 }

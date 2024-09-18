@@ -7,6 +7,17 @@ let api_url_prefix = "/about";
 
 
 
+
+const SetLicense = (data) => {
+  return request({
+    url: api_url_prefix + `/license`,
+    method: 'patch',
+    data
+  })
+}
+
+
+
 function GetList(params) {
   return request({
     url: api_url_prefix,
@@ -17,6 +28,7 @@ function GetList(params) {
 }
 
 export default {
+  SetLicense,
   GetList,
 }
 
