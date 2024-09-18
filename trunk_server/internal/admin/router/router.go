@@ -54,6 +54,8 @@ func Init() error {
 	initRouterSysOption(publicGroup, privateGroup)    // 路由操作记录
 	initRouterSysSetup(publicGroup, privateGroup)     // 路由系统设置
 	initRouterSysLimitIp(publicGroup, privateGroup)   // 路由系统设置
+	initRouterSysLicense(publicGroup, privateGroup)   // 路由系统设置
+	initRouterSysAbout(publicGroup, privateGroup)     // 路由系统设置
 
 	go func() {
 		zlog.Info("Admin listen at ", config.App.Admin.Port)

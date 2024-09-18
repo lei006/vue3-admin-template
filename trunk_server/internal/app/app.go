@@ -3,6 +3,7 @@ package app
 import (
 	"vue3-admin-template/internal/admin"
 	"vue3-admin-template/internal/config"
+	"vue3-admin-template/internal/db_model"
 	"vue3-admin-template/pkg/daemon"
 
 	"github.com/lei006/zlog"
@@ -32,6 +33,8 @@ func Init() error {
 		zlog.Error(err)
 		return err
 	}
+
+	db_model.FindOrCreateAbout("程序名称", config.AppName, "程序描述")
 
 	// 初始化后台
 	err = admin.Init()

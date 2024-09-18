@@ -12,7 +12,13 @@ var (
 	WorkPath = "./" // 工作路径
 
 	ConfigFileName = "config.yaml"
+	AppName        = "程序名"
 	App            AppConfig
+
+	LicenseCheck  bool //授权检查是否成功
+	LicenseLimit0 int  //授权限制数量1
+	LicenseLimit1 int  //授权限制数量2
+	LicenseLimit2 int  //授权限制数量3
 )
 
 type ModelConfig struct {
