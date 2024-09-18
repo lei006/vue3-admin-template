@@ -3,7 +3,7 @@ package controller
 import (
 	"net/http"
 	"strconv"
-	"vue3-admin-template/internal/admin/model"
+	"vue3-admin-template/internal/db_model"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lei006/zlog"
@@ -15,9 +15,9 @@ type SysLimitIpControl struct {
 
 func (control *SysLimitIpControl) Create(ctx *gin.Context) {
 
-	var modelSysLimitIp model.SysLimitIp
+	var modelSysLimitIp db_model.SysLimitIp
 
-	limitIp := model.SysLimitIp{}
+	limitIp := db_model.SysLimitIp{}
 	err := ctx.ShouldBindJSON(&limitIp)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -43,7 +43,7 @@ func (control *SysLimitIpControl) DeleteMany(ctx *gin.Context) {
 		return
 	}
 
-	var modelLimitIp model.SysLimitIp
+	var modelLimitIp db_model.SysLimitIp
 	err = modelLimitIp.DeleteMany(ids)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -64,7 +64,7 @@ func (control *SysLimitIpControl) PatchOne(ctx *gin.Context) {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
-	var modelLimitIp model.SysLimitIp
+	var modelLimitIp db_model.SysLimitIp
 
 	err = modelLimitIp.PatchOne(id, req.Field, req.Data)
 	if err != nil {
@@ -84,7 +84,7 @@ func (control *SysLimitIpControl) PatchOne(ctx *gin.Context) {
 
 func (control *SysLimitIpControl) GetPage(ctx *gin.Context) {
 
-	reqPageInfo := model.PageInfo{}
+	reqPageInfo := db_model.PageInfo{}
 	// 从参数中获取分页信息
 	page := ctx.Query("page")
 	pageSize := ctx.Query("pageSize")
@@ -106,7 +106,7 @@ func (control *SysLimitIpControl) GetPage(ctx *gin.Context) {
 	// keyword 转为 string
 	reqPageInfo.Keyword = keyword
 
-	var modelLimitIp model.SysLimitIp
+	var modelLimitIp db_model.SysLimitIp
 	items, total, err := modelLimitIp.GetPage(reqPageInfo)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())

@@ -3,7 +3,7 @@ package controller
 import (
 	"fmt"
 	"net/http"
-	"vue3-admin-template/internal/admin/model"
+	"vue3-admin-template/internal/db_model"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
@@ -41,7 +41,7 @@ func (control *SysAuthAdminControl) Login(ctx *gin.Context) {
 		}
 	}
 
-	modelAdmin := &model.SysAdmin{}
+	modelAdmin := &db_model.SysAdmin{}
 	user_info, err := modelAdmin.GetOneByUsername(login.Username)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, "用户名或密码错误")
@@ -79,7 +79,7 @@ func (control *SysAuthAdminControl) Logout(ctx *gin.Context) {
 
 	token := ctx.Request.Header.Get("token")
 
-	modelAdmin := &model.SysAdmin{}
+	modelAdmin := &db_model.SysAdmin{}
 	user_info, err := modelAdmin.GetOneByToken(token)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, "未找到用户信息")
@@ -100,7 +100,7 @@ func (control *SysAuthAdminControl) Info(ctx *gin.Context) {
 
 	token := ctx.Request.Header.Get("token")
 
-	modelAdmin := &model.SysAdmin{}
+	modelAdmin := &db_model.SysAdmin{}
 	user_info, err := modelAdmin.GetOneByToken(token)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, "未找到token用户信息")
@@ -126,7 +126,7 @@ func (control *SysAuthAdminControl) SetPassword(ctx *gin.Context) {
 		return
 	}
 
-	modelUser := &model.SysAdmin{}
+	modelUser := &db_model.SysAdmin{}
 	user_info, err := modelUser.GetOneByToken(token)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, "未找到用户"+err.Error())

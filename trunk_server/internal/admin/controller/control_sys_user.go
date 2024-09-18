@@ -3,7 +3,7 @@ package controller
 import (
 	"net/http"
 	"strconv"
-	"vue3-admin-template/internal/admin/model"
+	"vue3-admin-template/internal/db_model"
 	"vue3-admin-template/pkg/utils"
 
 	"github.com/gin-gonic/gin"
@@ -15,9 +15,9 @@ type SysUserControl struct {
 }
 
 func (control *SysUserControl) Create(ctx *gin.Context) {
-	var modelUser model.SysUser
+	var modelUser db_model.SysUser
 
-	user_info := model.SysUser{}
+	user_info := db_model.SysUser{}
 	err := ctx.ShouldBindJSON(&user_info)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -37,7 +37,7 @@ func (control *SysUserControl) Create(ctx *gin.Context) {
 func (control *SysUserControl) DeleteOne(ctx *gin.Context) {
 
 	id := ctx.Param("id")
-	var modelUser model.SysUser
+	var modelUser db_model.SysUser
 
 	err := modelUser.DeleteOne(id)
 	if err != nil {
@@ -55,7 +55,7 @@ func (control *SysUserControl) DeleteMany(ctx *gin.Context) {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
-	var modelUser model.SysUser
+	var modelUser db_model.SysUser
 
 	err = modelUser.DeleteMany(ids)
 	if err != nil {
@@ -68,7 +68,7 @@ func (control *SysUserControl) DeleteMany(ctx *gin.Context) {
 
 func (control *SysUserControl) PutOne(ctx *gin.Context) {
 
-	var reportItem model.SysUser
+	var reportItem db_model.SysUser
 	err := ctx.ShouldBindJSON(&reportItem)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -82,7 +82,7 @@ func (control *SysUserControl) PutOne(ctx *gin.Context) {
 		return
 	}
 
-	var modelUser model.SysUser
+	var modelUser db_model.SysUser
 
 	if err := modelUser.UpdateOne(&reportItem); err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -101,7 +101,7 @@ func (control *SysUserControl) PatchOne(ctx *gin.Context) {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
-	var modelUser model.SysUser
+	var modelUser db_model.SysUser
 
 	err = modelUser.PatchOne(id, req.Field, req.Data)
 	if err != nil {
@@ -121,7 +121,7 @@ func (control *SysUserControl) PatchOne(ctx *gin.Context) {
 func (control *SysUserControl) GetOne(ctx *gin.Context) {
 	id := ctx.Param("id")
 
-	var modelUser model.SysUser
+	var modelUser db_model.SysUser
 
 	item, err := modelUser.GetOne(id)
 	if err != nil {
@@ -134,7 +134,7 @@ func (control *SysUserControl) GetOne(ctx *gin.Context) {
 
 func (control *SysUserControl) GetPage(ctx *gin.Context) {
 
-	reqPageInfo := model.PageInfo{}
+	reqPageInfo := db_model.PageInfo{}
 	// 从参数中获取分页信息
 	page := ctx.Query("page")
 	pageSize := ctx.Query("pageSize")
@@ -156,7 +156,7 @@ func (control *SysUserControl) GetPage(ctx *gin.Context) {
 	// keyword 转为 string
 	reqPageInfo.Keyword = keyword
 
-	var modelUser model.SysUser
+	var modelUser db_model.SysUser
 	items, total, err := modelUser.GetPage(reqPageInfo)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())

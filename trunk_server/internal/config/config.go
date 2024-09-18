@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	"vue3-admin-template/internal/admin/model"
+	"vue3-admin-template/internal/db_model"
 
 	"github.com/lei006/zlog"
 	"github.com/spf13/viper"
@@ -55,7 +55,7 @@ func Init() error {
 	}
 
 	// 数据库初始化
-	err = model.Init(App.Model.DbType, App.Model.DbSource)
+	err = db_model.Init(App.Model.DbType, App.Model.DbSource)
 	if err != nil {
 		zlog.Error(err)
 		return err
@@ -103,7 +103,7 @@ func Init() error {
 }
 
 func checkPreData() error {
-	modelAdmin := model.SysAdmin{}
+	modelAdmin := db_model.SysAdmin{}
 	_, err := modelAdmin.FindOrCreate("admin", App.Admin.Password)
 	if err != nil {
 		zlog.Error(err)

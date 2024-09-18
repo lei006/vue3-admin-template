@@ -4,7 +4,7 @@ import (
 	"io"
 	"net/http"
 	"strconv"
-	"vue3-admin-template/internal/admin/model"
+	"vue3-admin-template/internal/db_model"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,7 +13,7 @@ type SysSetupControl struct {
 	ControllerBase
 }
 
-var modelSetup model.SysSetup
+var modelSetup db_model.SysSetup
 
 func (control *SysSetupControl) PatchOne(ctx *gin.Context) {
 	id := ctx.Param("id")
@@ -58,7 +58,7 @@ func (control *SysSetupControl) GetOneByName(ctx *gin.Context) {
 
 	item, err := modelSetup.GetOneByName(name)
 	if err != nil {
-		new_val := &model.SysSetup{Name: name}
+		new_val := &db_model.SysSetup{Name: name}
 		err := modelSetup.Create(new_val)
 		if err != nil {
 			RetErr(ctx, http.StatusBadRequest, err.Error())

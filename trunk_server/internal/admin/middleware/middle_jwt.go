@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"vue3-admin-template/internal/admin/controller"
-	"vue3-admin-template/internal/admin/model"
+	"vue3-admin-template/internal/db_model"
 
 	//"vue3-admin-template/internal/model"
 	"github.com/gin-gonic/gin"
@@ -26,7 +26,7 @@ func JWTAuth() gin.HandlerFunc {
 		//401   （未授权）请求要求身份验证。对于需要登录的网页，服务器可能返回此响应。
 		//403   （禁止）服务器拒绝请求。
 
-		modelUser := model.SysUser{}
+		modelUser := db_model.SysUser{}
 		user_info, err := modelUser.GetOneByToken(token)
 		if err == nil {
 			if user_info.IsDisable {
@@ -39,7 +39,7 @@ func JWTAuth() gin.HandlerFunc {
 			return
 		}
 
-		modelAdmin := model.SysAdmin{}
+		modelAdmin := db_model.SysAdmin{}
 		admin_info, err := modelAdmin.GetOneByToken(token)
 		if err == nil {
 			if admin_info.IsDisable {
@@ -75,7 +75,7 @@ func JWTAuth() gin.HandlerFunc {
 			// 用户被删除的逻辑 需要优化 此处比较消耗性能 如果需要 请自行打开
 
 			//if user, err := userService.FindUserByUuid(claims.UUID.String()); err != nil || user.Enable == 2 {
-			//	_ = jwtService.JsonInBlacklist(model.JwtBlacklist{Jwt: token})
+			//	_ = jwtService.JsonInBlacklist(db_model.JwtBlacklist{Jwt: token})
 			//	response.FailWithDetailed(gin.H{"reload": true}, err.Error(), c)
 			//	c.Abort()
 			//}

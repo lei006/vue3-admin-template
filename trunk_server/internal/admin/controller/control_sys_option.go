@@ -3,7 +3,7 @@ package controller
 import (
 	"net/http"
 	"strconv"
-	"vue3-admin-template/internal/admin/model"
+	"vue3-admin-template/internal/db_model"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,7 +27,7 @@ func (control *SysRecordControl) DeleteMany(ctx *gin.Context) {
 		return
 	}
 
-	var modelOption model.SysOption
+	var modelOption db_model.SysOption
 	err = modelOption.DeleteMany(ids)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -40,7 +40,7 @@ func (control *SysRecordControl) DeleteMany(ctx *gin.Context) {
 
 func (control *SysRecordControl) GetPage(ctx *gin.Context) {
 
-	reqPageInfo := model.PageInfo{}
+	reqPageInfo := db_model.PageInfo{}
 	// 从参数中获取分页信息
 	page := ctx.Query("page")
 	pageSize := ctx.Query("pageSize")
@@ -62,7 +62,7 @@ func (control *SysRecordControl) GetPage(ctx *gin.Context) {
 	// keyword 转为 string
 	reqPageInfo.Keyword = keyword
 
-	var modelOption model.SysOption
+	var modelOption db_model.SysOption
 	items, total, err := modelOption.GetPage(reqPageInfo)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())

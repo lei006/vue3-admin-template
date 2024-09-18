@@ -2,7 +2,7 @@ package controller
 
 import (
 	"net/http"
-	"vue3-admin-template/internal/admin/model"
+	"vue3-admin-template/internal/db_model"
 	"vue3-admin-template/pkg/utils"
 
 	"github.com/gin-gonic/gin"
@@ -15,14 +15,14 @@ type SysAdminControl struct {
 
 func (control *SysAdminControl) Create(ctx *gin.Context) {
 
-	user_info := model.SysAdmin{}
+	user_info := db_model.SysAdmin{}
 	err := ctx.ShouldBindJSON(&user_info)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 	zlog.Debugf("user_info: %+v \n", user_info)
-	modelAdmin := &model.SysAdmin{}
+	modelAdmin := &db_model.SysAdmin{}
 	err = modelAdmin.Create(&user_info)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -36,7 +36,7 @@ func (control *SysAdminControl) DeleteOne(ctx *gin.Context) {
 
 	id := ctx.Param("id")
 
-	modelAdmin := &model.SysAdmin{}
+	modelAdmin := &db_model.SysAdmin{}
 	err := modelAdmin.DeleteOne(id)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -53,7 +53,7 @@ func (control *SysAdminControl) DeleteMany(ctx *gin.Context) {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
-	modelAdmin := &model.SysAdmin{}
+	modelAdmin := &db_model.SysAdmin{}
 	err = modelAdmin.DeleteMany(ids)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -65,7 +65,7 @@ func (control *SysAdminControl) DeleteMany(ctx *gin.Context) {
 
 func (control *SysAdminControl) PutOne(ctx *gin.Context) {
 
-	var reportItem model.SysAdmin
+	var reportItem db_model.SysAdmin
 	err := ctx.ShouldBindJSON(&reportItem)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -79,7 +79,7 @@ func (control *SysAdminControl) PutOne(ctx *gin.Context) {
 		return
 	}
 
-	modelAdmin := &model.SysAdmin{}
+	modelAdmin := &db_model.SysAdmin{}
 	if err := modelAdmin.UpdateOne(&reportItem); err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
@@ -97,7 +97,7 @@ func (control *SysAdminControl) PatchOne(ctx *gin.Context) {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
-	modelAdmin := &model.SysAdmin{}
+	modelAdmin := &db_model.SysAdmin{}
 	err = modelAdmin.PatchOne(id, req.Field, req.Data)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -116,7 +116,7 @@ func (control *SysAdminControl) PatchOne(ctx *gin.Context) {
 func (control *SysAdminControl) GetOne(ctx *gin.Context) {
 	id := ctx.Param("id")
 
-	modelAdmin := &model.SysAdmin{}
+	modelAdmin := &db_model.SysAdmin{}
 	item, err := modelAdmin.GetOne(id)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
@@ -128,7 +128,7 @@ func (control *SysAdminControl) GetOne(ctx *gin.Context) {
 
 func (control *SysAdminControl) GetPage(ctx *gin.Context) {
 
-	modelAdmin := &model.SysAdmin{}
+	modelAdmin := &db_model.SysAdmin{}
 	items, total, err := modelAdmin.GetPage()
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())

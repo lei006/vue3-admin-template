@@ -1,5 +1,5 @@
 // 自动生成模板SysOperationRecord
-package model
+package db_model
 
 import (
 	"errors"

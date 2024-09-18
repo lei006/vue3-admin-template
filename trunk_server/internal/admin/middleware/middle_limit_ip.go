@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 	"vue3-admin-template/internal/admin/controller"
-	"vue3-admin-template/internal/admin/model"
+	"vue3-admin-template/internal/db_model"
 
 	"gorm.io/gorm"
 
@@ -16,7 +16,7 @@ func LimitIp() gin.HandlerFunc {
 
 		client_ip := c.ClientIP()
 
-		var modelLimitIp model.SysLimitIp
+		var modelLimitIp db_model.SysLimitIp
 		item, err := modelLimitIp.GetOneIp(client_ip)
 		if err == gorm.ErrRecordNotFound {
 			//没找到ip 直接放行
@@ -38,7 +38,7 @@ func LimitIp() gin.HandlerFunc {
 			return
 		} else {
 			zlog.Error("IP:", client_ip, "is limit")
-			model.SysOptionLog("limit", item.Ip, c.Request.URL.String(), "", c.Request.UserAgent(), c.ClientIP())
+			db_model.SysOptionLog("limit", item.Ip, c.Request.URL.String(), "", c.Request.UserAgent(), c.ClientIP())
 			c.Abort()
 		}
 	}

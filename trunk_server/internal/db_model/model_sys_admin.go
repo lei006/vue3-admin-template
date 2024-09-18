@@ -1,10 +1,12 @@
-package model
+package db_model
 
 import (
 	"errors"
+
+	"github.com/lei006/zlog"
 )
 
-type SysUser struct {
+type SysAdmin struct {
 	BASE_MODEL
 	Username  string `json:"username" gorm:"uniqueIndex;comment:用户登录名"`                                 // 用户登录名
 	Password  string `json:"password"  gorm:"comment:用户登录密码"`                                           // 用户登录密码
@@ -15,73 +17,65 @@ type SysUser struct {
 	IsDisable bool   `json:"is_disable" gorm:"column:is_disable;default:false;comment:用户是否被冻结 0正常 1冻结"` //用户是否被冻结 0正常 1冻结
 }
 
-func (SysUser) TableName() string {
-	return "sys_user"
+func (SysAdmin) TableName() string {
+	return "sys_admin"
 }
 
 // CreateReportStruct 创建报告的数据结构记录
 // Author [piexlmax](https://github.com/piexlmax)
-func (model *SysUser) Create(newVal *SysUser) (err error) {
-	result := g_db.Create(newVal)
-	if result.Error != nil {
-		return result.Error
-	}
-
-	if result.RowsAffected == 0 {
-		return errors.New("no rows were inserted")
-	}
-
-	return nil
+func (model *SysAdmin) Create(newVal *SysAdmin) (err error) {
+	err = g_db.Create(newVal).Error
+	return err
 }
 
 // DeleteReportStruct 删除报告的数据结构记录
 // Author [piexlmax](https://github.com/piexlmax)
-func (model *SysUser) DeleteOne(id string) (err error) {
-	err = g_db.Unscoped().Delete(&SysUser{}, id).Error
+func (model *SysAdmin) DeleteOne(id string) (err error) {
+	err = g_db.Delete(&SysAdmin{}, id).Error
 	return err
 }
 
 // DeleteReportStructByIds 批量删除报告的数据结构记录
 // Author [piexlmax](https://github.com/piexlmax)
-func (model *SysUser) DeleteMany(ids []int) (err error) {
-	err = g_db.Unscoped().Delete(&[]SysUser{}, "id in ?", ids).Error
+func (model *SysAdmin) DeleteMany(ids []uint) (err error) {
+	err = g_db.Delete(&[]SysAdmin{}, "id in ?", ids).Error
 	return err
 }
 
-func (model *SysUser) UpdateOne(val *SysUser) (err error) {
-	err = g_db.Model(val).Select("username", "nickname", "password", "usersign", "desc", "is_disable").Save(val).Error
+func (model *SysAdmin) UpdateOne(val *SysAdmin) (err error) {
+	err = g_db.Model(val).Select("nickname", "phone", "user_sign").Save(val).Error
 	return err
 }
 
-func (model *SysUser) PatchOne(id string, field string, data interface{}) error {
+func (model *SysAdmin) PatchOne(id string, field string, data interface{}) error {
 
-	result := g_db.Model(&SysUser{}).Where("id = ?", id).Update(field, data)
+	result := g_db.Model(&SysAdmin{}).Where("id = ?", id).Update(field, data)
+	if result.RowsAffected == 0 {
+		return errors.New("no rows were updated")
+	}
 
 	if result.Error != nil {
 		return result.Error
-	}
-	if result.RowsAffected == 0 {
-		return errors.New("no field were updated")
 	}
 
 	return nil
 }
 
-func (model *SysUser) GetField(id string, field string) (*SysUser, error) {
+func (model *SysAdmin) GetField(id string, field string) (*SysAdmin, error) {
 	//err = g_db.Where("id = ?", id).First(&retVal).Error
-	retVal := &SysUser{}
+	retVal := &SysAdmin{}
 	err := g_db.Where("id = ?", id).Select(field).First(retVal).Error
 	return retVal, err
 }
 
-func (model *SysUser) GetOne(id string) (retVal SysUser, err error) {
+func (model *SysAdmin) GetOne(id string) (retVal SysAdmin, err error) {
 	err = g_db.Where("id = ?", id).First(&retVal).Error
 	return
 }
 
-func (model *SysUser) GetOneByUsername(username string) (retVal *SysUser, err error) {
+func (model *SysAdmin) GetOneByUsername(username string) (retVal *SysAdmin, err error) {
 	// 通过username 取得一行
-	retVal = &SysUser{}
+	retVal = &SysAdmin{}
 	result := g_db.Where("username = ?", username).First(retVal)
 	if result.RowsAffected == 0 {
 		return nil, errors.New("no rows were returned")
@@ -90,37 +84,49 @@ func (model *SysUser) GetOneByUsername(username string) (retVal *SysUser, err er
 	return retVal, result.Error
 }
 
-func (model *SysUser) GetOneByToken(token string) (retVal *SysUser, err error) {
+func (model *SysAdmin) GetOneByToken(token string) (retVal *SysAdmin, err error) {
 	// 通过username 取得一行
-	retVal = &SysUser{}
+	retVal = &SysAdmin{}
 	err = g_db.Where("token = ?", token).First(retVal).Error
 	return
 }
 
 // GetReportStructInfoList 分页获取报告的数据结构记录
 // Author [piexlmax](https://github.com/piexlmax)
-func (model *SysUser) GetPage(page PageInfo) (list []SysUser, total int64, err error) {
-
-	limit := page.PageSize
-	offset := page.PageSize * (page.Page - 1)
+func (model *SysAdmin) GetPage() (list []SysAdmin, total int64, err error) {
 
 	// 创建db
-	db := g_db.Model(&SysUser{})
-
-	if len(page.Keyword) > 0 {
-		db = db.Where("username LIKE ?", "%"+page.Keyword+"%").Or("nickname LIKE ?", "%"+page.Keyword+"%").Or("desc LIKE ?", "%"+page.Keyword+"%")
-	}
-
-	var reportItems []SysUser
+	db := g_db.Model(&SysAdmin{})
+	var reportItems []SysAdmin
 	err = db.Count(&total).Error
 	if err != nil {
 		return
 	}
+	err = db.Find(&reportItems).Error
+	return reportItems, total, err
+}
 
-	result := db.Limit(limit).Offset(offset).Order("id desc").Find(&reportItems)
-	if result.Error != nil {
-		return nil, 0, result.Error
+func (model *SysAdmin) FindOrCreate(username string, password string) (*SysAdmin, error) {
+
+	val := SysAdmin{
+		Username: username,
+		Password: password,
+		Nickname: username,
 	}
 
-	return reportItems, total, err
+	result := g_db.Where("username = ?", username).First(&val)
+	if result.RowsAffected == 0 {
+		create_result := g_db.Create(&val)
+		if create_result.Error != nil {
+			zlog.Error("FindOrCreate", create_result.Error)
+			return nil, create_result.Error
+		}
+		return &val, nil
+	}
+	if result.Error != nil {
+		zlog.Error("FindOrCreate", result.Error)
+		return nil, result.Error
+	}
+
+	return &val, nil
 }
