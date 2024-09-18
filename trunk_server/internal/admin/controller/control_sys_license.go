@@ -3,6 +3,8 @@ package controller
 import (
 	"net/http"
 	"strconv"
+	"time"
+	"vue3-admin-template/internal/config"
 	"vue3-admin-template/internal/db_model"
 
 	"github.com/gin-gonic/gin"
@@ -16,21 +18,49 @@ type SysLicense struct {
 func (control *SysLicense) Create(ctx *gin.Context) {
 	var modelUser db_model.SysLicense
 
-	user_info := db_model.SysLicense{}
-	err := ctx.ShouldBindJSON(&user_info)
+	license_info := db_model.SysLicense{}
+	err := ctx.ShouldBindJSON(&license_info)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	zlog.Debugf("user_info: %+v \n", user_info)
-	err = modelUser.Create(&user_info)
+	///////////////////////////////////////////
+	// 生成签名数据
+	license_info.LicenseAt = time.Now()
+	license_info.PubKey = config.LicensePubKey
+
+	sign, err := db_model.LicenseSign(&license_info, config.LicensePriKey)
+	if err != nil {
+		RetErr(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+	license_info.Sign = sign
+	license_info.LicenseData, err = db_model.LicenseGetJson(&license_info)
+	if err != nil {
+		RetErr(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	//验证一下
+	ret, err := db_model.LicenseVerify(license_info.LicenseData)
+	if err != nil {
+		RetErr(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	if !ret {
+		RetErr(ctx, http.StatusInternalServerError, "license 验证失败")
+		return
+	}
+
+	err = modelUser.Create(&license_info)
 	if err != nil {
 		RetErr(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	RetData(ctx, user_info)
+	RetData(ctx, license_info)
 }
 
 func (control *SysLicense) DeleteOne(ctx *gin.Context) {

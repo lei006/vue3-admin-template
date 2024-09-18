@@ -274,7 +274,7 @@ const handleUpdateStatus = (row, field, data) => {
 const handleFieldEdit = (row: object, field :string) => {
 
     ElMessageBox.prompt('', '修改:' + field, {inputValue: row[field], confirmButtonText: '确定',cancelButtonText: '取消'}).then(({ value }) => {
-        apiUsers.PatchOne(row.id, field, value).then(res => {
+      apiLicenseOption.PatchOne(row.id, field, value).then(res => {
             if (res.code === 200) {
                 row[field] = res.data[field];
             } else {

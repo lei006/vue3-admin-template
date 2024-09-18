@@ -1,27 +1,31 @@
 package db_model
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 	"time"
+	"vue3-admin-template/pkg/sign_tool"
 )
 
 type SysLicense struct {
 	BASE_MODEL
-	AppName       string        `json:"appname" gorm:"index;comment:用户登录名"`                 // 用户登录名
-	Company       string        `json:"company" gorm:"index;comment:公司"`                    // 用户登录名
-	HardSn        string        `json:"hard_sn" gorm:"index;column:hard_sn;comment:硬件唯一标识"` //
-	LicenseText0  string        `json:"license_text0" gorm:"index;comment:文本1"`
-	LicenseText1  string        `json:"license_text1" gorm:"index;comment:文本2"`
-	LicenseText2  string        `json:"license_text2" gorm:"index;comment:文本3"`
-	LicenseLimit0 int           `json:"license_limit0" gorm:"index;comment:授权数1"`
-	LicenseLimit1 int           `json:"license_limit1" gorm:"index;comment:授权数2"`
-	LicenseLimit2 int           `json:"license_limit2" gorm:"index;comment:授权数3"`
-	LicenseAt     time.Duration `json:"license_at" gorm:"column:license_at;comment:授权时间"`      //
-	LicenseLen    int           `json:"license_len" gorm:"column:license_len;comment:授权长度(月)"` //
-	Desc          string        `json:"desc" gorm:"comment:授权时间"`                              //
-	PubKey        string        `json:"pub_key" gorm:"column:pub_key;type:mediumtext;comment:公钥"`
-	LicenseData   string        `json:"license_data" gorm:"column:license_data;type:mediumtext;comment:用户签名"`
-	IsDisable     bool          `json:"is_disable" gorm:"column:is_disable;default:false;comment:是否被冻结 0正常 1冻结"` //是否被冻结 0正常 1冻结
+	AppName        string    `json:"appname" gorm:"index;comment:用户登录名"`                 // 用户登录名
+	Company        string    `json:"company" gorm:"index;comment:公司"`                    // 用户登录名
+	HardSn         string    `json:"hard_sn" gorm:"index;column:hard_sn;comment:硬件唯一标识"` //
+	LicenseText0   string    `json:"license_text0" gorm:"type:mediumtext;comment:文本1"`
+	LicenseText1   string    `json:"license_text1" gorm:"type:mediumtext;comment:文本2"`
+	LicenseText2   string    `json:"license_text2" gorm:"type:mediumtext;comment:文本3"`
+	LicenseLimit0  int       `json:"license_limit0" gorm:"comment:授权数1"`
+	LicenseLimit1  int       `json:"license_limit1" gorm:"comment:授权数2"`
+	LicenseLimit2  int       `json:"license_limit2" gorm:"comment:授权数3"`
+	LicenseAt      time.Time `json:"license_at" gorm:"column:license_at;comment:授权时间"`                //
+	LicenseTimeLen int       `json:"license_time_len" gorm:"column:license_time_len;comment:授权长度(月)"` //
+	Desc           string    `json:"desc" gorm:"type:mediumtext;comment:授权时间"`                        //
+	PubKey         string    `json:"pub_key" gorm:"type:mediumtext;"`
+	Sign           string    `json:"sign" gorm:"column:sign;type:mediumtext;comment:签名"`
+	LicenseData    string    `json:"license_data" gorm:"column:license_data;type:longtext;comment:用户签名"`
+	IsDisable      bool      `json:"is_disable" gorm:"column:is_disable;default:false;comment:是否被冻结 0正常 1冻结"` //是否被冻结 0正常 1冻结
 }
 
 func (SysLicense) TableName() string {
@@ -132,4 +136,65 @@ func (model *SysLicense) GetPage(page PageInfo) (list []SysLicense, total int64,
 	}
 
 	return reportItems, total, err
+}
+
+func (model *SysLicense) getLicenseData() string {
+
+	str := model.AppName
+	str += model.Company
+	str += model.HardSn
+	str += model.LicenseText0
+	str += model.LicenseText1
+	str += model.LicenseText2
+	str += fmt.Sprintf("%d", model.LicenseLimit0)
+	str += fmt.Sprintf("%d", model.LicenseLimit1)
+	str += fmt.Sprintf("%d", model.LicenseLimit2)
+	str += model.LicenseAt.Format(time.RFC3339)
+	str += fmt.Sprintf("%d", model.LicenseTimeLen)
+
+	return str
+}
+
+func LicenseSign(model *SysLicense, pri string) (sign string, err error) {
+
+	str := model.getLicenseData()
+	//str += model.Desc
+
+	sign_str, err := sign_tool.Base64Sign(str, pri)
+	if err != nil {
+		return "", err
+	}
+
+	return sign_str, err
+}
+
+func LicenseVerify(license_json string) (bool, error) {
+
+	var license SysLicense
+	err := json.Unmarshal([]byte(license_json), &license)
+	if err != nil {
+		return false, err
+	}
+
+	license_data := license.getLicenseData()
+
+	bret, err := sign_tool.Base64Verify(license_data, license.Sign, license.PubKey)
+	if err != nil {
+		return false, errors.New("签名验证出错" + err.Error())
+	}
+
+	if !bret {
+		return false, nil
+	}
+
+	return bret, nil
+}
+
+func LicenseGetJson(model *SysLicense) (string, error) {
+	data, err := json.Marshal(model)
+	if err != nil {
+		return "", err
+	}
+	return string(data), nil
+
 }

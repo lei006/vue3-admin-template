@@ -9,13 +9,13 @@ import (
 
 func TestNewBase64Key(t *testing.T) {
 
-	for val := range 10000 {
+	for val := range 100 {
 		pub, pri, err := NewBase64Key()
 		if err != nil {
 			t.Error(err)
 			return
 		} else {
-			check_str := utils.RandomString(32, true, true, true)
+			check_str := utils.RandomString(3200000, true, true, true)
 			sign, err := Base64Sign(check_str, pri)
 			if err != nil {
 				t.Error(err)
@@ -32,7 +32,10 @@ func TestNewBase64Key(t *testing.T) {
 				return
 			}
 
-			zlog.Debug(val, ": Base64Verify:", ret)
+			zlog.Debug("pubkey:", pub)
+			zlog.Debug("prikey:", pri)
+
+			zlog.Debug(val, ": Base64Verify:", ret, " sign len=", len(sign))
 		}
 
 	}

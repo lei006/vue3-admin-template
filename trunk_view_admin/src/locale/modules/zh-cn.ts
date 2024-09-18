@@ -22,6 +22,7 @@ const lang = {
       limit_ip: 'IP黑名单',
       admin:'管理员',
       personal:'个人中心',
+      license:'授权管理',
       dashboard: {
         name: 'dashboard',
         index: '首页'

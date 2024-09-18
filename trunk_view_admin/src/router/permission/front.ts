@@ -14,6 +14,7 @@ import Component from '../modules/component'
 import Directive from '../modules/directive'
 import SystemManage from '../modules/systemManage'
 import SysUser from '../modules/sys_user'
+import SysLicense from '../modules/sys_license'
 import SysAbout from '../modules/sys_about'
 import Chart from '../modules/chart'
 import Print from '../modules/print'
@@ -29,6 +30,7 @@ const FrontRoutes: Route[] = [
   //...Menu,
   //...Directive,
   //...Chart,
+  ...SysLicense,
   ...SysUser,
   ...SystemManage,
   ...SysAbout,
