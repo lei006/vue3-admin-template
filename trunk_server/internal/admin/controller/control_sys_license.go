@@ -30,13 +30,13 @@ func (control *SysLicense) Create(ctx *gin.Context) {
 	license_info.LicenseAt = time.Now()
 	license_info.PubKey = config.LicensePubKey
 
-	sign, err := db_model.LicenseSign(&license_info, config.LicensePriKey)
+	sign, err := db_model.LicenseSign(&license_info.LicenseStruct, config.LicensePriKey)
 	if err != nil {
 		RetErr(ctx, http.StatusInternalServerError, err.Error())
 		return
 	}
 	license_info.Sign = sign
-	license_info.LicenseData, err = db_model.LicenseGetJson(&license_info)
+	license_info.LicenseData, err = db_model.LicenseGetJson(&license_info.LicenseStruct)
 	if err != nil {
 		RetErr(ctx, http.StatusInternalServerError, err.Error())
 		return
@@ -133,6 +133,11 @@ func (control *SysLicense) GetOne(ctx *gin.Context) {
 		return
 	}
 
+	/*
+		ctx.Header("Content-Disposition", "attachment; filename=license.txt")
+		ctx.Header("Content-Type", "application/octet-stream")
+		ctx.String(http.StatusOK, item.LicenseData)
+	*/
 	RetData(ctx, item)
 }
 

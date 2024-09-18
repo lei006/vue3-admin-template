@@ -8,8 +8,7 @@ import (
 	"vue3-admin-template/pkg/sign_tool"
 )
 
-type SysLicense struct {
-	BASE_MODEL
+type LicenseStruct struct {
 	AppName        string    `json:"appname" gorm:"index;comment:用户登录名"`                 // 用户登录名
 	Company        string    `json:"company" gorm:"index;comment:公司"`                    // 用户登录名
 	HardSn         string    `json:"hard_sn" gorm:"index;column:hard_sn;comment:硬件唯一标识"` //
@@ -24,8 +23,13 @@ type SysLicense struct {
 	Desc           string    `json:"desc" gorm:"type:mediumtext;comment:授权时间"`                        //
 	PubKey         string    `json:"pub_key" gorm:"type:mediumtext;"`
 	Sign           string    `json:"sign" gorm:"column:sign;type:mediumtext;comment:签名"`
-	LicenseData    string    `json:"license_data" gorm:"column:license_data;type:longtext;comment:用户签名"`
-	IsDisable      bool      `json:"is_disable" gorm:"column:is_disable;default:false;comment:是否被冻结 0正常 1冻结"` //是否被冻结 0正常 1冻结
+}
+
+type SysLicense struct {
+	BASE_MODEL
+	LicenseStruct
+	LicenseData string `json:"license_data" gorm:"column:license_data;type:longtext;comment:用户签名"`
+	IsDisable   bool   `json:"is_disable" gorm:"column:is_disable;default:false;comment:是否被冻结 0正常 1冻结"` //是否被冻结 0正常 1冻结
 }
 
 func (SysLicense) TableName() string {
@@ -138,7 +142,7 @@ func (model *SysLicense) GetPage(page PageInfo) (list []SysLicense, total int64,
 	return reportItems, total, err
 }
 
-func (model *SysLicense) getLicenseData() string {
+func (model *LicenseStruct) getLicenseData() string {
 
 	str := model.AppName
 	str += model.Company
@@ -155,7 +159,7 @@ func (model *SysLicense) getLicenseData() string {
 	return str
 }
 
-func LicenseSign(model *SysLicense, pri string) (sign string, err error) {
+func LicenseSign(model *LicenseStruct, pri string) (sign string, err error) {
 
 	str := model.getLicenseData()
 	//str += model.Desc
@@ -190,7 +194,7 @@ func LicenseVerify(license_json string) (bool, error) {
 	return bret, nil
 }
 
-func LicenseGetJson(model *SysLicense) (string, error) {
+func LicenseGetJson(model *LicenseStruct) (string, error) {
 	data, err := json.Marshal(model)
 	if err != nil {
 		return "", err

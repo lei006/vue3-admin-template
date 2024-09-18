@@ -51,8 +51,6 @@
         </el-table-column>
         <el-table-column prop="license_limit0" label="限制数1" align="center"  width="120">
         </el-table-column>
-        <el-table-column prop="usersign" label="签名" align="center"  width="180">    
-        </el-table-column>
         <el-table-column prop="status" label="状态" align="center" width="100">
           <template #default="scope">
             <el-checkbox v-model="scope.row.is_disable" label="禁用" @change="handleUpdateStatus(scope.row, 'is_disable', scope.row.is_disable)" />
@@ -65,7 +63,7 @@
         </el-table-column>
         <el-table-column  :label="$t('message.common.handle')" align="center" fixed="right" width="180">
           <template #default="scope">
-            <el-button >下载</el-button>
+            <el-button @click="onBtnDownload(scope.row)">下载</el-button>
             <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel([scope.row])">
               <template #reference>
                 <el-button type="danger">{{ $t("message.common.del") }}</el-button>
@@ -87,10 +85,10 @@
                 <el-input v-model="addUserForm.hard_sn" placeholder="请输入昵称"></el-input>
             </el-form-item>
             <el-form-item label="文本" >
-                <el-input v-model="addUserForm.license_text0" placeholder="请输入密码"></el-input>
+                <el-input v-model="addUserForm.license_text0" num placeholder=""></el-input>
             </el-form-item>
             <el-form-item label="限制">
-                <el-input v-model="addUserForm.license_limit0" placeholder="请再次输入密码"></el-input>
+                <el-input-number v-model="addUserForm.license_limit0" />
             </el-form-item>
 
             <el-form-item label="描述：" >
@@ -216,6 +214,28 @@ const handleDel = (data: object[]) => {
       getTableData(tableData.value.length === 1 ? true : false);
     });
 }
+
+const onBtnDownload = (row)=>{
+    // 实现点击下载文件 
+    apiLicenseOption.GetOne(row.id).then((res) => {
+      console.log(res.data.license_data);
+      downloadFile(res.data.license_data, "license.lic", 'text/plain')
+    })
+}
+
+
+function downloadFile(content, filename, contentType) {
+    var a = document.createElement('a');
+    var blob = new Blob([content], {type: contentType});
+    var url = URL.createObjectURL(blob);
+    a.href = url;
+    a.download = filename;
+    a.click();
+    setTimeout(function() {
+        URL.revokeObjectURL(url); // 释放URL 对象
+    }, 0);
+}
+
 
 
 // 新增弹窗功能
