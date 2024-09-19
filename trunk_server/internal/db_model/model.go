@@ -85,6 +85,11 @@ func getdb(dbType string, dbSource string) (*gorm.DB, error) {
 		///////////////////////////////////////
 		// 连接成功，自动生成表
 		err := tmp_db.AutoMigrate(
+
+			ModelOrderStruct{},
+			ModelPriceStruct{},
+			ModelProjectStruct{},
+
 			SysAdmin{},
 			SysUser{},
 			SysLicense{},

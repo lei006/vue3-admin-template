@@ -46,6 +46,10 @@ func Init() error {
 		//privateGroup.Use(middleware.CasbinHandler()) //权限管理
 	}
 
+	initRouterProPrice(publicGroup, privateGroup)   // 项目价格
+	initRouterProOrder(publicGroup, privateGroup)   // 项目定单
+	initRouterProProject(publicGroup, privateGroup) // 项目管理
+
 	//
 	initRouterSysAuthUser(publicGroup, privateGroup)  // 认证模块
 	initRouterSysAuthAdmin(publicGroup, privateGroup) // 认证模块

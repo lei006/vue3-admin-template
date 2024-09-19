@@ -12,6 +12,12 @@ import Pages from '../modules/pages'
 import Menu from '../modules/menu'
 import Component from '../modules/component'
 import Directive from '../modules/directive'
+
+import ProProject from '../modules/pro_project'
+import ProPrice from '../modules/pro_price'
+import ProOrder from '../modules/pro_order'
+
+
 import SystemManage from '../modules/systemManage'
 import SysUser from '../modules/sys_user'
 import SysLicense from '../modules/sys_license'
@@ -30,6 +36,10 @@ const FrontRoutes: Route[] = [
   //...Menu,
   //...Directive,
   //...Chart,
+  ...ProProject,
+  ...ProPrice,
+  ...ProOrder,
+  
   ...SysLicense,
   ...SysUser,
   ...SystemManage,

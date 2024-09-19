@@ -23,6 +23,10 @@ const lang = {
       admin:'管理员',
       personal:'个人中心',
       license:'授权管理',
+      order:'定单列表',
+      project:'项目管理',
+      price:'价格配置',
+
       dashboard: {
         name: 'dashboard',
         index: '首页'
