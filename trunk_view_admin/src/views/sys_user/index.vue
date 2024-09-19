@@ -66,9 +66,9 @@
             <el-checkbox v-model="scope.row.is_disable" label="禁用" @change="handleUpdateStatus(scope.row, 'is_disable', scope.row.is_disable)" />
           </template>
         </el-table-column>
-        <el-table-column prop="desc" label="desc" align="center">
+        <el-table-column prop="desc1" label="desc1" align="center">
             <template #default="scope">
-                <div style="line-height: 32px; cursor: pointer; background-color: rgba(100, 100, 100, 0.05);" @click="handleFieldEdit(scope.row, 'desc')"> {{ scope.row.desc?scope.row.desc:"-" }} </div>
+                <div style="line-height: 32px; cursor: pointer; background-color: rgba(100, 100, 100, 0.05);" @click="handleFieldEdit(scope.row, 'desc1')"> {{ scope.row.desc1?scope.row.desc1:"-" }} </div>
             </template>
         </el-table-column>
         <el-table-column  :label="$t('message.common.handle')" align="center" fixed="right" width="100">
@@ -109,7 +109,7 @@
             </el-form-item>
 
             <el-form-item label="描述：" >
-                <el-input v-model="addUserForm.desc" placeholder="请输入描述"></el-input>
+                <el-input v-model="addUserForm.desc1" placeholder="请输入描述"></el-input>
             </el-form-item>
         </el-form>
 
@@ -157,7 +157,7 @@ let addUserForm = reactive({
   password1: '',
   usersign: '',
   is_disable: false,
-  desc: '',
+  desc1: '',
 })
 
 const addUserRules = {
@@ -304,8 +304,7 @@ const handleFieldEdit = (row: object, field :string) => {
                 ElMessage({type: 'error',message: '操作失败'})
             }
       })
-  })
-  .catch(() => {
+  }).catch(() => {
       ElMessage({type: 'info',message: 'Input canceled'})
   })
 

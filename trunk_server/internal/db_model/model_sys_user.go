@@ -11,7 +11,7 @@ type SysUser struct {
 	Nickname  string `json:"nickname" gorm:"default:系统用户;comment:用户昵称"`                                 // 用户昵称
 	Token     string `json:"token" gorm:"index;default:token;comment:token"`                            // token
 	UserSign  string `json:"usersign" gorm:"column:usersign;type:mediumtext;comment:用户签名"`              // 用户签名
-	Desc      string `json:"desc"  gorm:"column:desc;comment:描述"`                                       //
+	Desc1     string `json:"desc1"  gorm:"column:desc1;comment:描述"`                                     //
 	IsDisable bool   `json:"is_disable" gorm:"column:is_disable;default:false;comment:用户是否被冻结 0正常 1冻结"` //用户是否被冻结 0正常 1冻结
 }
 
@@ -49,7 +49,7 @@ func (model *SysUser) DeleteMany(ids []int) (err error) {
 }
 
 func (model *SysUser) UpdateOne(val *SysUser) (err error) {
-	err = g_db.Model(val).Select("username", "nickname", "password", "usersign", "desc", "is_disable").Save(val).Error
+	err = g_db.Model(val).Select("username", "nickname", "password", "usersign", "desc1", "is_disable").Save(val).Error
 	return err
 }
 
