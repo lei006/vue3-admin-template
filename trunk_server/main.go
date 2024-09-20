@@ -1,11 +1,7 @@
 package main
 
 import (
-	"vue3-admin-template/internal/app"
-	"vue3-admin-template/pkg/daemon"
-	"vue3-admin-template/pkg/shell"
-
-	"github.com/lei006/zlog"
+	"vue3-admin-template/internal/exe_srv"
 )
 
 //go:generate go env -w GO111MODULE=on
@@ -15,19 +11,6 @@ import (
 
 func main() {
 
-	daemon.Run(main_run)
-
-}
-
-func main_run() {
-
-	err := app.Init()
-	if err != nil {
-		zlog.Error("init app error:", err)
-		return
-	}
-
-	// 保证 shell 程序一直在运行
-	shell.RunUntilSignal()
+	exe_srv.Run()
 
 }

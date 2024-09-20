@@ -1,4 +1,4 @@
-package app
+package exe_srv
 
 import (
 	"vue3-admin-template/internal/admin"
@@ -6,11 +6,29 @@ import (
 	"vue3-admin-template/internal/db_model"
 	"vue3-admin-template/internal/license"
 	"vue3-admin-template/pkg/daemon"
+	"vue3-admin-template/pkg/shell"
 
 	"github.com/lei006/zlog"
 )
 
-func Init() error {
+func Run() error {
+
+	daemon.Run(daemon_run)
+
+	return nil
+}
+
+func daemon_run() {
+	err := srv_run()
+	if err != nil {
+		zlog.Error("run server error:", err)
+		return
+	}
+
+	shell.RunUntilSignal()
+}
+
+func srv_run() error {
 
 	zlog.ForceConsoleColor()
 
@@ -66,6 +84,5 @@ func Init() error {
 		zlog.Error(err)
 		return err
 	}
-
 	return nil
 }
